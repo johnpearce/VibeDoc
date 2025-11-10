@@ -10,101 +10,101 @@ from datetime import datetime, timedelta
 from typing import Optional, Tuple, Dict, Any, List
 from urllib.parse import urlparse
 
-# 导入模块化组件
+# Import modular components
 from config import config
-# 已移除 mcp_direct_client，使用 enhanced_mcp_client
+# Removed mcp_direct_client, using enhanced_mcp_client
 from export_manager import export_manager
 from prompt_optimizer import prompt_optimizer
 from explanation_manager import explanation_manager, ProcessingStage
 from plan_editor import plan_editor
 
-# 配置日志
+# Configure logging
 logging.basicConfig(
     level=getattr(logging, config.log_level),
     format=config.log_format
 )
 logger = logging.getLogger(__name__)
 
-# API配置
+# API configuration
 API_KEY = config.ai_model.api_key
 API_URL = config.ai_model.api_url
 
-# 应用启动时的初始化
-logger.info("🚀 VibeDoc：您的随身AI产品经理与架构师")
+# Application startup initialization
+logger.info("🚀 VibeDoc: Your AI Product Manager & Architect")
 logger.info("📦 Version: 2.0.0 | Open Source Edition")
 logger.info(f"📊 Configuration: {json.dumps(config.get_config_summary(), ensure_ascii=False, indent=2)}")
 
-# 验证配置
+# Validate configuration
 config_errors = config.validate_config()
 if config_errors:
     for key, error in config_errors.items():
         logger.warning(f"⚠️ Configuration Warning {key}: {error}")
 
 def get_processing_explanation() -> str:
-    """获取处理过程的详细说明"""
+    """Get detailed explanation of the processing steps"""
     return explanation_manager.get_processing_explanation()
 
 def show_explanation() -> Tuple[str, str, str]:
-    """显示处理过程说明"""
+    """Show processing explanation"""
     explanation = get_processing_explanation()
     return (
-        gr.update(visible=False),  # 隐藏plan_output
-        gr.update(value=explanation, visible=True),  # 显示process_explanation
-        gr.update(visible=True)   # 显示hide_explanation_btn
+        gr.update(visible=False),  # Hide plan_output
+        gr.update(value=explanation, visible=True),  # Show process_explanation
+        gr.update(visible=True)   # Show hide_explanation_btn
     )
 
 def hide_explanation() -> Tuple[str, str, str]:
-    """隐藏处理过程说明"""
+    """Hide processing explanation"""
     return (
-        gr.update(visible=True),   # 显示plan_output
-        gr.update(visible=False),  # 隐藏process_explanation
-        gr.update(visible=False)   # 隐藏hide_explanation_btn
+        gr.update(visible=True),   # Show plan_output
+        gr.update(visible=False),  # Hide process_explanation
+        gr.update(visible=False)   # Hide hide_explanation_btn
     )
 
 def optimize_user_idea(user_idea: str) -> Tuple[str, str]:
     """
-    优化用户输入的创意描述
+    Optimize user's input idea description
     
     Args:
-        user_idea: 用户原始输入
+        user_idea: User's original input
         
     Returns:
-        Tuple[str, str]: (优化后的描述, 优化信息)
+        Tuple[str, str]: (optimized description, optimization info)
     """
     if not user_idea or not user_idea.strip():
-        return "", "❌ 请先输入您的产品创意！"
+        return "", "❌ Please enter your product idea first!"
     
-    # 调用提示词优化器
+    # Call prompt optimizer
     success, optimized_idea, suggestions = prompt_optimizer.optimize_user_input(user_idea)
     
     if success:
         optimization_info = f"""
-## ✨ 创意优化成功！
+## ✨ Idea Optimization Successful!
 
-**🎯 优化建议：**
+**🎯 Optimization Suggestions:**
 {suggestions}
 
-**💡 提示：** 优化后的描述更加详细和专业，将帮助生成更高质量的开发计划。您可以：
-- 直接使用优化后的描述生成计划
-- 根据需要手动调整优化结果
-- 点击"重新优化"获得不同的优化建议
+**💡 Tip:** The optimized description is more detailed and professional, which will help generate a higher quality development plan. You can:
+- Use the optimized description directly to generate a plan
+- Manually adjust the optimization results as needed
+- Click "Re-optimize" to get different optimization suggestions
 """
         return optimized_idea, optimization_info
     else:
-        return user_idea, f"⚠️ 优化失败：{suggestions}"
+        return user_idea, f"⚠️ Optimization failed: {suggestions}"
 
 def validate_input(user_idea: str) -> Tuple[bool, str]:
-    """验证用户输入"""
+    """Validate user input"""
     if not user_idea or not user_idea.strip():
-        return False, "❌ 请输入您的产品创意！"
+        return False, "❌ Please enter your product idea!"
     
     if len(user_idea.strip()) < 10:
-        return False, "❌ 产品创意描述太短，请提供更详细的信息"
+        return False, "❌ Product idea description is too short, please provide more details"
     
     return True, ""
 
 def validate_url(url: str) -> bool:
-    """验证URL格式"""
+    """Validate URL format"""
     try:
         result = urlparse(url)
         return all([result.scheme, result.netloc])
@@ -112,91 +112,91 @@ def validate_url(url: str) -> bool:
         return False
 
 def fetch_knowledge_from_url_via_mcp(url: str) -> tuple[bool, str]:
-    """通过增强版异步MCP服务从URL获取知识"""
+    """Fetch knowledge from URL via enhanced async MCP service"""
     from enhanced_mcp_client import call_fetch_mcp_async, call_deepwiki_mcp_async
     
-    # 智能选择MCP服务
+    # Intelligent MCP service selection
     if "deepwiki.org" in url.lower():
-        # DeepWiki MCP 专门处理 deepwiki.org 域名
+        # DeepWiki MCP specifically handles deepwiki.org domain
         try:
-            logger.info(f"🔍 检测到 deepwiki.org 链接，使用异步 DeepWiki MCP: {url}")
+            logger.info(f"🔍 Detected deepwiki.org link, using async DeepWiki MCP: {url}")
             result = call_deepwiki_mcp_async(url)
             
             if result.success and result.data and len(result.data.strip()) > 10:
-                logger.info(f"✅ DeepWiki MCP异步调用成功，内容长度: {len(result.data)}, 耗时: {result.execution_time:.2f}s")
+                logger.info(f"✅ DeepWiki MCP async call successful, content length: {len(result.data)}, elapsed time: {result.execution_time:.2f}s")
                 return True, result.data
             else:
-                logger.warning(f"⚠️ DeepWiki MCP失败，改用 Fetch MCP: {result.error_message}")
+                logger.warning(f"⚠️ DeepWiki MCP failed, switching to Fetch MCP: {result.error_message}")
         except Exception as e:
-            logger.error(f"❌ DeepWiki MCP调用异常，改用 Fetch MCP: {str(e)}")
+            logger.error(f"❌ DeepWiki MCP call exception, switching to Fetch MCP: {str(e)}")
     
-    # 使用通用的异步 Fetch MCP 服务
+    # Use generic async Fetch MCP service
     try:
-        logger.info(f"🌐 使用异步 Fetch MCP 获取内容: {url}")
-        result = call_fetch_mcp_async(url, max_length=8000)  # 增加长度限制
+        logger.info(f"🌐 Using async Fetch MCP to retrieve content: {url}")
+        result = call_fetch_mcp_async(url, max_length=8000)  # Increased length limit
         
         if result.success and result.data and len(result.data.strip()) > 10:
-            logger.info(f"✅ Fetch MCP异步调用成功，内容长度: {len(result.data)}, 耗时: {result.execution_time:.2f}s")
+            logger.info(f"✅ Fetch MCP async call successful, content length: {len(result.data)}, elapsed time: {result.execution_time:.2f}s")
             return True, result.data
         else:
-            logger.warning(f"⚠️ Fetch MCP调用失败: {result.error_message}")
-            return False, f"MCP服务调用失败: {result.error_message or '未知错误'}"
+            logger.warning(f"⚠️ Fetch MCP call failed: {result.error_message}")
+            return False, f"MCP service call failed: {result.error_message or 'Unknown error'}"
     except Exception as e:
-        logger.error(f"❌ Fetch MCP调用异常: {str(e)}")
-        return False, f"MCP服务调用异常: {str(e)}"
+        logger.error(f"❌ Fetch MCP call exception: {str(e)}")
+        return False, f"MCP service call exception: {str(e)}"
 
 def get_mcp_status_display() -> str:
-    """获取MCP服务状态显示"""
+    """Get MCP service status display"""
     try:
         from enhanced_mcp_client import async_mcp_client
 
-        # 快速测试两个服务的连通性
+        # Quick test of connectivity for both services
         services_status = []
 
-        # 测试Fetch MCP
+        # Test Fetch MCP
         fetch_test_result = async_mcp_client.call_mcp_service_async(
             "fetch", "fetch", {"url": "https://httpbin.org/get", "max_length": 100}
         )
         fetch_ok = fetch_test_result.success
         fetch_time = fetch_test_result.execution_time
 
-        # 测试DeepWiki MCP
+        # Test DeepWiki MCP
         deepwiki_test_result = async_mcp_client.call_mcp_service_async(
             "deepwiki", "deepwiki_fetch", {"url": "https://deepwiki.org/openai/openai-python", "mode": "aggregate"}
         )
         deepwiki_ok = deepwiki_test_result.success
         deepwiki_time = deepwiki_test_result.execution_time
 
-        # 构建状态显示
+        # Build status display
         fetch_icon = "✅" if fetch_ok else "❌"
         deepwiki_icon = "✅" if deepwiki_ok else "❌"
 
         status_lines = [
-            "## 🚀 异步MCP服务状态",
-            f"- {fetch_icon} **Fetch MCP**: {'在线' if fetch_ok else '离线'} (通用网页抓取)"
+            "## 🚀 Async MCP Service Status",
+            f"- {fetch_icon} **Fetch MCP**: {'Online' if fetch_ok else 'Offline'} (General web scraping)"
         ]
         
         if fetch_ok:
-            status_lines.append(f"  ⏱️ 响应时间: {fetch_time:.2f}秒")
+            status_lines.append(f"  ⏱️ Response time: {fetch_time:.2f}s")
         
-        status_lines.append(f"- {deepwiki_icon} **DeepWiki MCP**: {'在线' if deepwiki_ok else '离线'} (仅限 deepwiki.org)")
+        status_lines.append(f"- {deepwiki_icon} **DeepWiki MCP**: {'Online' if deepwiki_ok else 'Offline'} (deepwiki.org only)")
         
         if deepwiki_ok:
-            status_lines.append(f"  ⏱️ 响应时间: {deepwiki_time:.2f}秒")
+            status_lines.append(f"  ⏱️ Response time: {deepwiki_time:.2f}s")
         
         status_lines.extend([
             "",
-            "🧠 **智能异步路由:**",
-            "- `deepwiki.org` → DeepWiki MCP (异步处理)",
-            "- 其他网站 → Fetch MCP (异步处理)", 
-            "- HTTP 202 → SSE监听 → 结果获取",
-            "- 自动降级 + 错误恢复"
+            "🧠 **Intelligent Async Routing:**",
+            "- `deepwiki.org` → DeepWiki MCP (async processing)",
+            "- Other websites → Fetch MCP (async processing)", 
+            "- HTTP 202 → SSE listening → Result retrieval",
+            "- Auto fallback + error recovery"
         ])
         
         return "\n".join(status_lines)
         
     except Exception as e:
-        return f"## MCP服务状态\n- ❌ **检查失败**: {str(e)}\n- 💡 请确保enhanced_mcp_client.py文件存在"
+        return f"## MCP Service Status\n- ❌ **Check failed**: {str(e)}\n- 💡 Please ensure enhanced_mcp_client.py file exists"
 
 def call_mcp_service(url: str, payload: Dict[str, Any], service_name: str, timeout: int = 120) -> Tuple[bool, str]:
     """统一的MCP服务调用函数
