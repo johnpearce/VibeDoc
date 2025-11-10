@@ -1,6 +1,6 @@
 """
-用户方案编辑器
-允许用户对AI生成的开发计划进行分段编辑和修改
+user方案Edit器
+允许user对AIGenerate的Development Plan进行分段Edit和修改
 """
 
 import re
@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class EditableSection:
-    """可编辑的方案段落"""
+    """可Edit的方案段落"""
     section_id: str
     title: str
     content: str
@@ -25,7 +25,7 @@ class EditableSection:
     is_editable: bool = True
 
 class PlanEditor:
-    """开发计划编辑器"""
+    """Development PlanEdit器"""
     
     def __init__(self):
         self.sections: List[EditableSection] = []
@@ -34,7 +34,7 @@ class PlanEditor:
         self.edit_history: List[Dict] = []
     
     def parse_plan_content(self, content: str) -> List[EditableSection]:
-        """解析开发计划内容为可编辑段落"""
+        """ParseDevelopment Plancontent为可Edit段落"""
         self.original_content = content
         self.sections = []
         
@@ -52,11 +52,11 @@ class PlanEditor:
                 if level <= 6:  # 有效的标题级别
                     title = line.lstrip('#').strip()
                     
-                    # 保存上一个段落
+                    # Save上一个段落
                     if current_section and current_section.content.strip():
                         self.sections.append(current_section)
                     
-                    # 创建新的标题段落
+                    # Create新的标题段落
                     section_counter += 1
                     current_section = EditableSection(
                         section_id=f"section_{section_counter}",
@@ -85,7 +85,7 @@ class PlanEditor:
                     code_content.append(lines[i])
                     i += 1
                 
-                if i < len(lines):  # 添加结束的```
+                if i < len(lines):  # 添加end的```
                     code_content.append(lines[i])
                     i += 1
                 
@@ -206,20 +206,20 @@ class PlanEditor:
             
             i += 1
         
-        # 保存最后一个段落
+        # Save最后一个段落
         if current_section and current_section.content.strip():
             self.sections.append(current_section)
         
-        logger.info(f"解析完成，共找到 {len(self.sections)} 个可编辑段落")
+        logger.info(f"Parsecompleted，共找到 {len(self.sections)} 个可Edit段落")
         return self.sections
     
     def _is_section_editable(self, title: str) -> bool:
-        """判断段落是否可编辑"""
+        """判断段落是否可Edit"""
         non_editable_patterns = [
-            r'生成时间',
+            r'Generation Time',
             r'AI模型',
-            r'基于用户创意',
-            r'Agent应用',
+            r'基于user创意',
+            r'AgentApply',
             r'meta-info'
         ]
         
@@ -227,7 +227,7 @@ class PlanEditor:
         return not any(re.search(pattern, title_lower) for pattern in non_editable_patterns)
     
     def get_editable_sections(self) -> List[Dict]:
-        """获取可编辑段落列表（用于前端显示）"""
+        """Get可Edit段落列表（用于前端Show）"""
         editable_sections = []
         
         for section in self.sections:
@@ -244,8 +244,8 @@ class PlanEditor:
         return editable_sections
     
     def _get_section_preview(self, content: str, max_length: int = 100) -> str:
-        """获取段落预览"""
-        # 移除Markdown格式符号
+        """Get段落预览"""
+        # 移除Markdownformat符号
         preview = re.sub(r'[#*`|]', '', content)
         preview = re.sub(r'\n+', ' ', preview).strip()
         
@@ -255,7 +255,7 @@ class PlanEditor:
         return preview
     
     def update_section(self, section_id: str, new_content: str, user_comment: str = "") -> bool:
-        """更新指定段落的内容"""
+        """Update指定段落的content"""
         try:
             # 查找目标段落
             target_section = None
@@ -265,14 +265,14 @@ class PlanEditor:
                     break
             
             if not target_section:
-                logger.error(f"未找到段落 {section_id}")
+                logger.error(f"not found段落 {section_id}")
                 return False
             
             if not target_section.is_editable:
-                logger.error(f"段落 {section_id} 不可编辑")
+                logger.error(f"段落 {section_id} 不可Edit")
                 return False
             
-            # 记录编辑历史
+            # 记录Edit历史
             self.edit_history.append({
                 'timestamp': datetime.now().isoformat(),
                 'section_id': section_id,
@@ -281,28 +281,28 @@ class PlanEditor:
                 'user_comment': user_comment
             })
             
-            # 更新内容
+            # Updatecontent
             target_section.content = new_content
             
-            # 重新构建完整内容
+            # 重新构建完整content
             self._rebuild_content()
             
-            logger.info(f"成功更新段落 {section_id}")
+            logger.info(f"successfulUpdate段落 {section_id}")
             return True
             
         except Exception as e:
-            logger.error(f"更新段落失败: {str(e)}")
+            logger.error(f"Update段落failed: {str(e)}")
             return False
     
     def _rebuild_content(self):
-        """重新构建完整内容"""
+        """重新构建完整content"""
         try:
             lines = self.original_content.split('\n')
             
-            # 按行号排序段落
+            # 按行号Sort段落
             sorted_sections = sorted(self.sections, key=lambda x: x.start_line)
             
-            # 重新构建内容
+            # 重新构建content
             new_lines = []
             current_line = 0
             
@@ -312,7 +312,7 @@ class PlanEditor:
                     new_lines.append(lines[current_line])
                     current_line += 1
                 
-                # 添加更新后的段落内容
+                # 添加Update后的段落content
                 new_lines.extend(section.content.split('\n'))
                 
                 # 跳过原始段落行
@@ -326,19 +326,19 @@ class PlanEditor:
             self.modified_content = '\n'.join(new_lines)
             
         except Exception as e:
-            logger.error(f"重建内容失败: {str(e)}")
+            logger.error(f"重建contentfailed: {str(e)}")
             self.modified_content = self.original_content
     
     def get_modified_content(self) -> str:
-        """获取修改后的完整内容"""
+        """Get修改后的完整content"""
         return self.modified_content if self.modified_content else self.original_content
     
     def get_edit_history(self) -> List[Dict]:
-        """获取编辑历史"""
+        """GetEdit历史"""
         return self.edit_history
     
     def get_edit_summary(self) -> Dict:
-        """获取编辑摘要"""
+        """GetEdit摘要"""
         return {
             'total_sections': len(self.sections),
             'editable_sections': len([s for s in self.sections if s.is_editable]),
@@ -347,25 +347,25 @@ class PlanEditor:
         }
     
     def reset_to_original(self):
-        """重置到原始内容"""
+        """Reset到原始content"""
         self.modified_content = self.original_content
         self.edit_history = []
-        # 重新解析段落
+        # 重新Parse段落
         self.parse_plan_content(self.original_content)
-        logger.info("已重置到原始内容")
+        logger.info("已Reset到原始content")
     
     def export_edited_content(self, format_type: str = 'markdown') -> str:
-        """导出编辑后的内容"""
+        """ExportEdit后的content"""
         content = self.get_modified_content()
         
         if format_type == 'markdown':
             return content
         elif format_type == 'html':
-            # 简单的Markdown到HTML转换
+            # 简单的Markdown到HTMLConvert
             import markdown
             return markdown.markdown(content)
         else:
             return content
 
-# 全局编辑器实例
+# 全局Edit器实例
 plan_editor = PlanEditor()

@@ -1,6 +1,6 @@
 """
-VibeDoc Agent应用配置文件
-支持多环境、多MCP服务配置
+VibeDoc AgentApplyconfigurationfile
+支持多环境、多MCPserviceconfiguration
 """
 
 import os
@@ -8,12 +8,12 @@ from typing import Dict, List, Optional
 from dataclasses import dataclass
 from dotenv import load_dotenv
 
-# 加载环境变量
+# Load环境变量
 load_dotenv()
 
 @dataclass
 class MCPServiceConfig:
-    """MCP服务配置"""
+    """MCPserviceconfiguration"""
     name: str
     url: Optional[str]
     api_key: Optional[str] = None
@@ -23,61 +23,61 @@ class MCPServiceConfig:
 
 @dataclass
 class AIModelConfig:
-    """AI模型配置"""
+    """AI模型configuration"""
     provider: str = "siliconflow"
     model_name: str = "Qwen/Qwen2.5-72B-Instruct"
     api_key: str = ""
     api_url: str = "https://api.siliconflow.cn/v1/chat/completions"
     max_tokens: int = 8000
     temperature: float = 0.7
-    timeout: int = 300  # 增加到300秒（5分钟）解决超时问题
+    timeout: int = 300  # 增加到300s（5min）解决timeout问题
 
 class AppConfig:
-    """应用总配置类"""
+    """Apply总configuration类"""
     
     def __init__(self):
         self.environment = os.getenv("ENVIRONMENT", "development")
         self.debug = os.getenv("DEBUG", "false").lower() == "true"
         self.port = int(os.getenv("PORT", "7860"))
         
-        # AI模型配置
+        # AI模型configuration
         self.ai_model = AIModelConfig(
             api_key=os.getenv("SILICONFLOW_API_KEY", ""),
             timeout=int(os.getenv("API_TIMEOUT", "300"))
         )
         
-        # 简化MCP服务配置 - 直接使用内置URL，避免环境变量复杂性
+        # 简化MCPserviceconfiguration - 直接使用内置URL，避免环境变量复杂性
         self.mcp_services = {
             "deepwiki": MCPServiceConfig(
                 name="DeepWiki MCP",
                 url="https://mcp.api-inference.modelscope.net/d4ed08072d2846/sse",
                 timeout=int(os.getenv("MCP_TIMEOUT", "60")),
-                enabled=True  # 默认启用，简化配置
+                enabled=True  # 默认启用，简化configuration
             ),
             "fetch": MCPServiceConfig(
                 name="Fetch MCP", 
                 url="https://mcp.api-inference.modelscope.net/6ec508e067dc41/sse",
                 timeout=int(os.getenv("MCP_TIMEOUT", "60")),
-                enabled=True  # 默认启用，简化配置
+                enabled=True  # 默认启用，简化configuration
             )
         }
         
-        # 应用功能配置
+        # Applyfeatureconfiguration
         self.features = {
             "external_knowledge": any(service.enabled for service in self.mcp_services.values()),
             "multi_mcp_fusion": sum(service.enabled for service in self.mcp_services.values()) > 1
         }
         
-        # 日志配置
+        # 日志configuration
         self.log_level = os.getenv("LOG_LEVEL", "INFO")
         self.log_format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
     
     def get_enabled_mcp_services(self) -> List[MCPServiceConfig]:
-        """获取已启用的MCP服务列表"""
+        """Get已启用的MCPservice列表"""
         return [service for service in self.mcp_services.values() if service.enabled]
     
     def get_mcp_service(self, service_key: str) -> Optional[MCPServiceConfig]:
-        """获取指定的MCP服务配置"""
+        """Get指定的MCPserviceconfiguration"""
         return self.mcp_services.get(service_key)
     
     def is_production(self) -> bool:
@@ -85,22 +85,22 @@ class AppConfig:
         return self.environment == "production"
     
     def validate_config(self) -> Dict[str, str]:
-        """验证配置完整性"""
+        """Validateconfiguration完整性"""
         errors = {}
         
-        # 验证AI模型配置
+        # ValidateAI模型configuration
         if not self.ai_model.api_key:
-            errors["ai_model"] = "SILICONFLOW_API_KEY 未配置"
+            errors["ai_model"] = "SILICONFLOW_API_KEY 未configuration"
         
-        # 验证MCP服务配置
+        # ValidateMCPserviceconfiguration
         enabled_services = self.get_enabled_mcp_services()
         if not enabled_services:
-            errors["mcp_services"] = "未配置任何MCP服务，某些功能将受限"
+            errors["mcp_services"] = "未configuration任何MCPservice，某些feature将受限"
         
         return errors
     
     def get_config_summary(self) -> Dict:
-        """获取配置摘要信息"""
+        """Getconfiguration摘要information"""
         enabled_services = self.get_enabled_mcp_services()
         
         return {
@@ -120,10 +120,10 @@ class AppConfig:
             "features": self.features
         }
 
-# 全局配置实例
+# 全局configuration实例
 config = AppConfig()
 
-# 常用配置常量
+# 常用configuration常量
 EXAMPLE_CONFIGURATIONS = {
     "web_applications": {
         "description": "Web Application Development Examples",
