@@ -114,9 +114,13 @@ def validate_url(url: str) -> bool:
 def fetch_knowledge_from_url_via_mcp(url: str) -> tuple[bool, str]:
     """Fetch knowledge from URL via enhanced async MCP service"""
     from enhanced_mcp_client import call_fetch_mcp_async, call_deepwiki_mcp_async
+    from urllib.parse import urlparse
     
-    # Intelligent MCP service selection
-    if "deepwiki.org" in url.lower():
+    # Intelligent MCP service selection - use proper domain parsing
+    parsed_url = urlparse(url.lower())
+    domain = parsed_url.netloc
+    
+    if domain.endswith("deepwiki.org") or domain == "deepwiki.org":
         # DeepWiki MCP specifically handles deepwiki.org domain
         try:
             logger.info(f"🔍 Detected deepwiki.org link, using async DeepWiki MCP: {url}")
@@ -407,26 +411,34 @@ def generate_enhanced_reference_info(url: str, source_type: str, error_msg: str 
     domain = parsed_url.netloc
     path = parsed_url.path
     
-    # 根据URL结构推断contenttype
+    # Infer content type based on URL structure - use proper domain parsing
+    from urllib.parse import urlparse
     content_hints = []
     
-    # 检测常见的技术站点
-    if "github.com" in domain:
-        content_hints.append("💻 开源代码仓库")
-    elif "stackoverflow.com" in domain:
-        content_hints.append("❓ 技术问答")
-    elif "medium.com" in domain:
-        content_hints.append("📝 技术博客")
-    elif "dev.to" in domain:
-        content_hints.append("👨‍💻 开发者社区")
-    elif "csdn.net" in domain:
-        content_hints.append("🇨🇳 CSDN技术博客")
-    elif "juejin.cn" in domain:
-        content_hints.append("💎 掘金技术文章")
-    elif "zhihu.com" in domain:
-        content_hints.append("🧠 知乎技术讨论")
+    # Parse domain properly to avoid substring attacks
+    try:
+        parsed = urlparse(url if url.startswith(('http://', 'https://')) else f'https://{url}')
+        domain = parsed.netloc.lower()
+    except:
+        domain = ""
+    
+    # Detect common technical sites - check domain endings for security
+    if domain.endswith("github.com") or domain == "github.com":
+        content_hints.append("💻 Open source code repository")
+    elif domain.endswith("stackoverflow.com") or domain == "stackoverflow.com":
+        content_hints.append("❓ Technical Q&A")
+    elif domain.endswith("medium.com") or domain == "medium.com":
+        content_hints.append("📝 Technical blog")
+    elif domain.endswith("dev.to") or domain == "dev.to":
+        content_hints.append("👨‍💻 Developer community")
+    elif domain.endswith("csdn.net") or domain == "csdn.net":
+        content_hints.append("🇨🇳 CSDN technical blog")
+    elif domain.endswith("juejin.cn") or domain == "juejin.cn":
+        content_hints.append("💎 Juejin technical article")
+    elif domain.endswith("zhihu.com") or domain == "zhihu.com":
+        content_hints.append("🧠 Zhihu technical discussion")
     elif "blog" in domain:
-        content_hints.append("📖 技术博客")
+        content_hints.append("📖 Technical blog")
     elif "docs" in domain:
         content_hints.append("📚 技术文档")
     elif "wiki" in domain:
