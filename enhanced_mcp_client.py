@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-增强版MCP直接客户端 - 支持魔塔平台异步MCPservice
-ProcessHTTP 202异步响应，通过SSEGetresult
+增强版MCPdirect client - 支持魔塔平台异步MCPservice
+ProcessHTTP 202异步响应，throughSSEGetresult
 """
 
 import requests
@@ -80,7 +80,7 @@ class AsyncMCPClient:
             # ParseSSE事件
             for line in response.iter_lines(decode_unicode=True):
                 if line.startswith('data: '):
-                    data = line[6:]  # 去掉 'data: ' 前缀
+                    data = line[6:]  # remove 'data: ' 前缀
                     if '/messages/' in data and 'session_id=' in data:
                         session_id = data.split('session_id=')[1]
                         logger.info(f"✅ Getsession_id: {session_id}")
@@ -117,7 +117,7 @@ class AsyncMCPClient:
                 if line.startswith('data: '):
                     data_str = line[6:]
                     try:
-                        # 尝试ParseJSONdata
+                        # attemptParseJSONdata
                         data = json.loads(data_str)
                         if isinstance(data, dict):
                             # Check是否是MCP响应
@@ -129,7 +129,7 @@ class AsyncMCPClient:
                                 result_queue.put(("success", data))
                                 break
                     except json.JSONDecodeError:
-                        # 非JSONdata，可能是纯文本result
+                        # nonJSONdata，可能是纯文本result
                         if len(data_str.strip()) > 10:
                             logger.info("✅ 收到文本响应")
                             result_queue.put(("success", {"result": {"text": data_str}}))
@@ -194,10 +194,10 @@ class AsyncMCPClient:
         listener_thread.daemon = True
         listener_thread.start()
         
-        # waiting一小段time确保监听器就绪
+        # waitinga short segmenttime确保监听器就绪
         time.sleep(0.5)
         
-        # 步骤3: 发送MCP请求
+        # 步骤3: 发送MCPrequest
         try:
             base_url = service_url.replace('/sse', '')
             full_endpoint = urljoin(base_url, endpoint_path)
@@ -217,13 +217,13 @@ class AsyncMCPClient:
                 "Accept": "application/json"
             }
             
-            logger.info(f"📤 发送请求到: {full_endpoint}")
+            logger.info(f"📤 发送request到: {full_endpoint}")
             response = requests.post(full_endpoint, json=mcp_request, headers=headers, timeout=10)
             
-            logger.info(f"📊 请求响应: HTTP {response.status_code}")
+            logger.info(f"📊 request响应: HTTP {response.status_code}")
             
             if response.status_code == 202:  # Accepted - 异步Process
-                logger.info("✅ 请求已接受，waiting异步result...")
+                logger.info("✅ request已接受，waiting异步result...")
                 
                 # 步骤4: waiting异步result
                 try:
@@ -313,7 +313,7 @@ class AsyncMCPClient:
                 service_name=service_name,
                 execution_time=time.time() - start_time,
                 session_id=session_id,
-                error_message=f"请求异常: {str(e)}"
+                error_message=f"request异常: {str(e)}"
             )
     
     def _extract_content_from_response(self, response_data: Any) -> Optional[str]:
@@ -323,7 +323,7 @@ class AsyncMCPClient:
                 return response_data
             
             if isinstance(response_data, dict):
-                # Check标准MCP响应format
+                # CheckstandardMCP响应format
                 if "result" in response_data:
                     result = response_data["result"]
                     
@@ -364,7 +364,7 @@ class AsyncMCPClient:
                         else:
                             return str(content)
             
-            # 如果都没有匹配，返回JSON字符串
+            # If none match，返回JSON字符串
             return json.dumps(response_data, ensure_ascii=False, indent=2)
             
         except Exception as e:
@@ -392,12 +392,12 @@ def call_deepwiki_mcp_async(url: str, mode: str = "aggregate") -> AsyncMCPResult
     )
 
 if __name__ == "__main__":
-    # 测试异步MCP客户端
-    print("🧪 测试异步MCP客户端")
+    # test异步MCP客户端
+    print("🧪 test异步MCP客户端")
     print("=" * 50)
     
-    # 测试Fetch MCP
-    print("测试Fetch MCP...")
+    # testFetch MCP
+    print("testFetch MCP...")
     result = call_fetch_mcp_async("https://example.com")
     print(f"successful: {result.success}")
     print(f"contentlength: {len(result.data) if result.data else 0}")
@@ -407,8 +407,8 @@ if __name__ == "__main__":
     
     print("\n" + "-" * 30)
     
-    # 测试DeepWiki MCP
-    print("测试DeepWiki MCP...")
+    # testDeepWiki MCP
+    print("testDeepWiki MCP...")
     result = call_deepwiki_mcp_async("https://deepwiki.org/openai/openai-python")
     print(f"successful: {result.success}")
     print(f"contentlength: {len(result.data) if result.data else 0}")
@@ -416,4 +416,4 @@ if __name__ == "__main__":
     if result.error_message:
         print(f"error: {result.error_message}")
     
-    print("\n✅ 异步MCP客户端测试completed")
+    print("\n✅ 异步MCP客户端testcompleted")

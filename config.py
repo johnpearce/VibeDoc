@@ -1,6 +1,6 @@
 """
 VibeDoc AgentApplyconfigurationfile
-支持多环境、多MCPserviceconfiguration
+Support multiple environments、多MCPserviceconfiguration
 """
 
 import os
@@ -30,7 +30,7 @@ class AIModelConfig:
     api_url: str = "https://api.siliconflow.cn/v1/chat/completions"
     max_tokens: int = 8000
     temperature: float = 0.7
-    timeout: int = 300  # 增加到300s（5min）解决timeout问题
+    timeout: int = 300  # 增加到300s（5min）解决timeoutproblem
 
 class AppConfig:
     """Apply总configuration类"""
@@ -46,7 +46,7 @@ class AppConfig:
             timeout=int(os.getenv("API_TIMEOUT", "300"))
         )
         
-        # 简化MCPserviceconfiguration - 直接使用内置URL，避免环境变量复杂性
+        # 简化MCPserviceconfiguration - Use built-in directlyURL，避免环境变量复杂性
         self.mcp_services = {
             "deepwiki": MCPServiceConfig(
                 name="DeepWiki MCP",
@@ -68,16 +68,16 @@ class AppConfig:
             "multi_mcp_fusion": sum(service.enabled for service in self.mcp_services.values()) > 1
         }
         
-        # 日志configuration
+        # logconfiguration
         self.log_level = os.getenv("LOG_LEVEL", "INFO")
         self.log_format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
     
     def get_enabled_mcp_services(self) -> List[MCPServiceConfig]:
-        """Get已启用的MCPservice列表"""
+        """Get已启用的MCPservice列table"""
         return [service for service in self.mcp_services.values() if service.enabled]
     
     def get_mcp_service(self, service_key: str) -> Optional[MCPServiceConfig]:
-        """Get指定的MCPserviceconfiguration"""
+        """GetspecifiedMCPserviceconfiguration"""
         return self.mcp_services.get(service_key)
     
     def is_production(self) -> bool:
@@ -85,7 +85,7 @@ class AppConfig:
         return self.environment == "production"
     
     def validate_config(self) -> Dict[str, str]:
-        """Validateconfiguration完整性"""
+        """Validateconfigurationcompleteness"""
         errors = {}
         
         # ValidateAI模型configuration
@@ -95,12 +95,12 @@ class AppConfig:
         # ValidateMCPserviceconfiguration
         enabled_services = self.get_enabled_mcp_services()
         if not enabled_services:
-            errors["mcp_services"] = "未configuration任何MCPservice，某些feature将受限"
+            errors["mcp_services"] = "未configuration任何MCPservice，somefeature将受限"
         
         return errors
     
     def get_config_summary(self) -> Dict:
-        """Getconfiguration摘要information"""
+        """Getconfigurationsummaryinformation"""
         enabled_services = self.get_enabled_mcp_services()
         
         return {
@@ -123,7 +123,7 @@ class AppConfig:
 # 全局configuration实例
 config = AppConfig()
 
-# 常用configuration常量
+# 常用configurationconstants
 EXAMPLE_CONFIGURATIONS = {
     "web_applications": {
         "description": "Web Application Development Examples",

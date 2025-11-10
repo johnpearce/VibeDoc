@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class EditableSection:
-    """可Edit的方案段落"""
+    """可Editplan sections"""
     section_id: str
     title: str
     content: str
@@ -34,7 +34,7 @@ class PlanEditor:
         self.edit_history: List[Dict] = []
     
     def parse_plan_content(self, content: str) -> List[EditableSection]:
-        """ParseDevelopment Plancontent为可Edit段落"""
+        """ParseDevelopment Plancontentas availableEdit段落"""
         self.original_content = content
         self.sections = []
         
@@ -46,17 +46,17 @@ class PlanEditor:
         while i < len(lines):
             line = lines[i].strip()
             
-            # 检测标题（# ## ### 等）
+            # 检测title（# ## ### 等）
             if line.startswith('#') and not line.startswith('```'):
                 level = len(line) - len(line.lstrip('#'))
-                if level <= 6:  # 有效的标题级别
+                if level <= 6:  # 有效的title级别
                     title = line.lstrip('#').strip()
                     
                     # Save上一个段落
                     if current_section and current_section.content.strip():
                         self.sections.append(current_section)
                     
-                    # Create新的标题段落
+                    # Create新的title段落
                     section_counter += 1
                     current_section = EditableSection(
                         section_id=f"section_{section_counter}",
@@ -85,7 +85,7 @@ class PlanEditor:
                     code_content.append(lines[i])
                     i += 1
                 
-                if i < len(lines):  # 添加end的```
+                if i < len(lines):  # addend的```
                     code_content.append(lines[i])
                     i += 1
                 
@@ -104,12 +104,12 @@ class PlanEditor:
                 current_section = None
                 continue
             
-            # 检测表格
+            # 检测table格
             if '|' in line and line.count('|') >= 2:
                 if current_section and current_section.content.strip():
                     self.sections.append(current_section)
                 
-                # 收集整个表格
+                # 收集整个table格
                 table_content = [line]
                 start_line = i
                 i += 1
@@ -121,7 +121,7 @@ class PlanEditor:
                 section_counter += 1
                 table_section = EditableSection(
                     section_id=f"table_{section_counter}",
-                    title="表格",
+                    title="table格",
                     content='\n'.join(table_content),
                     section_type='table',
                     level=0,
@@ -133,7 +133,7 @@ class PlanEditor:
                 current_section = None
                 continue
             
-            # 检测列表
+            # 检测列table
             if line.startswith(('-', '*', '+')) or re.match(r'^\d+\.', line):
                 if current_section and current_section.section_type != 'list':
                     if current_section.content.strip():
@@ -142,7 +142,7 @@ class PlanEditor:
                     section_counter += 1
                     current_section = EditableSection(
                         section_id=f"list_{section_counter}",
-                        title="列表",
+                        title="列table",
                         content=line,
                         section_type='list',
                         level=0,
@@ -157,7 +157,7 @@ class PlanEditor:
                     section_counter += 1
                     current_section = EditableSection(
                         section_id=f"list_{section_counter}",
-                        title="列表",
+                        title="列table",
                         content=line,
                         section_type='list',
                         level=0,
@@ -168,13 +168,13 @@ class PlanEditor:
                 i += 1
                 continue
             
-            # 普通段落
+            # normal paragraph
             if line:
                 if current_section and current_section.section_type == 'paragraph':
                     current_section.content += '\n' + line
                     current_section.end_line = i
                 elif current_section and current_section.section_type == 'heading':
-                    # 标题后的第一个段落
+                    # title后的第一个段落
                     section_counter += 1
                     new_section = EditableSection(
                         section_id=f"paragraph_{section_counter}",
@@ -206,7 +206,7 @@ class PlanEditor:
             
             i += 1
         
-        # Save最后一个段落
+        # Savelast paragraph
         if current_section and current_section.content.strip():
             self.sections.append(current_section)
         
@@ -227,7 +227,7 @@ class PlanEditor:
         return not any(re.search(pattern, title_lower) for pattern in non_editable_patterns)
     
     def get_editable_sections(self) -> List[Dict]:
-        """Get可Edit段落列表（用于前端Show）"""
+        """Get可Edit段落列table（用于前端Show）"""
         editable_sections = []
         
         for section in self.sections:
@@ -269,7 +269,7 @@ class PlanEditor:
                 return False
             
             if not target_section.is_editable:
-                logger.error(f"段落 {section_id} 不可Edit")
+                logger.error(f"段落 {section_id} not可Edit")
                 return False
             
             # 记录Edit历史
@@ -284,7 +284,7 @@ class PlanEditor:
             # Updatecontent
             target_section.content = new_content
             
-            # 重新构建完整content
+            # 重新build完整content
             self._rebuild_content()
             
             logger.info(f"successfulUpdate段落 {section_id}")
@@ -295,30 +295,30 @@ class PlanEditor:
             return False
     
     def _rebuild_content(self):
-        """重新构建完整content"""
+        """重新build完整content"""
         try:
             lines = self.original_content.split('\n')
             
-            # 按行号Sort段落
+            # by line numberSort段落
             sorted_sections = sorted(self.sections, key=lambda x: x.start_line)
             
-            # 重新构建content
+            # 重新buildcontent
             new_lines = []
             current_line = 0
             
             for section in sorted_sections:
-                # 添加段落前的空行
+                # add段落前的空行
                 while current_line < section.start_line:
                     new_lines.append(lines[current_line])
                     current_line += 1
                 
-                # 添加Update后的段落content
+                # addUpdate后的段落content
                 new_lines.extend(section.content.split('\n'))
                 
                 # 跳过原始段落行
                 current_line = section.end_line + 1
             
-            # 添加剩余的行
+            # add剩余的行
             while current_line < len(lines):
                 new_lines.append(lines[current_line])
                 current_line += 1
@@ -338,7 +338,7 @@ class PlanEditor:
         return self.edit_history
     
     def get_edit_summary(self) -> Dict:
-        """GetEdit摘要"""
+        """GetEditsummary"""
         return {
             'total_sections': len(self.sections),
             'editable_sections': len([s for s in self.sections if s.is_editable]),
@@ -367,5 +367,5 @@ class PlanEditor:
         else:
             return content
 
-# 全局Edit器实例
+# 全局Editinstance
 plan_editor = PlanEditor()

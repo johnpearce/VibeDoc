@@ -1,5 +1,5 @@
 """
-AI可解释性管理器
+AIExplainability Manager
 提供Process链条透明度和结合SOP的可解释性feature
 """
 
@@ -35,7 +35,7 @@ class ProcessingStep:
     evidence: Optional[str] = None
 
 class ExplanationManager:
-    """AI可解释性管理器"""
+    """AIExplainability Manager"""
     
     def __init__(self):
         self.processing_steps: List[ProcessingStep] = []
@@ -57,7 +57,7 @@ class ExplanationManager:
                           duration: float = 0.0,
                           quality_score: Optional[float] = None,
                           evidence: Optional[str] = None):
-        """添加Process步骤"""
+        """addProcess步骤"""
         step = ProcessingStep(
             stage=stage,
             title=title,
@@ -87,7 +87,7 @@ class ExplanationManager:
         return explanation
     
     def _generate_explanation_header(self) -> str:
-        """Generate说明头部"""
+        """Generateexplanation header"""
         total_steps = len(self.processing_steps)
         successful_steps = sum(1 for step in self.processing_steps if step.success)
         success_rate = (successful_steps / total_steps * 100) if total_steps > 0 else 0
@@ -108,29 +108,29 @@ class ExplanationManager:
     def _generate_sop_compliance_report(self) -> str:
         """GenerateSOP合规报告"""
         return f"""
-## 📋 SOP (标准操作程序) 合规报告
+## 📋 SOP (standard操作程序) 合规报告
 
-### 🎯 质量保证标准
+### 🎯 质量保证standard
 {self._format_sop_guidelines()}
 
 ### ✅ 合规性Check
-- **EnterValidate**: {'✅ 通过' if self._check_sop_compliance('input_validation') else '❌ 未通过'}
-- **知识Get**: {'✅ 通过' if self._check_sop_compliance('knowledge_retrieval') else '❌ 未通过'}
-- **AIGenerate**: {'✅ 通过' if self._check_sop_compliance('ai_generation') else '❌ 未通过'}
-- **质量评估**: {'✅ 通过' if self._check_sop_compliance('quality_assessment') else '❌ 未通过'}
-- **contentformat化**: {'✅ 通过' if self._check_sop_compliance('content_formatting') else '❌ 未通过'}
+- **EnterValidate**: {'✅ through' if self._check_sop_compliance('input_validation') else '❌ 未through'}
+- **知识Get**: {'✅ through' if self._check_sop_compliance('knowledge_retrieval') else '❌ 未through'}
+- **AIGenerate**: {'✅ through' if self._check_sop_compliance('ai_generation') else '❌ 未through'}
+- **质量评估**: {'✅ through' if self._check_sop_compliance('quality_assessment') else '❌ 未through'}
+- **contentformat化**: {'✅ through' if self._check_sop_compliance('content_formatting') else '❌ 未through'}
 
 ---
 
 """
     
     def _generate_processing_steps_report(self) -> str:
-        """GenerateProcess步骤报告"""
+        """GenerateProcessstep report"""
         report = "## 🔄 详细Process步骤\n\n"
         
         for i, step in enumerate(self.processing_steps, 1):
             status_icon = "✅" if step.success else "❌"
-            quality_info = f" (质量分: {step.quality_score:.1f})" if step.quality_score else ""
+            quality_info = f" (quality score: {step.quality_score:.1f})" if step.quality_score else ""
             
             report += f"""
 ### 步骤 {i}: {step.title} {status_icon}
@@ -180,18 +180,18 @@ class ExplanationManager:
         """LoadSOP指导原则"""
         return {
             "input_validation": {
-                "title": "EnterValidate标准",
+                "title": "EnterValidatestandard",
                 "requirements": [
                     "userEnterlength >= 10字符",
                     "Entercontent包含产品description",
-                    "无恶意content和敏感information"
+                    "无恶意contentand sensitiveinformation"
                 ]
             },
             "knowledge_retrieval": {
                 "title": "外部知识Get",
                 "requirements": [
                     "MCPserviceconnectionstatusCheck",
-                    "参考link有效性Validate",
+                    "参考linkvalidityValidate",
                     "知识content相关性评估"
                 ]
             },
@@ -200,15 +200,15 @@ class ExplanationManager:
                 "requirements": [
                     "使用专业的系统tip词",
                     "Generatecontent结构完整",
-                    "包含必要的技术细节"
+                    "Include necessary technical details"
                 ]
             },
             "quality_assessment": {
-                "title": "质量评估标准",
+                "title": "质量评估standard",
                 "requirements": [
-                    "content完整性Check",
-                    "Mermaid图表语法Validate",
-                    "link有效性Check",
+                    "contentcompletenessCheck",
+                    "Mermaid图table语法Validate",
+                    "linkvalidityCheck",
                     "日期准确性Validate"
                 ]
             },
@@ -216,7 +216,7 @@ class ExplanationManager:
                 "title": "contentformat化",
                 "requirements": [
                     "Markdownformat规范",
-                    "添加time戳和元information",
+                    "addtime戳和元information",
                     "增强tip词Show效果"
                 ]
             }
@@ -279,16 +279,16 @@ class ExplanationManager:
         if not self.processing_steps:
             return 0.0
         
-        # 基于successful率和质量分数计算信任分数
+        # 基于successful率和quality score计算信任分数
         success_rate = sum(1 for step in self.processing_steps if step.success) / len(self.processing_steps)
         
         quality_scores = [step.quality_score for step in self.processing_steps if step.quality_score]
         avg_quality = sum(quality_scores) / len(quality_scores) if quality_scores else 0.5
         
-        # 信任分数 = successful率 * 0.6 + 平均质量分数 * 0.4
+        # 信任分数 = successful率 * 0.6 + 平均quality score * 0.4
         trust_score = success_rate * 0.6 + (avg_quality / 100) * 0.4
         
         return round(trust_score * 100, 1)
 
-# 全局可解释性管理器实例
+# 全局Explainability Manager实例
 explanation_manager = ExplanationManager()

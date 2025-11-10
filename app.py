@@ -312,9 +312,9 @@ def fetch_external_knowledge(reference_url: str) -> str:
 
 **⏰ Processstatus**: linkValidatetimeout
 
-**🤖 AIProcess**: 将基于创意content进行Intelligent Analysis，不依赖外部link
+**🤖 AIProcess**: 将基于创意content进行Intelligent Analysis，not依赖外部link
 
-**💡 说明**: 为确保Generate质量，AI会根据Idea DescriptionGenerateComplete Solution，避免引用不确定的外部content
+**💡 说明**: 为确保Generate质量，AI会根据Idea DescriptionGenerateComplete Solution，避免引用not确定的外部content
 
 ---
 """
@@ -327,15 +327,15 @@ def fetch_external_knowledge(reference_url: str) -> str:
 
 **🔍 Processstatus**: 暂时unable toValidatelinkavailable性 ({str(e)[:100]})
 
-**🤖 AIProcess**: 将基于创意content进行Intelligent Analysis，不依赖外部link
+**🤖 AIProcess**: 将基于创意content进行Intelligent Analysis，not依赖外部link
 
-**💡 说明**: 为确保Generate质量，AI会根据Idea DescriptionGenerateComplete Solution，避免引用不确定的外部content
+**💡 说明**: 为确保Generate质量，AI会根据Idea DescriptionGenerateComplete Solution，避免引用not确定的外部content
 
 ---
 """
     
-    # 尝试CallMCPservice
-    logger.info(f"🔄 尝试CallMCPserviceGet知识...")
+    # attemptCallMCPservice
+    logger.info(f"🔄 attemptCallMCPserviceGet知识...")
     mcp_start_time = datetime.now()
     success, knowledge = fetch_knowledge_from_url_via_mcp(url)
     mcp_duration = (datetime.now() - mcp_start_time).total_seconds()
@@ -346,8 +346,8 @@ def fetch_external_knowledge(reference_url: str) -> str:
         # MCPservicesuccessful返回有效content
         logger.info(f"✅ MCPservicesuccessfulGet知识，contentlength: {len(knowledge)} 字符")
         
-        # Validate返回的content是否包含实际知识而不是errorinformation
-        if not any(keyword in knowledge.lower() for keyword in ['error', 'failed', 'error', 'failed', '不available']):
+        # Validate返回的content是否包含实际知识而not是errorinformation
+        if not any(keyword in knowledge.lower() for keyword in ['error', 'failed', 'error', 'failed', 'notavailable']):
             return f"""
 ## 📚 外部知识库参考
 
@@ -383,13 +383,13 @@ def fetch_external_knowledge(reference_url: str) -> str:
 **� MCPservicestatus**: 
 {mcp_status}
 
-**�💭 Process策略**: 当前外部知识service暂时不available，AI将基于以下方式Generate方案：
+**�💭 Process策略**: current外部知识service暂时notavailable，AI将基于以下方式Generate方案：
 - ✅ 基于Idea Description进行深度分析
 - ✅ 结合行业最佳实践
 - ✅ 提供完整的Technical Solution
 - ✅ Generate实用的Coding Prompts
 
-**🎉 优势**: 确保Generatecontent的准确性和可靠性，避免引用不确定的外部information
+**🎉 优势**: 确保Generatecontent的准确性和可靠性，避免引用not确定的外部information
 
 **🔧 技术细节**: 
 - MCPCall耗时: {mcp_duration:.2f}s
@@ -400,7 +400,7 @@ def fetch_external_knowledge(reference_url: str) -> str:
 """
 
 def generate_enhanced_reference_info(url: str, source_type: str, error_msg: str = None) -> str:
-    """Generate增强的参考information，当MCPservice不available时提供有用的上下文"""
+    """Generate增强的参考information，当MCPservicenotavailable时提供有用的上下文"""
     from urllib.parse import urlparse
     
     parsed_url = urlparse(url)
@@ -454,7 +454,7 @@ def generate_enhanced_reference_info(url: str, source_type: str, error_msg: str 
 **🏷️ contenttype：** {hint_text}
 
 **🤖 AI增强分析：** 
-> 虽然MCPservice暂时不available，但AI将基于linkinformation和上下文进行Intelligent Analysis，
+> 虽然MCPservice暂时notavailable，但AI将基于linkinformation和上下文进行Intelligent Analysis，
 > 并在Generate的Development Plan中融入该参考资料的相关性suggestions。
 
 **📋 参考价值：**
@@ -481,15 +481,15 @@ def validate_and_fix_content(content: str) -> str:
     # 记录Fix项目
     fixes_applied = []
     
-    # 计算初始质量分数
+    # 计算初始quality score
     initial_quality_score = calculate_quality_score(content)
-    logger.info(f"📊 初始content质量分数: {initial_quality_score}/100")
+    logger.info(f"📊 初始contentquality score: {initial_quality_score}/100")
     
-    # 1. FixMermaid图表语法error
+    # 1. FixMermaid图table语法error
     original_content = content
     content = fix_mermaid_syntax(content)
     if content != original_content:
-        fixes_applied.append("FixMermaid图表语法")
+        fixes_applied.append("FixMermaid图table语法")
     
     # 2. Validate和清理虚假link
     original_content = content
@@ -503,47 +503,47 @@ def validate_and_fix_content(content: str) -> str:
     if content != original_content:
         fixes_applied.append("Update过期日期")
     
-    # 4. Fixformat问题
+    # 4. Fixformatproblem
     original_content = content
     content = fix_formatting_issues(content)
     if content != original_content:
-        fixes_applied.append("Fixformat问题")
+        fixes_applied.append("Fixformatproblem")
     
-    # 重新计算质量分数
+    # 重新计算quality score
     final_quality_score = calculate_quality_score(content)
     
-    # 移除质量报告Show，只记录日志
+    # 移除质量报告Show，只记录log
     if final_quality_score > initial_quality_score + 5:
         improvement = final_quality_score - initial_quality_score
-        logger.info(f"📈 content质量提升: {initial_quality_score}/100 → {final_quality_score}/100 (提升{improvement}分)")
+        logger.info(f"📈 contentQuality improvement: {initial_quality_score}/100 → {final_quality_score}/100 (improvement{improvement}分)")
         if fixes_applied:
             logger.info(f"🔧 ApplyFix: {', '.join(fixes_applied)}")
     
-    logger.info(f"✅ contentValidate和Fixcompleted，最终质量分数: {final_quality_score}/100")
+    logger.info(f"✅ contentValidate和Fixcompleted，最终quality score: {final_quality_score}/100")
     if fixes_applied:
         logger.info(f"🔧 Apply了以下Fix: {', '.join(fixes_applied)}")
     
     return content
 
 def calculate_quality_score(content: str) -> int:
-    """计算content质量分数（0-100）"""
+    """计算contentquality score（0-100）"""
     if not content:
         return 0
     
     score = 0
     max_score = 100
     
-    # 1. 基础content完整性 (30分)
+    # 1. 基础contentcompleteness (30分)
     if len(content) > 500:
         score += 15
     if len(content) > 2000:
         score += 15
     
-    # 2. 结构完整性 (25分)
+    # 2. 结构completeness (25分)
     structure_checks = [
-        '# 🚀 AIGenerate的Development Plan',  # 标题
+        '# 🚀 AIGenerate的Development Plan',  # title
         '## 🤖 AI编程助手tip词',   # AItip词部分
-        '```mermaid',              # Mermaid图表
+        '```mermaid',              # Mermaid图table
         '项目开发甘特图',           # 甘特图
     ]
     
@@ -555,7 +555,7 @@ def calculate_quality_score(content: str) -> int:
     import re
     current_year = datetime.now().year
     
-    # Check是否有当前y份或以后的日期
+    # Check是否有currenty份或以后的日期
     recent_dates = re.findall(r'202[5-9]-\d{2}-\d{2}', content)
     if recent_dates:
         score += 10
@@ -579,7 +579,7 @@ def calculate_quality_score(content: str) -> int:
     
     # 5. Mermaid语法质量 (10分)
     mermaid_issues = [
-        r'## 🎯 [A-Z]',  # error的标题在图表中
+        r'## 🎯 [A-Z]',  # error的title在图table中
         r'```mermaid\n## 🎯',  # formaterror
     ]
     
@@ -590,12 +590,12 @@ def calculate_quality_score(content: str) -> int:
     return min(score, max_score)
 
 def fix_mermaid_syntax(content: str) -> str:
-    """FixMermaid图表中的语法error并Optimize渲染"""
+    """FixMermaid图table中的语法error并Optimize渲染"""
     import re
     
     # Fix常见的Mermaid语法error
     fixes = [
-        # 移除图表代码中的额外符号和标记
+        # 移除图table代码中的额外符号和标记
         (r'## 🎯 ([A-Z]\s*-->)', r'\1'),
         (r'## 🎯 (section [^)]+)', r'\1'),
         (r'(\n|\r\n)## 🎯 ([A-Z]\s*-->)', r'\n    \2'),
@@ -607,16 +607,16 @@ def fix_mermaid_syntax(content: str) -> str:
         # 确保Mermaid代码块format正确
         (r'```mermaid\n## 🎯', r'```mermaid'),
         
-        # 移除标题级别error
+        # 移除title级别error
         (r'\n##+ 🎯 ([A-Z])', r'\n    \1'),
         
-        # Fix中文节点名称的问题 - 彻底清理引号format
-        (r'([A-Z]+)\["([^"]+)"\]', r'\1["\2"]'),  # 标准format：A["文本"]
+        # Fix中文节点名称的problem - 彻底清理引号format
+        (r'([A-Z]+)\["([^"]+)"\]', r'\1["\2"]'),  # standardformat：A["文本"]
         (r'([A-Z]+)\[""([^"]+)""\]', r'\1["\2"]'),  # 双引号error：A[""文本""]
         (r'([A-Z]+)\["⚡"([^"]+)""\]', r'\1["\2"]'),  # 带emojierror
         (r'([A-Z]+)\[([^\]]*[^\x00-\x7F][^\]]*)\]', r'\1["\2"]'),  # 中文无引号
         
-        # 确保流程图语法正确
+        # 确保flowchart语法正确
         (r'graph TB\n\s*graph', r'graph TB'),
         (r'flowchart TD\n\s*flowchart', r'flowchart TD'),
         
@@ -629,7 +629,7 @@ def fix_mermaid_syntax(content: str) -> str:
     for pattern, replacement in fixes:
         content = re.sub(pattern, replacement, content, flags=re.MULTILINE)
     
-    # 添加Mermaid渲染增强标记
+    # addMermaid渲染增强标记
     content = enhance_mermaid_blocks(content)
     
     return content
@@ -638,8 +638,8 @@ def enhance_mermaid_blocks(content: str) -> str:
     """简化Mermaid代码块Process，避免渲染冲突"""
     import re
     
-    # 查找所有Mermaid代码块并直接返回，不添加额外包装器
-    # 因为包装器可能导致渲染问题
+    # 查找所有Mermaid代码块并直接返回，notadd额外包装器
+    # 因为包装器可能导致渲染problem
     mermaid_pattern = r'```mermaid\n(.*?)\n```'
     
     def clean_mermaid_block(match):
@@ -688,7 +688,7 @@ def validate_and_clean_links(content: str) -> str:
         # 将虚假link替换为普通文本description
         def replace_fake_link(match):
             if match.groups():
-                return f"**{match.group(1)}** (基于行业标准)"
+                return f"**{match.group(1)}** (基于行业standard)"
             else:
                 return "（基于行业最佳实践）"
         
@@ -737,13 +737,13 @@ def enhance_real_links(content: str) -> str:
     return content
 
 def fix_date_consistency(content: str) -> str:
-    """Fix日期一致性问题"""
+    """Fix日期一致性problem"""
     import re
     from datetime import datetime
     
     current_year = datetime.now().year
     
-    # 替换2024y以前的日期为当前y份
+    # 替换2024y以前的日期为currenty份
     old_year_patterns = [
         r'202[0-3]-\d{2}-\d{2}',  # 2020-2023的日期
         r'202[0-3]y',            # 2020-2023y
@@ -765,17 +765,17 @@ def fix_date_consistency(content: str) -> str:
     return content
 
 def fix_formatting_issues(content: str) -> str:
-    """Fixformat问题"""
+    """Fixformatproblem"""
     import re
     
-    # Fix常见的format问题
+    # Fix常见的formatproblem
     fixes = [
-        # Fix空的或formaterror的标题
+        # Fix空的或formaterror的title
         (r'#### 🚀 \*\*$', r'#### 🚀 **开发阶段**'),
         (r'#### 🚀 第阶段：\*\*', r'#### 🚀 **第1阶段**：'),
         (r'### 📋 (\d+)\. \*\*第\d+阶段', r'### 📋 \1. **第\1阶段'),
         
-        # Fix表格format问题
+        # Fixtable格formatproblem
         (r'\n## 🎯 \| ([^|]+) \| ([^|]+) \| ([^|]+) \|', r'\n| \1 | \2 | \3 |'),
         (r'\n### 📋 (\d+)\. \*\*([^*]+)\*\*：', r'\n**\1. \2**：'),
         (r'\n### 📋 (\d+)\. \*\*([^*]+)\*\*$', r'\n**\1. \2**'),
@@ -783,7 +783,7 @@ def fix_formatting_issues(content: str) -> str:
         # Fix多余的空行
         (r'\n{4,}', r'\n\n\n'),
         
-        # Fix不完整的段落end
+        # Fixnot完整的段落end
         (r'##\n\n---', r'## 总结\n\n以上是完整的Development Plan和Technical Solution。\n\n---'),
     ]
     
@@ -815,12 +815,12 @@ def generate_development_plan(user_idea: str, reference_url: str = "") -> Tuple[
     explanation_manager.add_processing_step(
         stage=ProcessingStage.INPUT_VALIDATION,
         title="EnterValidate",
-        description="ValidateuserEnter的Idea Description是否符合要求",
+        description="ValidateuserEnter的Idea Description是否符合requirements",
         success=is_valid,
         details={
             "Enterlength": len(user_idea.strip()) if user_idea else 0,
             "包含参考link": bool(reference_url),
-            "Validateresult": "通过" if is_valid else error_msg
+            "Validateresult": "through" if is_valid else error_msg
         },
         duration=validation_duration,
         quality_score=100 if is_valid else 0,
@@ -852,7 +852,7 @@ def generate_development_plan(user_idea: str, reference_url: str = "") -> Tuple[
 ### 🔧 解决方法：
 
 1. **GetAPI密钥**：
-   - 访问 [Silicon Flow](https://siliconflow.cn) 
+   - visit [Silicon Flow](https://siliconflow.cn) 
    - 注册账户并GetAPI密钥
 
 2. **configuration环境变量**：
@@ -861,7 +861,7 @@ def generate_development_plan(user_idea: str, reference_url: str = "") -> Tuple[
    ```
 
 3. **魔塔平台configuration**：
-   - 在创空间Set中添加环境变量
+   - 在创空间Set中add环境变量
    - 变量名：`SILICONFLOW_API_KEY`
    - 变量值：你的实际API密钥
 
@@ -893,7 +893,7 @@ def generate_development_plan(user_idea: str, reference_url: str = "") -> Tuple[
         evidence=f"Get的知识content: '{retrieved_knowledge[:100]}...' (length: {len(retrieved_knowledge) if retrieved_knowledge else 0}字符)"
     )
     
-    # Get当前日期并计算项目start日期
+    # Getcurrent日期并计算项目start日期
     current_date = datetime.now()
     # 项目start日期：下w一start（给user准备time）
     days_until_monday = (7 - current_date.weekday()) % 7
@@ -903,50 +903,50 @@ def generate_development_plan(user_idea: str, reference_url: str = "") -> Tuple[
     project_start_str = project_start_date.strftime("%Y-%m-%d")
     current_year = current_date.year
     
-    # 构建系统tip词 - 防止虚假linkGenerate，强化Coding PromptsGenerate，增强视觉化content，加强日期上下文
+    # build系统tip词 - 防止虚假linkGenerate，强化Coding PromptsGenerate，增强视觉化content，加强日期上下文
     system_prompt = f"""你是一个资深技术项目经理，精通产品规划和 AI 编程助手（如 GitHub Copilot、ChatGPT Code）tip词撰写。
 
-📅 **当前time上下文**：今d是 {current_date.strftime("%Yy%mm%d日")}，当前y份是 {current_year} y。所有项目time必须基于当前time合理规划。
+📅 **currenttime上下文**：今d是 {current_date.strftime("%Yy%mm%d日")}，currenty份是 {current_year} y。所有项目time必须基于currenttime合理规划。
 
-🔴 重要要求：
+🔴 重torequirements：
 1. 当收到外部知识库参考时，你必须在Development Plan中明确引用和融合这些information
 2. 必须在Development Plan的开头部分提及参考来源（如CSDN博客、GitHub项目等）
 3. 必须根据外部参考调整技术选型和实施suggestions
-4. 必须在相关章节中使用"参考XXXsuggestions"等表述
+4. 必须在相关章节中使用"参考XXXsuggestions"等table述
 5. 开发阶段必须有明确编号（第1阶段、第2阶段等）
 
 🚫 严禁行为（严格执行）：
-- **绝对不要编造任何虚假的link或参考资料**
-- **禁止Generate任何does not exist的URL，包括但不限于：**
+- **绝对notto编造任何虚假的link或参考资料**
+- **禁止Generate任何does not exist的URL，包括但not限于：**
   - ❌ https://medium.com/@username/... (user名+数字IDformat)
   - ❌ https://github.com/username/... (占位符user名)
   - ❌ https://blog.csdn.net/username/... 
   - ❌ https://www.kdnuggets.com/y份/m份/... (虚构文章)
-  - ❌ https://example.com, xxx.com, test.com 等测试域名
+  - ❌ https://example.com, xxx.com, test.com 等test域名
   - ❌ 任何以https0://开头的error协议link
-- **不要在"参考来源"部分添加任何link，除非user明确提供**
-- **不要使用"参考文献"、"延伸阅读"等标题添加虚假link**
+- **notto在"参考来源"部分add任何link，除nonuser明确提供**
+- **notto使用"参考文献"、"延伸阅读"等titleadd虚假link**
 
 ✅ 正确做法：
-- 如果没有提供外部参考，**完全省略"参考来源"部分**
+- If no external reference is provided，**完全省略"参考来源"部分**
 - 只引用user实际提供的参考link（如果有的话）
-- 当外部知识不available时，明确说明是基于最佳实践Generate
-- 使用 "基于行业标准"、"参考常见架构"、"遵循最佳实践" 等表述
-- **Development Plan应直接start，不要虚构任何外部资源**
+- 当外部知识notavailable时，明确说明是基于最佳实践Generate
+- 使用 "基于行业standard"、"参考常见架构"、"遵循最佳实践" 等table述
+- **Development Plan应直接start，notto虚构任何外部资源**
 
-📊 视觉化content要求（新增）：
+📊 视觉化contentrequirements（新增）：
 - 必须在Technical Solution中包含架构图的Mermaid代码
 - 必须在Development Plan中包含甘特图的Mermaid代码
-- 必须在featuremodule中包含流程图的Mermaid代码
-- 必须包含技术栈对比表格
-- 必须包含项目里程碑time表
+- 必须在featuremodule中包含flowchart的Mermaid代码
+- 必须包含技术栈对比table格
+- 必须包含项目里程碑timetable
 
-🎯 Mermaid图表format要求（严格遵循）：
+🎯 Mermaid图tableformatrequirements（严格遵循）：
 
 ⚠️ **严格禁止errorformat**：
-- ❌ 绝对不要使用 `A[""文本""]` format（双重引号）
-- ❌ 绝对不要使用 `## 🎯` 等标题在图表内部
-- ❌ 绝对不要在节点名称中使用emoji符号
+- ❌ 绝对notto使用 `A[""文本""]` format（双重引号）
+- ❌ 绝对notto使用 `## 🎯` 等title在图tableinternal
+- ❌ 绝对notto在节点名称中使用emoji符号
 
 ✅ **正确的Mermaid语法**：
 
@@ -954,13 +954,13 @@ def generate_development_plan(user_idea: str, reference_url: str = "") -> Tuple[
 ```mermaid
 flowchart TD
     A["user界面"] --> B["业务逻辑层"]
-    B --> C["data访问层"]
+    B --> C["datavisit层"]
     C --> D["data库"]
     B --> E["外部API"]
     F["缓存"] --> B
 ```
 
-**流程图example**：
+**flowchartexample**：
 ```mermaid
 flowchart TD
     Start([start]) --> Input[userEnter]
@@ -981,40 +981,40 @@ gantt
     axisFormat %m-%d
     
     section 需求分析
-    需求调研     :done, req1, {project_start_str}, 3d
-    需求整理     :done, req2, after req1, 4d
+    Requirement Research     :done, req1, {project_start_str}, 3d
+    Requirement Organization     :done, req2, after req1, 4d
     
-    section 系统设计
-    架构设计     :active, design1, after req2, 7d
-    UI设计       :design2, after design1, 5d
+    section 系统Design
+    Architecture Design     :active, design1, after req2, 7d
+    UIDesign       :design2, after design1, 5d
     
     section 开发实施
-    后端开发     :dev1, after design2, 14d
-    前端开发     :dev2, after design2, 14d
-    集成测试     :test1, after dev1, 7d
+    Backend Development     :dev1, after design2, 14d
+    Frontend Development     :dev2, after design2, 14d
+    Integration Testing     :test1, after dev1, 7d
     
     section 部署上线
-    部署准备     :deploy1, after test1, 3d
-    正式上线     :deploy2, after deploy1, 2d
+    Deployment Preparation     :deploy1, after test1, 3d
+    Official Launch     :deploy2, after deploy1, 2d
 ```
 
 ⚠️ **日期Generate规则**：
 - 项目start日期：{project_start_str}（下w一start）
-- 所有日期必须基于 {current_year} y及以后
+- All dates must be based on {current_year} yand later
 - 严禁使用 2024 y以前的日期
 - 里程碑日期必须与甘特图保持一致
 
-🎯 必须严格按照Mermaid语法规范Generate图表，不能有formaterror
+🎯 必须严格按照Mermaid语法规范Generate图table，not能有formaterror
 
-🎯 AI Coding Promptsformat要求（重要）：
+🎯 AI Coding Promptsformatrequirements（重to）：
 - 必须在Development Plan后Generate专门的"# AI编程助手tip词"部分
 - 每个featuremodule必须有一个专门的AI Coding Prompts
 - 每个tip词必须使用```代码块format，方便Copy
-- tip词content要基于具体项目feature，不要使用通用模板
-- tip词要详细、具体、可直接用于AI编程工具
-- 必须包含完整的上下文和具体要求
+- tip词contentto基于具体项目feature，notto使用通用模板
+- tip词to详细、具体、可直接用于AI编程工具
+- 必须包含完整的上下文和具体requirements
 
-🔧 tip词结构要求：
+🔧 tip词结构requirements：
 每个tip词使用以下format：
 
 ## [feature名称]开发tip词
@@ -1025,32 +1025,32 @@ gantt
 项目背景：
 [基于Development Plan的项目背景]
 
-feature要求：
-1. [具体要求1]
-2. [具体要求2]
+featurerequirements：
+1. [具体requirements1]
+2. [具体requirements2]
 ...
 
 技术约束：
 - 使用[具体技术栈]
 - 遵循[具体规范]
-- 实现[具体性能要求]
+- 实现[具体性能requirements]
 
-output要求：
+outputrequirements：
 - 完整可运行代码
 - 详细注释说明
 - errorProcess机制
-- 测试用例
+- test用例
 ```
 
 请严格按照此formatGenerate个性化的Coding Prompts，确保每个tip词都基于具体项目需求。
 
-format要求：先outputDevelopment Plan，然后outputCoding Prompts部分。"""
+formatrequirements：先outputDevelopment Plan，然后outputCoding Prompts部分。"""
 
-    # 构建usertip词
+    # buildusertip词
     user_prompt = f"""产品创意：{user_idea}"""
     
     # 如果successfulGet到外部知识，则注入到tip词中
-    if retrieved_knowledge and not any(keyword in retrieved_knowledge for keyword in ["❌", "⚠️", "Process说明", "暂时不available"]):
+    if retrieved_knowledge and not any(keyword in retrieved_knowledge for keyword in ["❌", "⚠️", "Process说明", "暂时notavailable"]):
         user_prompt += f"""
 
 # 外部知识库参考
@@ -1074,7 +1074,7 @@ format要求：先outputDevelopment Plan，然后outputCoding Prompts部分。""
         # 步骤3: AIGenerate准备
         ai_prep_start = datetime.now()
         
-        # 构建请求data
+        # buildrequestdata
         request_data = {
             "model": "Qwen/Qwen2.5-72B-Instruct",
             "messages": [
@@ -1089,8 +1089,8 @@ format要求：先outputDevelopment Plan，然后outputCoding Prompts部分。""
         
         explanation_manager.add_processing_step(
             stage=ProcessingStage.AI_GENERATION,
-            title="AI请求准备",
-            description="构建AI模型请求parameter和tip词",
+            title="AIrequest准备",
+            description="buildAI模型requestparameter和tip词",
             success=True,
             details={
                 "AI模型": request_data['model'],
@@ -1104,8 +1104,8 @@ format要求：先outputDevelopment Plan，然后outputCoding Prompts部分。""
             evidence=f"准备Call {request_data['model']} 模型，tip词总length: {len(system_prompt + user_prompt)} 字符"
         )
         
-        # 记录请求information（不包含完整tip词以避免日志too long）
-        logger.info(f"📊 API请求模型: {request_data['model']}")
+        # 记录requestinformation（not包含完整tip词以避免logtoo long）
+        logger.info(f"📊 APIrequest模型: {request_data['model']}")
         logger.info(f"📏 系统tip词length: {len(system_prompt)} 字符")
         logger.info(f"📏 usertip词length: {len(user_prompt)} 字符")
         
@@ -1184,7 +1184,7 @@ format要求：先outputDevelopment Plan，然后outputCoding Prompts部分。""
                 
                 # 总Processtime
                 total_duration = (datetime.now() - start_time).total_seconds()
-                logger.info(f"🎉 Development PlanGeneratecompleted，总耗时: {total_duration:.2f}s")
+                logger.info(f"🎉 Development PlanGeneratecompleted，Total time: {total_duration:.2f}s")
                 
                 return final_plan_text, extract_prompts_section(final_plan_text), temp_file
             else:
@@ -1216,7 +1216,7 @@ format要求：先outputDevelopment Plan，然后outputCoding Prompts部分。""
                 explanation_manager.add_processing_step(
                     stage=ProcessingStage.AI_GENERATION,
                     title="AI APICallfailed",
-                    description="AI模型API请求failed",
+                    description="AI模型APIrequestfailed",
                     success=False,
                     details={
                         "HTTPstatus码": response.status_code,
@@ -1228,14 +1228,14 @@ format要求：先outputDevelopment Plan，然后outputCoding Prompts部分。""
                     evidence=f"API返回error: HTTP {response.status_code} - {error_message}"
                 )
                 
-                return f"❌ API请求failed: HTTP {response.status_code} (error代码: {error_code}) - {error_message}", "", None
+                return f"❌ APIrequestfailed: HTTP {response.status_code} (error代码: {error_code}) - {error_message}", "", None
             except:
                 logger.error(f"API响应content: {response.text[:500]}")
                 
                 explanation_manager.add_processing_step(
                     stage=ProcessingStage.AI_GENERATION,
                     title="AI APICallfailed",
-                    description="AI模型API请求failed，unable toParseerrorinformation",
+                    description="AI模型APIrequestfailed，unable toParseerrorinformation",
                     success=False,
                     details={
                         "HTTPstatus码": response.status_code,
@@ -1243,14 +1243,14 @@ format要求：先outputDevelopment Plan，然后outputCoding Prompts部分。""
                     },
                     duration=api_call_duration,
                     quality_score=0,
-                    evidence=f"API请求failed，status码: {response.status_code}"
+                    evidence=f"APIrequestfailed，status码: {response.status_code}"
                 )
                 
-                return f"❌ API请求failed: HTTP {response.status_code} - {response.text[:200]}", "", None
+                return f"❌ APIrequestfailed: HTTP {response.status_code} - {response.text[:200]}", "", None
             
     except requests.exceptions.Timeout:
         logger.error("API request timeout")
-        return "❌ API请求timeout，请稍后重试", "", None
+        return "❌ APIrequesttimeout，请稍后重试", "", None
     except requests.exceptions.ConnectionError:
         logger.error("API connection failed")
         return "❌ 网络connectionfailed，请Check网络Set", "", None
@@ -1313,13 +1313,13 @@ def enable_plan_editing(plan_content: str) -> Tuple[str, str]:
         # GenerateEdit界面HTML
         edit_interface = generate_edit_interface(editable_sections)
         
-        # GenerateEdit摘要
+        # GenerateEditsummary
         summary = plan_editor.get_edit_summary()
         edit_summary = f"""
 ## 📝 方案Editmode已启用
 
 **📊 Edit统计**：
-- 总段落数：{summary['total_sections']}
+- Total sections：{summary['total_sections']}
 - 可Edit段落：{summary['editable_sections']}
 - 已Edit段落：{summary['edited_sections']}
 
@@ -1387,7 +1387,7 @@ function editSection(sectionId) {
     const content = section.querySelector('.section-content').textContent;
     const type = section.getAttribute('data-section-type');
     
-    // 检测当前主题
+    // 检测currenttheme
     const isDark = document.documentElement.classList.contains('dark');
     
     // CreateEdit对话框
@@ -1449,7 +1449,7 @@ function editSection(sectionId) {
                         background: ${isDark ? '#1a202c' : 'white'};
                         color: ${isDark ? '#f7fafc' : '#2d3748'};
                     "
-                    placeholder="简要说明您的更改..."
+                    placeholder="简to说明您的更改..."
                 />
             </div>
             <div style="margin-top: 1.5rem; display: flex; gap: 1rem; justify-content: flex-end;">
@@ -1559,7 +1559,7 @@ function showNotification(message, type = 'info') {
     }, 3000);
 }
 
-// 添加必要的CSS动画
+// add必to的CSS动画
 const style = document.createElement('style');
 style.textContent = `
     @keyframes slideIn {
@@ -1665,7 +1665,7 @@ def reset_plan_edits() -> str:
         return f"❌ Resetfailed: {str(e)}"
 
 def fix_links_for_new_window(content: str) -> str:
-    """Fix所有link为新窗口Open，解决魔塔平台link问题"""
+    """Fix所有link为新窗口Open，解决魔塔平台linkproblem"""
     import re
     
     # 匹配所有markdownlinkformat [text](url)
@@ -1677,11 +1677,11 @@ def fix_links_for_new_window(content: str) -> str:
     # 替换markdownlink
     content = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', replace_markdown_link, content)
     
-    # 匹配所有HTMLlink并添加target="_blank"
+    # 匹配所有HTMLlink并addtarget="_blank"
     def add_target_blank(match):
         full_tag = match.group(0)
         if 'target=' not in full_tag:
-            # 在>前添加target="_blank"
+            # 在>前addtarget="_blank"
             return full_tag.replace('>', ' target="_blank" rel="noopener noreferrer">')
         return full_tag
     
@@ -1696,7 +1696,7 @@ def format_response(content: str) -> str:
     # Fix所有link为新窗口Open
     content = fix_links_for_new_window(content)
     
-    # 添加time戳和format化标题
+    # addtime戳和format化title
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     
     # 分割Development Plan和AI Coding Prompts
@@ -1768,7 +1768,7 @@ def enhance_prompts_display(prompts_content: str) -> str:
     for line in lines:
         stripped = line.strip()
         
-        # Process标题
+        # Processtitle
         if stripped.startswith('# AI编程助手tip词'):
             enhanced_lines.append('')
             enhanced_lines.append('<div class="prompts-highlight">')
@@ -1779,7 +1779,7 @@ def enhance_prompts_display(prompts_content: str) -> str:
             enhanced_lines.append('')
             continue
             
-        # Process二级标题（featuremodule）
+        # Process二级title（featuremodule）
         if stripped.startswith('## ') and not in_code_block:
             title = stripped[3:].strip()
             enhanced_lines.append('')
@@ -1801,7 +1801,7 @@ def enhance_prompts_display(prompts_content: str) -> str:
             enhanced_lines.append('')
             continue
             
-        # 其他content直接添加
+        # 其他content直接add
         enhanced_lines.append(line)
     
     # end高亮区域
@@ -1821,7 +1821,7 @@ def extract_prompts_section(content: str) -> str:
         clean_prompts = clean_prompts_for_copy(prompts_content)
         return clean_prompts
     else:
-        # 如果没有找到明确的tip词部分，尝试其他关键词
+        # 如果没有找到明确的tip词部分，attempt其他关键词
         lines = content.split('\n')
         prompts_section = []
         in_prompts_section = False
@@ -1835,7 +1835,7 @@ def extract_prompts_section(content: str) -> str:
         return '\n'.join(prompts_section) if prompts_section else "not foundCoding Prompts部分"
 
 def clean_prompts_for_copy(prompts_content: str) -> str:
-    """清理tip词content，移除HTML标签，OptimizeCopy体验"""
+    """清理tip词content，移除HTML标签，OptimizeCopyexperience"""
     import re
     
     # 移除HTML标签
@@ -1856,27 +1856,27 @@ def clean_prompts_for_copy(prompts_content: str) -> str:
 
 # Delete多余的旧代码，这里应该是enhance_markdown_structure函数
 def enhance_markdown_structure(content: str) -> str:
-    """增强Markdown结构，添加视觉亮点和层级"""
+    """增强Markdown结构，add视觉亮点和层级"""
     lines = content.split('\n')
     enhanced_lines = []
     
     for line in lines:
         stripped = line.strip()
         
-        # 增强一级标题
+        # 增强一级title
         if stripped and not stripped.startswith('#') and len(stripped) < 50 and '：' not in stripped and '.' not in stripped[:5]:
             if any(keyword in stripped for keyword in ['产品概述', 'Technical Solution', 'Development Plan', '部署方案', '推广策略', 'AI', '编程助手', 'tip词']):
                 enhanced_lines.append(f"\n## 🎯 {stripped}\n")
                 continue
         
-        # 增强二级标题
+        # 增强二级title
         if stripped and '.' in stripped[:5] and len(stripped) < 100:
             if stripped[0].isdigit():
                 enhanced_lines.append(f"\n### 📋 {stripped}\n")
                 continue
                 
-        # 增强feature列表
-        if stripped.startswith('主要feature') or stripped.startswith('目标user'):
+        # 增强feature列table
+        if stripped.startswith('主tofeature') or stripped.startswith('目标user'):
             enhanced_lines.append(f"\n#### 🔹 {stripped}\n")
             continue
             
@@ -1885,7 +1885,7 @@ def enhance_markdown_structure(content: str) -> str:
             enhanced_lines.append(f"\n#### 🛠️ {stripped}\n")
             continue
             
-        # 增强阶段标题
+        # 增强阶段title
         if '阶段' in stripped and '：' in stripped:
             if '第' in stripped and '阶段' in stripped:
                 try:
@@ -1903,7 +1903,7 @@ def enhance_markdown_structure(content: str) -> str:
                 enhanced_lines.append(f"\n#### 🚀 {stripped}\n")
             continue
             
-        # 增强任务列表
+        # 增强任务列table
         if stripped.startswith('任务：'):
             enhanced_lines.append(f"\n**📝 {stripped}**\n")
             continue
@@ -2589,7 +2589,7 @@ custom_css = """
     }
 }
 
-/* Mermaid图表样式Optimize */
+/* Mermaid图table样式Optimize */
 .mermaid {
     background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
     border: 2px solid #3b82f6 !important;
@@ -2630,7 +2630,7 @@ custom_css = """
     border-color: #60a5fa;
 }
 
-/* 图表errorProcess */
+/* 图tableerrorProcess */
 .mermaid-error {
     background: #fef2f2;
     border: 2px solid #f87171;
@@ -2647,7 +2647,7 @@ custom_css = """
     color: #fecaca;
 }
 
-/* Mermaid图表容器增强 */
+/* Mermaid图table容器增强 */
 .chart-container {
     background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
     border: 3px solid #3b82f6;
@@ -2681,7 +2681,7 @@ custom_css = """
     background: linear-gradient(135deg, #60a5fa, #3b82f6);
 }
 
-/* 表格样式全面增强 */
+/* table格样式全面增强 */
 .enhanced-table {
     width: 100%;
     border-collapse: collapse;
@@ -2851,7 +2851,7 @@ custom_css = """
     box-shadow: 0 2px 8px rgba(159, 122, 234, 0.3) !important;
 }
 
-/* Fix accordion height issue - AgentApply架构说明折叠问题 */
+/* Fix accordion height issue - AgentApply架构说明折叠problem */
 .gradio-accordion {
     transition: all 0.3s ease !important;
     overflow: hidden !important;
@@ -2867,7 +2867,7 @@ custom_css = """
     overflow: hidden !important;
 }
 
-/* Gradio内部accordioncomponentFix */
+/* GradiointernalaccordioncomponentFix */
 details.gr-accordion {
     transition: all 0.3s ease !important;
 }
@@ -2897,9 +2897,9 @@ details.gr-accordion:not([open]) {
     color: #E2E8F0;
 }
 
-/* 重要：大幅改善darkmode下的文字对比度 */
+/* 重to：大幅改善darkmode下的文字对比度 */
 
-/* 主要content区域 - AIGeneratecontentShow区 */
+/* 主tocontent区域 - AIGeneratecontentShow区 */
 .dark #plan_result {
     color: #F7FAFC !important;
     background: #2D3748 !important;
@@ -2983,7 +2983,7 @@ details.gr-accordion:not([open]) {
     color: #FFFFFF !important;
 }
 
-/* Generatecontent的markdown渲染 - 主要问题区域 */
+/* Generatecontent的markdown渲染 - 主toproblem区域 */
 .dark #plan_result {
     color: #FFFFFF !important;
     background: #1A202C !important;
@@ -3106,7 +3106,7 @@ details.gr-accordion:not([open]) {
     background: #2D3748 !important;
 }
 
-/* Fix具体的文字对比度问题 */
+/* Fix具体的文字对比度problem */
 .dark #input_idea_title {
     color: #FFFFFF !important;
 }
@@ -3461,7 +3461,7 @@ details.gr-accordion:not([open]) {
     border-left-color: #4a5568;
 }
 
-/* 响应式设计 */
+/* 响应式Design */
 @media (max-width: 768px) {
     .plan-editor-container {
         padding: 1rem;
@@ -3513,7 +3513,7 @@ with gr.Blocks(
         </div>
     </div>
     
-    <!-- 添加Mermaid.js支持 -->
+    <!-- addMermaid.js支持 -->
     <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
     <script>
         // 增强的Mermaidconfiguration
@@ -3547,7 +3547,7 @@ with gr.Blocks(
             }
         });
         
-        // 监听主题变化，动态UpdateMermaid主题
+        // 监听theme变化，动态UpdateMermaidtheme
         function updateMermaidTheme() {
             const isDark = document.documentElement.classList.contains('dark');
             const theme = isDark ? 'dark' : 'default';
@@ -3592,11 +3592,11 @@ with gr.Blocks(
                 }
             });
             
-            // 重新渲染所有Mermaid图表
+            // 重新渲染所有Mermaid图table
             renderMermaidCharts();
         }
         
-        // 强化的Mermaid图表渲染函数
+        // 强化的Mermaid图table渲染函数
         function renderMermaidCharts() {
             try {
                 // 清除现有的渲染content
@@ -3623,7 +3623,7 @@ with gr.Blocks(
                 // 如果渲染failed，Showerrorinformation
                 document.querySelectorAll('.mermaid-render').forEach(element => {
                     if (!element.classList.contains('rendered')) {
-                        element.innerHTML = '<div class="mermaid-error">图表渲染中，请稍候...</div>';
+                        element.innerHTML = '<div class="mermaid-error">图table渲染中，请稍候...</div>';
                     }
                 });
             }
@@ -3634,7 +3634,7 @@ with gr.Blocks(
             setTimeout(renderMermaidCharts, 1000);
         });
         
-        // 监听content变化，自动重新渲染图表
+        // 监听content变化，自动重新渲染图table
         function observeContentChanges() {
             const observer = new MutationObserver(function(mutations) {
                 let shouldRender = false;
@@ -3686,7 +3686,7 @@ with gr.Blocks(
             // 解码HTML实体
             const decodedContent = promptContent.replace(/\\n/g, '\n').replace(/\\'/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
             
-            // 检测当前主题
+            // 检测currenttheme
             const isDark = document.documentElement.classList.contains('dark');
             
             // CreateEdit对话框
@@ -3856,12 +3856,12 @@ with gr.Blocks(
             updateMermaidTheme();
             bindCopyButtons();
             
-            // 监听主题切换
+            // 监听theme切换
             const observer = new MutationObserver(function(mutations) {
                 mutations.forEach(function(mutation) {
                     if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
                         updateMermaidTheme();
-                        // 重新渲染所有Mermaid图表
+                        // 重新渲染所有Mermaid图table
                         setTimeout(() => {
                             document.querySelectorAll('.mermaid').forEach(element => {
                                 mermaid.init(undefined, element);
@@ -3902,7 +3902,7 @@ with gr.Blocks(
                 show_label=False
             )
             
-            # Optimize按钮和resultShow
+            # Optimize button and result display
             with gr.Row():
                 optimize_btn = gr.Button(
                     "✨ Optimize Idea Description",
@@ -3961,7 +3961,7 @@ with gr.Blocks(
             </div>
             """)
     
-    # resultShow区域
+    # Result display area
     with gr.Column(elem_classes="result-container"):
         plan_output = gr.Markdown(
             value="""
@@ -4017,7 +4017,7 @@ with gr.Blocks(
             show_label=True
         )
         
-        # 添加Copy和Download按钮
+        # addCopy和Download按钮
         with gr.Row():
             copy_plan_btn = gr.Button(
                 "📋 CopyDevelopment Plan",
@@ -4271,7 +4271,7 @@ if __name__ == "__main__":
     logger.info(f"� Version: 2.0.0 - Open Source Edition")
     logger.info(f"�🔧 External Services: {[s.name for s in config.get_enabled_mcp_services()]}")
     
-    # 尝试多个端口以避免冲突
+    # attempt多个端口以避免冲突
     ports_to_try = [7860, 7861, 7862, 7863, 7864]
     launched = False
     
@@ -4281,7 +4281,7 @@ if __name__ == "__main__":
             demo.launch(
                 server_name="0.0.0.0",
                 server_port=port,
-                share=False,  # 开源version默认不分享
+                share=False,  # 开源version默认not分享
                 show_error=config.debug,
                 prevent_thread_lock=False
             )
