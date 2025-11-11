@@ -11,7 +11,7 @@
 
 AI-powered Product Manager & Software Architect that generates technical documentation, architecture diagrams, and AI coding prompts
 
-[🌐 Online Demo](https://modelscope.cn/studios/JasonRobert/Vibedocs) | [🎬 Demo Video](https://www.bilibili.com/video/BV1ieagzQEAC/) | [🤝 Contributing](./CONTRIBUTING.md) | [💬 Discussions](https://github.com/JasonRobertDestiny/VibeDoc/discussions) | [中文文档](./README.zh.md)
+[🌐 Online Demo](https://modelscope.cn/studios/JasonRobert/Vibedocs) | [🎬 Demo Video](https://www.bilibili.com/video/BV1ieagzQEAC/) | [🤝 Contributing](./CONTRIBUTING.md) | [💬 Discussions](https://github.com/JasonRobertDestiny/VibeDoc/discussions) | [in text documentation](./README.zh.md)
 
 </div>
 

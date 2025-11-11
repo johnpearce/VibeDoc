@@ -1,4 +1,4 @@
-# 🚀 VibeDoc：您的随身AI产品经理与架构师
+# 🚀 VibeDoc: Your PersonalAIProduct Managerandarchitect
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
@@ -7,357 +7,357 @@
 
 <div align="center">
 
-**60-180秒，将创意转化为完整开发方案**
+**60-180seconds， will 创意转transform for complete development plan**
 
-您的随身AI产品经理与架构师，智能生成技术文档、架构图表和AI编程提示词
+Your PersonalAIProduct Managerandarchitect，智能generatetechnical documentation、architecture diagramtable和AIprogramming prompts
 
-[🌐 在线体验](https://modelscope.cn/studios/JasonRobert/Vibedocs) | [🎬 演示视频](https://www.bilibili.com/video/BV1ieagzQEAC/) | [🤝 参与贡献](./CONTRIBUTING.md) | [💬 讨论社区](https://github.com/JasonRobertDestiny/VibeDoc/discussions) | [English](./README.md)
+[🌐 online experience](https://modelscope.cn/studios/JasonRobert/Vibedocs) | [🎬 演示view频](https://www.bilibili.com/video/BV1ieagzQEAC/) | [🤝 参 with 贡献](./CONTRIBUTING.md) | [💬 讨论社区](https://github.com/JasonRobertDestiny/VibeDoc/discussions) | [English](./README.md)
 
 </div>
 
 ---
 
-## ✨ 为什么选择 VibeDoc？
+## ✨ why select VibeDoc？
 
-作为开发者、产品经理或创业者，您是否遇到过这些问题：
+As a developer, product manager or entrepreneur, have you encountered these problems:
 
-- 💭 **有好创意，不知如何规划？** 想法很多，但不知道如何转化为可执行的开发计划
-- ⏰ **文档编写耗时太长？** 写技术方案、架构文档要花费大量时间
-- 🤖 **AI工具不会用？** 想用AI辅助编程，但不知道如何写好提示词
-- 📊 **缺少专业图表？** 需要架构图、流程图、甘特图，但不熟悉画图工具
+- 💭 **Have good ideas but don't know how to plan?** 想法很多，但not知道如what转transform为can执行的Development Plan
+- ⏰ **documentation 编写 consume when 太长？** 写Technical Solution、architecturetext档important花费大quantitywhen time
+- 🤖 **AIDon't know how to use tools?** 想useAI辅助 programming，但not知道如what写好prompt词
+- 📊 **Missing professional charts?** 需importantarchitecture diagram、流程图、gan特 diagram，但not熟悉画图tool
 
-**VibeDoc 一站式解决！**
+**VibeDoc One-stop solution!**
 
-![VibeDoc主界面](./image/vibedoc.png)
+![VibeDoc主 interface](./image/vibedoc.png)
 
-## 🎯 核心功能
+## 🎯 core function
 
-### 📋 智能开发计划生成
+### 📋 intelligent Development Plan generate
 
-输入产品创意，AI在60-180秒内自动生成完整开发计划：
+input 产品创意，AIin60-180secondsinternal自动generatecomplete Development Plan：
 
-- **产品概述** - 项目背景、目标用户、核心价值
-- **技术方案** - 技术栈选型、架构设计、技术对比
-- **开发计划** - 分阶段实施计划、时间安排、人力配置
-- **部署方案** - 环境配置、CI/CD流程、运维监控
-- **推广策略** - 市场定位、运营建议、增长策略
+- **Product Overview** - 项目背scene、目mark user、核心价值
+- **Technical Solution** - tech stackselect型、architecture design、技technique对比
+- **Development Plan** - dividephase实施calculate划、when time安排、人力configuration
+- **deployment plan** - environment configuration、CI/CD流程、运维监控
+- **promotion strategy** - 市场定位、运营recommendation、增长策略
 
-### 🤖 AI编程提示词生成
+### 🤖 AIprogramming prompts generate
 
-为每个功能模块生成可直接使用的AI编程提示词，支持：
+for 每个 function module generate can direct useAIprogramming prompts，support：
 
-- ✅ **Claude** - 代码生成、架构设计
-- ✅ **GitHub Copilot** - 智能代码补全
-- ✅ **ChatGPT** - 技术咨询、代码优化
-- ✅ **Cursor** - AI辅助编程
+- ✅ **Claude** - code generate 、 architecture design
+- ✅ **GitHub Copilot** - intelligent code 补全
+- ✅ **ChatGPT** - 技technique咨询、 code optimize
+- ✅ **Cursor** - AI辅助 programming
 
-![AI编程提示词](./image/1.png)
+![AIprogramming prompts](./image/1.png)
 
-### 📊 可视化图表自动生成
+### 📊 can viewtransform diagram table自动 generate
 
-使用 Mermaid 自动生成专业图表：
+use Mermaid 自动generate专业diagram table：
 
-- 🏗️ **系统架构图** - 清晰展示系统组件关系
-- 📈 **业务流程图** - 可视化业务逻辑
-- 📅 **甘特图** - 项目时间规划一目了然
-- 📊 **技术对比表** - 技术选型决策参考
+- 🏗️ **system architecture diagram** - 清晰expand示系统groupitem关系
+- 📈 **business process diagram** - canviewtransform业务逻辑
+- 📅 **gan特 diagram** - 项目when time规划一目了然
+- 📊 **技technique to 比table** - 技techniqueselect型决策reference
 
-### 📁 多格式文档导出
+### 📁 多 format documentation guideout
 
-一键导出，满足不同场景需求：
+One-click export to meet different scenario needs:
 
-- **Markdown** (.md) - 适合版本控制、GitHub展示
-- **Word** (.docx) - 商务文档、项目汇报
-- **PDF** (.pdf) - 正式提案、打印归档
-- **HTML** (.html) - 网页展示、在线分享
+- **Markdown** (.md) - 适合 version 控make、GitHubexpand示
+- **Word** (.docx) - 商务 documentation 、 project 汇报
+- **PDF** (.pdf) - official 提plan、hit印归档
+- **HTML** (.html) - 网页expand示、 online divide享
 
-![生成示例](./image/2.png)
+![generate example](./image/2.png)
 
-## 💡 真实案例展示
+## 💡 真 actual caseexpand示
 
-### 输入创意
+### input 创意
 ```
-开发一款AR手语翻译应用，能够实时将手语翻译成语音和文字，
-同时也能将语音和文字翻译成手语动作，以AR形式展示
-```
-
-### 生成结果
-
-**📄 [查看完整开发计划](./HandVoice_Development_Plan.md)** (1万+字)
-
-AI生成的完整方案包括：
-
-#### 1. **产品概述**
-- 目标用户（聋哑人群、医疗工作者、教育工作者）
-- 核心功能（实时翻译、多语言支持、AR可视化）
-- 市场定位和竞品分析
-
-#### 2. **技术架构**
-完整的系统架构图，包括：
-- 用户界面组件
-- 后端服务
-- 机器学习模型集成
-- 数据库设计
-- AR渲染管线
-
-#### 3. **技术栈**
-- **前端**：React Native（跨平台）
-- **后端**：Node.js + Express
-- **机器学习**：TensorFlow 手语识别模型
-- **自然语言处理**：spaCy
-- **AR显示**：ARKit (iOS) / ARCore (Android)
-- **数据库**：MongoDB
-
-#### 4. **开发时间表**
-6个月计划，分3个主要里程碑：
-- **第1-2月**：核心识别与翻译引擎
-- **第3-4月**：AR集成与UI开发
-- **第5-6月**：测试、优化与部署
-
-#### 5. **12+个AI编程提示词**
-每个功能模块的ready-to-use提示词。示例：
-
-```
-功能：手势识别模型
-
-上下文：
-构建实时手势识别系统用于手语翻译。
-需要检测和分类手部位置、动作和面部表情。
-
-需求：
-- 处理30+ FPS的视频帧
-- 识别500+种手语手势
-- 支持连续手势序列
-- 处理不同光照条件
-
-技术栈：
-- TensorFlow/Keras 模型训练
-- MediaPipe 手部关键点检测
-- OpenCV 图像预处理
-
-约束条件：
-- 必须在移动设备运行 (iOS/Android)
-- 模型大小 < 50MB 用于移动部署
-- 推理时间 < 100ms 每帧
-
-期望输出：
-- 模型架构代码
-- 训练管道
-- 数据预处理函数
-- 移动端优化策略
+development 一款AR手语翻译application，能够实timewill手语翻译成语音和text字，
+At the same time, it can translate voice and text into sign language actions, inAR形式expand示
 ```
 
-## 🚀 快速开始
+### generate 结result
 
-### 🌐 在线体验（推荐）
+**📄 [check看 complete Development Plan](./HandVoice_Development_Plan.md)** (1万+字)
 
-**👉 [立即体验 VibeDoc](https://modelscope.cn/studios/JasonRobert/Vibedocs)** - 无需安装，打开即用！
+AIgenerate complete plan including ：
 
-体验完整功能：
-1. 输入您的产品创意（例如："开发一个智能健身APP"）
-2. 可选填写参考链接（帮助AI获取更多上下文）
-3. 点击生成，等待60-180秒
-4. 查看完整开发方案和AI编程提示词
-5. 一键导出为Markdown/Word/PDF/HTML格式
+#### 1. **Product Overview**
+- Target users (deaf and mute people, medical workers, educators)
+- Core functions (real-time translation, multi-language support,ARcanviewtransform）
+- 市场定位 and 竞品analyze
 
-### 💻 本地部署
+#### 2. **技technique architecture**
+complete system architecture diagram ， including ：
+- user interface component
+- backend service
+- machine learning model integration
+- database design
+- AR渲染管 line
 
-#### 环境要求
+#### 3. **tech stack**
+- **frontend**：React Native（跨平台）
+- **backend**：Node.js + Express
+- **machine learning**：TensorFlow 手语识别 model
+- **Natural Language Processing**：spaCy
+- **ARdisplay**：ARKit (iOS) / ARCore (Android)
+- **database**：MongoDB
+
+#### 4. **development when time table**
+6个月calculate划，divide3个主important里程碑：
+- **第1-2月**：核心识别and翻译引擎
+- **第3-4月**：ARintegrationandUIdevelopment
+- **第5-6月**：test、optimizeanddeployment
+
+#### 5. **12+个AIprogramming prompts**
+每个 function moduleready-to-useprompt词。示例：
+
+```
+function ：手trend识别 model
+
+Context:
+construct建 actual when 手trend识别 system use于手语翻译。
+需 want detect and divide class 手部 location 、动work and 面部table情。
+
+requirement ：
+- process30+ FPS的view频帧
+- 识别500+种手语手trend
+- support 连续手trend序列
+- process not 同光照条item
+
+tech stack ：
+- TensorFlow/Keras model training
+- MediaPipe 手部 key 点detect
+- OpenCV diagram 像预 process
+
+constraint 条item：
+- 必须 in 移动set备运行 (iOS/Android)
+- model 大small < 50MB use于移动deployment
+- inference when time < 100ms 每帧
+
+期望 output ：
+- model architecture code
+- training 管道
+- data 预 process function
+- 移动端 optimize 策略
+```
+
+## 🚀 快速 start
+
+### 🌐 online experience （push荐）
+
+**👉 [立即 experience VibeDoc](https://modelscope.cn/studios/JasonRobert/Vibedocs)** - 无需安装，hitopen即use！
+
+experience complete function ：
+1. input 您产品创意（ for example ："development一个智能健身APP"）
+2. can select填写 reference link （帮助AIget更多上下text）
+3. click generate ， waiting60-180seconds
+4. check看 complete development plan andAIprogramming prompts
+5. One-click export asMarkdown/Word/PDF/HTMLformat
+
+### 💻 this 地 deployment
+
+#### environment requirement
 
 - Python 3.11+
-- pip 包管理器
-- [SiliconFlow API Key](https://siliconflow.cn) (免费获取)
+- pip package管managedevice
+- [SiliconFlow API Key](https://siliconflow.cn) (free get)
 
-#### 安装步骤
+#### 安装 Step
 
 ```bash
-# 1. 克隆项目
+# 1. clone project
 git clone https://github.com/JasonRobertDestiny/VibeDoc.git
 cd VibeDoc
 
-# 2. 创建虚拟环境（推荐）
+# 2. create 虚拟 environment （push荐）
 python -m venv venv
 
-# 激活虚拟环境
+# 激活虚拟 environment
 # Windows:
 venv\Scripts\activate
 # macOS/Linux:
 source venv/bin/activate
 
-# 3. 安装依赖
+# 3. 安装 dependency
 pip install -r requirements.txt
 
-# 4. 配置环境变量
+# 4. Configure environment variables
 cp .env.example .env
-# 编辑 .env 文件，添加你的 API Key
+# edit .env textitem，add你的 API Key
 ```
 
-### 配置说明
+### configuration description
 
-在 `.env` 文件中配置：
+in `.env` textitem中configuration：
 
 ```env
-# 必填：SiliconFlow API Key（免费注册获取）
+# 必填：SiliconFlow API Key（free注册get）
 SILICONFLOW_API_KEY=your_api_key_here
 
-# 可选：高级配置
+# Optional: advanced configuration
 API_TIMEOUT=300
 LOG_LEVEL=INFO
 ENVIRONMENT=production
 ```
 
-### 运行应用
+### 运行 application
 
 ```bash
 python app.py
 ```
 
-应用将在以下地址启动：
-- 本地访问: http://localhost:7860
-- 网络访问: http://0.0.0.0:7860
+application will in with 下 address start：
+- this 地 access: http://localhost:7860
+- 网络 access: http://0.0.0.0:7860
 
-### 🐳 Docker 部署（可选）
+### 🐳 Docker deployment （ can select）
 
 ```bash
-# 构建镜像
+# construct建镜像
 docker build -t vibedoc .
 
-# 运行容器
+# 运行容device
 docker run -p 7860:7860 \
   -e SILICONFLOW_API_KEY=your_key \
   vibedoc
 ```
 
-## 🏗️ 技术架构
+## 🏗️ 技technique architecture
 
-VibeDoc 采用模块化架构设计：
+VibeDoc 采use module transform architecture design ：
 
 ```
 ┌─────────────────────────────────────────┐
 │         Gradio Web Interface            │
-│  (用户交互 + UI渲染 + 文件导出)           │
+│  (user exchange互 + UI渲染 + textitemguideout)           │
 └─────────────────┬───────────────────────┘
                   │
 ┌─────────────────▼───────────────────────┐
-│       核心处理引擎 (app.py)              │
+│       核心 process 引擎 (app.py)              │
 ├─────────────────────────────────────────┤
-│  • 输入验证与优化                        │
-│  • AI生成协调                           │
-│  • 内容质量控制                          │
-│  • 多格式导出                            │
+│  • input verify with optimize                        │
+│  • AIgenerate 协调                           │
+│  • content quality 控make                          │
+│  • 多 format guideout                            │
 └──┬────────┬──────────┬─────────┬────────┘
    │        │          │         │
    ▼        ▼          ▼         ▼
 ┌──────┐ ┌────────┐ ┌──────┐ ┌──────────┐
-│AI模型│ │提示词  │ │内容  │ │导出      │
-│集成  │ │优化器  │ │验证  │ │管理器    │
+│AImodel│ │prompt词  │ │content  │ │guideout      │
+│integration  │ │optimizedevice  │ │verify  │ │管managedevice    │
 └──────┘ └────────┘ └──────┘ └──────────┘
 ```
 
-### 核心技术栈
+### 核心 tech stack
 
-- **前端界面**: Gradio 5.34.1 - 快速构建AI应用界面
-- **AI模型**: Qwen2.5-72B-Instruct - 阿里云通义千问大模型
-- **图表渲染**: Mermaid.js - 代码化生成专业图表
-- **文档导出**: python-docx, reportlab - 多格式支持
-- **异步处理**: asyncio, aiofiles - 高性能异步处理
+- **frontend interface**: Gradio 5.34.1 - 快速construct建AIapplication界面
+- **AImodel**: Qwen2.5-72B-Instruct - 阿里云通义千问大model
+- **diagram table渲染**: Mermaid.js - 代码transformgenerate专业diagram table
+- **documentation guideout**: python-docx, reportlab - 多formatsupport
+- **asynchronous process**: asyncio, aiofiles - 高性能asynchronous process
 
-## 📊 性能指标
+## 📊 performance pointmark
 
-| 指标 | 表现 |
+| pointmark | table现 |
 |------|------|
-| **生成速度** | 60-180秒完成完整方案 |
-| **成功率** | >95% 生成成功率 |
-| **内容质量** | 平均质量分 85/100 |
-| **支持格式** | 4种专业文档格式 |
+| **generate 速degree** | 60-180secondscompletecomplete plan |
+| **success 率** | >95% generatesuccess 率 |
+| **content quality** | 平均quality divide 85/100 |
+| **support format** | 4种专业documentation format |
 
-## 🎨 使用场景
+## 🎨 use 场scene
 
-### 👨‍💻 开发者
-- ✅ 快速验证技术方案可行性
-- ✅ 生成项目技术文档
-- ✅ 获取AI编程辅助提示词
-- ✅ 学习最佳架构实践
+### 👨‍💻 development 者
+- ✅ 快速 verify Technical Solution can 行性
+- ✅ generate project technical documentation
+- ✅ getAI编程辅助prompt词
+- ✅ learn习最佳 architecture actual 践
 
-### 📊 产品经理
-- ✅ 将需求转化为技术方案
-- ✅ 生成项目规划文档
-- ✅ 估算开发周期和资源
-- ✅ 制作项目提案PPT
+### 📊 Product Manager
+- ✅ will requirement 转transform for Technical Solution
+- ✅ generate project 规划 documentation
+- ✅ 估calculate development 周期 and 资源
+- ✅ makework project 提planPPT
 
-### 🎓 学生 & 学习者
-- ✅ 学习软件开发最佳实践
-- ✅ 了解技术架构设计
-- ✅ 准备技术面试
-- ✅ 完成毕业设计规划
+### 🎓 learn生 & learn习者
+- ✅ learn习软item development 最佳 actual 践
+- ✅ solve技technique architecture design
+- ✅ 准备技technique面试
+- ✅ complete 毕业 design 规划
 
 ### 🚀 创业者
-- ✅ 快速验证产品创意
-- ✅ 生成技术方案给投资人
-- ✅ 规划MVP开发路线
-- ✅ 评估技术实现成本
+- ✅ 快速 verify 产品创意
+- ✅ generate Technical Solution 给投资人
+- ✅ 规划MVPdevelopment路线
+- ✅ assessment 技technique implementation 成 this
 
-## 🤝 参与贡献
+## 🤝 参 with 贡献
 
-我们欢迎所有形式的贡献！无论是：
+我们欢迎 all have 形式贡献！无论 is ：
 
-- 🐛 报告 Bug
-- 💡 提出新功能建议
-- 📝 改进文档
-- 🔧 提交代码
+- 🐛 报notify Bug
+- 💡 提out新 function recommendation
+- 📝 改进 documentation
+- 🔧 submit code
 
-### 贡献步骤
+### 贡献 Step
 
-1. Fork 本项目
-2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 提交 Pull Request
+1. Fork this project
+2. create 特性divide支 (`git checkout -b feature/AmazingFeature`)
+3. submit 更改 (`git commit -m 'Add some AmazingFeature'`)
+4. push送 to divide支 (`git push origin feature/AmazingFeature`)
+5. submit Pull Request
 
-详细指南请查看 [CONTRIBUTING.md](./CONTRIBUTING.md)
+detailed guide pleasecheck看 [CONTRIBUTING.md](./CONTRIBUTING.md)
 
-## 📝 开发文档
+## 📝 development documentation
 
-- [用户指南](./USER_GUIDE.md) - 详细使用说明
-- [技术文档](./CLAUDE.md) - 代码架构和开发指南
-- [部署指南](./DEPLOYMENT.md) - 生产环境部署
-- [安全策略](./SECURITY.md) - 安全最佳实践
+- [user guide](./USER_GUIDE.md) - 详细Usage Instructions
+- [technical documentation](./CLAUDE.md) - 代码architecture和developmentpoint南
+- [deployment guide](./DEPLOYMENT.md) - 生产environmentdeployment
+- [security 策略](./SECURITY.md) - 安全最佳实践
 
-## 🎯 路线图
+## 🎯 路 line diagram
 
-### v2.1 (计划中)
-- [ ] 支持更多AI模型（GPT-4, Claude等）
-- [ ] 团队协作功能
-- [ ] 方案版本管理
-- [ ] 在线编辑器
+### v2.1 (calculate划 in)
+- [ ] support 更多AImodel（GPT-4, Claude等）
+- [ ] 团队协work function
+- [ ] plan version 管manage
+- [ ] online edit device
 
-### v2.2 (计划中)
+### v2.2 (calculate划 in)
 - [ ] 移动端适配
-- [ ] 多语言支持（英文、日文）
-- [ ] 模板市场
-- [ ] API接口
+- [ ] 多语言 support （英text、daytext）
+- [ ] template 市场
+- [ ] APIinterface
 
 ## 🙏 致谢
 
-- **Qwen2.5-72B-Instruct** by Alibaba Cloud - 强大的AI能力
-- **Gradio** - 优秀的Web框架
-- **SiliconFlow** - 稳定的API服务
-- 所有贡献者和用户 ❤️
+- **Qwen2.5-72B-Instruct** by Alibaba Cloud - 强大AI能力
+- **Gradio** - excellent秀Web框架
+- **SiliconFlow** - 稳定APIservice
+- all have 贡献者 and user ❤️
 
-## 📄 开源协议
+## 📄 open源协议
 
-本项目采用 [MIT License](LICENSE) 开源协议
+this project 采use [MIT License](LICENSE) open源协议
 
-## 📞 联系方式
+## 📞 联系 method
 
-- **问题反馈**: [GitHub Issues](https://github.com/JasonRobertDestiny/VibeDoc/issues)
-- **讨论交流**: [GitHub Discussions](https://github.com/JasonRobertDestiny/VibeDoc/discussions)
+- **issue 反馈**: [GitHub Issues](https://github.com/JasonRobertDestiny/VibeDoc/issues)
+- **讨论exchange流**: [GitHub Discussions](https://github.com/JasonRobertDestiny/VibeDoc/discussions)
 - **邮箱**: johnrobertdestiny@gmail.com
-- **演示视频**: [Bilibili](https://www.bilibili.com/video/BV1ieagzQEAC/)
+- **演示view频**: [Bilibili](https://www.bilibili.com/video/BV1ieagzQEAC/)
 
 ## ⭐ Star History
 
-如果这个项目对您有帮助，请给我们一个 Star ⭐！
+such as result这个 project to 您 have 帮助，please给我们一个 Star ⭐！
 
 [![Star History Chart](https://api.star-history.com/svg?repos=JasonRobertDestiny/VibeDoc&type=Date)](https://star-history.com/#JasonRobertDestiny/VibeDoc&Date)
 
@@ -365,7 +365,7 @@ VibeDoc 采用模块化架构设计：
 
 <div align="center">
 
-**🚀 用AI赋能每一个创意**
+**🚀 useAI赋能每一个创意**
 
 Made with ❤️ by the VibeDoc Team
 

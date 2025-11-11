@@ -1,153 +1,153 @@
-# 🚀 VibeDoc 部署指南
+# 🚀 VibeDoc deployment guide
 
-## 📋 目录
-- [快速部署](#快速部署)
-- [魔塔ModelScope部署](#魔塔modelscope部署)
-- [Docker部署](#docker部署)
-- [本地开发](#本地开发)
-- [环境配置](#环境配置)
+## 📋 directory
+- [快速 deployment](#快速 deployment)
+- [ModelScopeModelScopedeployment](#ModelScopemodelscopedeployment)
+- [Dockerdeployment](#dockerdeployment)
+- [this 地 development](#this 地 development)
+- [environment configuration](#environment configuration)
 - [故障排除](#故障排除)
 
-## 🚀 快速部署
+## 🚀 快速 deployment
 
-### 方法1：魔塔ModelScope一键部署（推荐）
+### method1：ModelScopeModelScope一键deployment（push荐）
 
-1. **登录魔塔ModelScope**
-   - 访问 [ModelScope](https://modelscope.cn)
+1. **登录 ModelScopeModelScope**
+   - access [ModelScope](https://modelscope.cn)
    - 注册并登录账户
 
-2. **导入项目**
+2. **guide入 project**
    ```
-   仓库地址: https://github.com/JasonRobertDestiny/VibeDocs.git
-   分支: modelscope
+   仓 library address: https://github.com/JasonRobertDestiny/VibeDocs.git
+   divide支: modelscope
    SDK: Gradio
    ```
 
-3. **配置环境变量**
+3. **Configure environment variables**
    ```bash
    SILICONFLOW_API_KEY=your_api_key_here
    NODE_ENV=production
    PORT=3000
    ```
 
-4. **启动部署**
-   - 点击"启动"按钮
-   - 等待构建完成
+4. **start deployment**
+   - click"start"press钮
+   - waiting construct建 complete
 
-### 方法2：本地快速启动
+### method2：本地快速start
 
 ```bash
-# 克隆项目
+# clone project
 git clone https://github.com/JasonRobertDestiny/VibeDocs.git
 cd VibeDocs
 
-# 切换到正确分支
+# 切换 to correct确divide支
 git checkout modelscope
 
-# 安装依赖
+# 安装 dependency
 pip install -r requirements.txt
 
-# 配置环境变量
+# Configure environment variables
 cp .env.example .env
-# 编辑 .env 文件，添加你的API密钥
+# edit .env textitem，add你的API密key
 
-# 启动应用
+# start application
 python app.py
 ```
 
-## 🌟 魔塔ModelScope部署
+## 🌟 ModelScopeModelScopedeployment
 
-### 完整部署配置
+### complete deployment configuration
 
-**项目信息：**
-- **仓库地址：** `https://github.com/JasonRobertDestiny/VibeDocs.git`
-- **分支：** `modelscope`
+**project information ：**
+- **仓 library address ：** `https://github.com/JasonRobertDestiny/VibeDocs.git`
+- **divide支：** `modelscope`
 - **SDK：** `Gradio`
-- **Python版本：** `3.11`
+- **Pythonversion ：** `3.11`
 
-**环境变量配置：**
+**environment variable configuration ：**
 
-| 变量名 | 值 | 说明 | 必填 |
+| variable name | 值 | description | 必填 |
 |--------|----|----|------|
-| `SILICONFLOW_API_KEY` | `your_api_key` | Silicon Flow API密钥 | ✅ |
-| `NODE_ENV` | `production` | 运行环境 | ✅ |
-| `PORT` | `3000` | 应用端口 | ✅ |
-| `DEEPWIKI_SSE_URL` | `http://localhost:8080` | DeepWiki MCP服务 | ❌ |
-| `FETCH_SSE_URL` | `http://localhost:8081` | 通用抓取MCP服务 | ❌ |
-| `DOUBAO_SSE_URL` | `http://localhost:8082` | 图像生成MCP服务 | ❌ |
-| `DOUBAO_API_KEY` | `your_doubao_key` | Doubao API密钥 | ❌ |
+| `SILICONFLOW_API_KEY` | `your_api_key` | Silicon Flow API密key | ✅ |
+| `NODE_ENV` | `production` | 运行 environment | ✅ |
+| `PORT` | `3000` | application 端口 | ✅ |
+| `DEEPWIKI_SSE_URL` | `http://localhost:8080` | DeepWiki MCPservice | ❌ |
+| `FETCH_SSE_URL` | `http://localhost:8081` | 通use抓取MCPservice | ❌ |
+| `DOUBAO_SSE_URL` | `http://localhost:8082` | diagram 像 generateMCPservice | ❌ |
+| `DOUBAO_API_KEY` | `your_doubao_key` | Doubao API密key | ❌ |
 
-### 部署步骤详解
+### deployment Step 详solve
 
-1. **准备API密钥**
-   - 访问 [Silicon Flow](https://siliconflow.cn) 注册账户
-   - 获取免费API密钥
+1. **准备API密key**
+   - access [Silicon Flow](https://siliconflow.cn) 注册账户
+   - get freeAPI密key
 
-2. **创建创空间**
-   - 在ModelScope中创建新的创空间
-   - 选择"从Git仓库导入"
+2. **create 创空 time**
+   - inModelScope中create新的创空间
+   - select"从Git仓库guide入"
 
-3. **配置项目设置**
+3. **configuration project setting**
    ```yaml
-   title: "VibeDoc AI Agent - Agent应用开发赛道"
+   title: "VibeDoc AI Agent - Agentapplication development 赛道"
    emoji: "🤖"
    sdk: gradio
    sdk_version: 5.34.1
    app_file: app.py
    ```
 
-4. **设置环境变量**
-   - 在创空间设置中添加环境变量
-   - 确保 `SILICONFLOW_API_KEY` 正确配置
+4. **setting environment variable**
+   - in 创空 time setting in add environment variable
+   - ensure `SILICONFLOW_API_KEY` correct确configuration
 
-5. **构建和部署**
-   - 点击"构建"按钮
-   - 等待构建完成
-   - 测试应用功能
+5. **construct建 and deployment**
+   - click"construct建"press钮
+   - waiting construct建 complete
+   - test application function
 
-### 常见问题解决
+### 常见 issue solve
 
-**问题1：构建失败**
-- 确保使用 `modelscope` 分支
-- 检查 `requirements.txt` 文件是否存在
-- 验证Python版本兼容性
+**issue1：construct建failure**
+- ensure use `modelscope` divide支
+- check `requirements.txt` textitem是no存in
+- verifyPython版本兼容性
 
-**问题2：API调用失败**
-- 检查 `SILICONFLOW_API_KEY` 是否正确
-- 验证API密钥是否有效
-- 确认网络连接正常
+**issue2：APIcall failed**
+- check `SILICONFLOW_API_KEY` 是nocorrect确
+- verifyAPI密key是nohave 效
+- confirm 网络连connectcorrect常
 
-**问题3：MCP服务不可用**
-- MCP服务是可选的，不影响核心功能
-- 如果不使用外部链接解析，可以忽略相关错误
+**issue3：MCPservicenotcanuse**
+- MCPservice is can select， not 影 response core function
+- such as result not use 外部 link parse ， can with 忽略相关 error
 
-## 🐳 Docker部署
+## 🐳 Dockerdeployment
 
-### 使用Docker Compose（推荐）
+### useDocker Compose（push荐）
 
 ```bash
-# 克隆项目
+# clone project
 git clone https://github.com/JasonRobertDestiny/VibeDocs.git
 cd VibeDocs
 
-# 配置环境变量
+# Configure environment variables
 cp .env.example .env
-# 编辑 .env 文件
+# edit .env textitem
 
-# 启动服务
+# start service
 docker-compose up -d
 
-# 查看日志
+# check看 log
 docker-compose logs -f vibedoc
 ```
 
-### 使用Docker直接构建
+### useDockerdirectconstruct建
 
 ```bash
-# 构建镜像
+# construct建镜像
 docker build -t vibedoc .
 
-# 运行容器
+# 运行容device
 docker run -d \
   --name vibedoc \
   -p 3000:3000 \
@@ -156,172 +156,172 @@ docker run -d \
   vibedoc
 ```
 
-## 💻 本地开发
+## 💻 this 地 development
 
-### 环境要求
+### environment requirement
 - Python 3.11+
-- pip 或 pipenv
+- pip or pipenv
 - Git
 
-### 开发环境设置
+### development environment setting
 
 ```bash
-# 1. 克隆项目
+# 1. clone project
 git clone https://github.com/JasonRobertDestiny/VibeDocs.git
 cd VibeDocs
 
-# 2. 创建虚拟环境（可选）
+# 2. create 虚拟 environment （ can select）
 python -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
 
-# 3. 安装依赖
+# 3. 安装 dependency
 pip install -r requirements.txt
 
-# 4. 配置环境变量
+# 4. Configure environment variables
 cp .env.example .env
-# 编辑 .env 文件，添加必要的配置
+# edit .env textitem，add 必 wantconfiguration
 
-# 5. 启动开发服务器
+# 5. start development server
 python app.py
 ```
 
-### 开发工具推荐
+### development tool push荐
 
 - **IDE：** VS Code, PyCharm
-- **Python插件：** Python Extension Pack
-- **代码格式化：** Black, isort
-- **类型检查：** mypy
-- **测试框架：** pytest
+- **Pythonplugin ：** Python Extension Pack
+- **code formatting ：** Black, isort
+- **type check ：** mypy
+- **test framework ：** pytest
 
-## ⚙️ 环境配置
+## ⚙️ environment configuration
 
-### 必填配置
+### 必填 configuration
 
 ```bash
-# Silicon Flow API密钥（必填）
+# Silicon Flow APIKey (required)
 SILICONFLOW_API_KEY=your_siliconflow_api_key
 
-# 应用配置
+# application configuration
 NODE_ENV=production
 PORT=3000
 ```
 
-### 可选配置
+### can select configuration
 
 ```bash
-# MCP服务配置（可选）
+# MCPservice configuration （ can select）
 DEEPWIKI_SSE_URL=http://localhost:8080
 FETCH_SSE_URL=http://localhost:8081
 DOUBAO_SSE_URL=http://localhost:8082
 DOUBAO_API_KEY=your_doubao_api_key
 
-# 调试配置
+# 调试 configuration
 DEBUG=false
 LOG_LEVEL=INFO
 API_TIMEOUT=120
 MCP_TIMEOUT=30
 ```
 
-### 配置文件说明
+### configuration file description
 
-- `.env.example`: 环境变量模板
-- `app_config.yaml`: 魔塔部署配置
-- `requirements.txt`: Python依赖
-- `Dockerfile`: Docker镜像配置
-- `docker-compose.yml`: 容器编排配置
+- `.env.example`: environment variable template
+- `app_config.yaml`: ModelScope deployment configuration
+- `requirements.txt`: Pythondependency
+- `Dockerfile`: Docker镜像 configuration
+- `docker-compose.yml`: 容device编排 configuration
 
 ## 🛠️ 故障排除
 
-### 常见错误及解决方案
+### 常见 error and solution
 
-**错误1：`ModuleNotFoundError`**
+**error1：`ModuleNotFoundError`**
 ```bash
-# 解决方案：重新安装依赖
+# solution ：重新安装 dependency
 pip install -r requirements.txt
 ```
 
-**错误2：API密钥错误**
+**error2：API密keyerror**
 ```bash
-# 检查环境变量
+# check environment variable
 echo $SILICONFLOW_API_KEY
 
-# 验证密钥格式
-# 应该以 "sk-" 开头
+# verify 密key format
+# should 该 with "sk-" open头
 ```
 
-**错误3：端口占用**
+**error3：端口占use**
 ```bash
-# 查找占用端口的进程
+# find 占use端口进程
 lsof -i :3000
 
 # 杀死进程
 kill -9 <PID>
 
-# 或者更改端口
+# or 者更改端口
 export PORT=3001
 ```
 
-**错误4：网络连接问题**
+**error4：网络连connectissue**
 ```bash
-# 测试网络连接
+# test 网络连connect
 curl -I https://api.siliconflow.cn/v1/chat/completions
 
-# 检查防火墙设置
-# 确保端口3000可以访问
+# check 防火墙 setting
+# ensure 端口3000canwithaccess
 ```
 
-### 日志调试
+### log 调试
 
 ```bash
-# 查看应用日志
+# check看 application log
 tail -f /var/log/vibedoc.log
 
-# Docker日志
+# Dockerlog
 docker logs vibedoc
 
-# 实时日志
+# actual when log
 docker logs -f vibedoc
 ```
 
-### 性能优化
+### performance optimize
 
-1. **内存优化**
-   - 增加容器内存限制
-   - 使用更高效的Python版本
+1. **internal存 optimize**
+   - 增加容deviceinternal存limit
+   - use 更高效Python版本
 
-2. **网络优化**
-   - 配置CDN加速
-   - 使用负载均衡
+2. **网络 optimize**
+   - configurationCDN加速
+   - use 负载均衡
 
-3. **缓存优化**
-   - 启用Redis缓存
-   - 配置HTTP缓存头
+3. **缓存 optimize**
+   - startuseRedis缓存
+   - configurationHTTP缓存头
 
-## 📞 技术支持
+## 📞 技technique support
 
-如果遇到问题，请：
+such as result遇 to issue ，please：
 
-1. 检查本文档的故障排除部分
-2. 查看项目Issues页面
-3. 提交新的Issue并提供：
-   - 错误信息
-   - 系统环境
-   - 配置信息
-   - 复现步骤
+1. check this documentation 故障排除部divide
+2. check看 projectIssues页面
+3. submit 新Issue并提provide：
+   - error information
+   - system environment
+   - configuration information
+   - 复现 Step
 
-## 🔄 更新升级
+## 🔄 update 升级
 
 ```bash
-# 拉取最新代码
+# 拉取最新 code
 git pull origin modelscope
 
-# 更新依赖
+# update dependency
 pip install -r requirements.txt --upgrade
 
-# 重启应用
+# 重start application
 docker-compose restart vibedoc
 ```
 
 ---
 
-**🎯 提示：** 建议优先使用魔塔ModelScope部署，这是最简单且稳定的方式。本地开发时使用Docker可以确保环境一致性。
+**🎯 Note:** recommendationexcellentfirst useModelScopeModelScopedeployment，这是最简单且稳定method。this 地 developmenttimeuseDockercanwithensureenvironment一致性。

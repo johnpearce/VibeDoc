@@ -24,7 +24,7 @@ services:
     networks:
       - vibedoc-network
 
-  # 可选：Redis缓存服务
+  # Optional:Redis缓存service
   redis:
     image: redis:7-alpine
     container_name: vibedoc-redis
@@ -36,7 +36,7 @@ services:
     networks:
       - vibedoc-network
 
-  # 可选：Nginx反向代理
+  # Optional:Nginx反向代manage
   nginx:
     image: nginx:alpine
     container_name: vibedoc-nginx
