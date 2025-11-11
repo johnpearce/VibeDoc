@@ -1,153 +1,153 @@
-# 🚀 VibeDoc 部署指南
+# 🚀 VibeDoc Deployment Guide
 
-## 📋 目录
-- [快速部署](#快速部署)
-- [魔塔ModelScope部署](#魔塔modelscope部署)
-- [Docker部署](#docker部署)
-- [本地开发](#本地开发)
-- [环境配置](#环境配置)
-- [故障排除](#故障排除)
+## 📋 Table of Contents
+- [Quick Deployment](#quick-deployment)
+- [ModelScope Deployment](#modelscope-deployment)
+- [Docker Deployment](#docker-deployment)
+- [Local Development](#local-development)
+- [Environment Configuration](#environment-configuration)
+- [Troubleshooting](#troubleshooting)
 
-## 🚀 快速部署
+## 🚀 Quick Deployment
 
-### 方法1：魔塔ModelScope一键部署（推荐）
+### Method 1: ModelScope One-Click Deployment (Recommended)
 
-1. **登录魔塔ModelScope**
-   - 访问 [ModelScope](https://modelscope.cn)
-   - 注册并登录账户
+1. **Login to ModelScope**
+   - Visit [ModelScope](https://modelscope.cn)
+   - Register and login to your account
 
-2. **导入项目**
+2. **Import Project**
    ```
-   仓库地址: https://github.com/JasonRobertDestiny/VibeDocs.git
-   分支: modelscope
+   Repository URL: https://github.com/JasonRobertDestiny/VibeDocs.git
+   Branch: modelscope
    SDK: Gradio
    ```
 
-3. **配置环境变量**
+3. **Configure Environment Variables**
    ```bash
    SILICONFLOW_API_KEY=your_api_key_here
    NODE_ENV=production
    PORT=3000
    ```
 
-4. **启动部署**
-   - 点击"启动"按钮
-   - 等待构建完成
+4. **Start Deployment**
+   - Click "Start" button
+   - Wait for build to complete
 
-### 方法2：本地快速启动
+### Method 2: Local Quick Start
 
 ```bash
-# 克隆项目
+# Clone the project
 git clone https://github.com/JasonRobertDestiny/VibeDocs.git
 cd VibeDocs
 
-# 切换到正确分支
+# Switch to correct branch
 git checkout modelscope
 
-# 安装依赖
+# Install dependencies
 pip install -r requirements.txt
 
-# 配置环境变量
+# Configure environment variables
 cp .env.example .env
-# 编辑 .env 文件，添加你的API密钥
+# Edit .env file and add your API key
 
-# 启动应用
+# Start application
 python app.py
 ```
 
-## 🌟 魔塔ModelScope部署
+## 🌟 ModelScope Deployment
 
-### 完整部署配置
+### Complete Deployment Configuration
 
-**项目信息：**
-- **仓库地址：** `https://github.com/JasonRobertDestiny/VibeDocs.git`
-- **分支：** `modelscope`
-- **SDK：** `Gradio`
-- **Python版本：** `3.11`
+**Project Information:**
+- **Repository URL:** `https://github.com/JasonRobertDestiny/VibeDocs.git`
+- **Branch:** `modelscope`
+- **SDK:** `Gradio`
+- **Python Version:** `3.11`
 
-**环境变量配置：**
+**Environment Variable Configuration:**
 
-| 变量名 | 值 | 说明 | 必填 |
-|--------|----|----|------|
-| `SILICONFLOW_API_KEY` | `your_api_key` | Silicon Flow API密钥 | ✅ |
-| `NODE_ENV` | `production` | 运行环境 | ✅ |
-| `PORT` | `3000` | 应用端口 | ✅ |
-| `DEEPWIKI_SSE_URL` | `http://localhost:8080` | DeepWiki MCP服务 | ❌ |
-| `FETCH_SSE_URL` | `http://localhost:8081` | 通用抓取MCP服务 | ❌ |
-| `DOUBAO_SSE_URL` | `http://localhost:8082` | 图像生成MCP服务 | ❌ |
-| `DOUBAO_API_KEY` | `your_doubao_key` | Doubao API密钥 | ❌ |
+| Variable Name | Value | Description | Required |
+|--------------|-------|-------------|----------|
+| `SILICONFLOW_API_KEY` | `your_api_key` | Silicon Flow API Key | ✅ |
+| `NODE_ENV` | `production` | Runtime Environment | ✅ |
+| `PORT` | `3000` | Application Port | ✅ |
+| `DEEPWIKI_SSE_URL` | `http://localhost:8080` | DeepWiki MCP Service | ❌ |
+| `FETCH_SSE_URL` | `http://localhost:8081` | General Fetch MCP Service | ❌ |
+| `DOUBAO_SSE_URL` | `http://localhost:8082` | Image Generation MCP Service | ❌ |
+| `DOUBAO_API_KEY` | `your_doubao_key` | Doubao API Key | ❌ |
 
-### 部署步骤详解
+### Deployment Steps
 
-1. **准备API密钥**
-   - 访问 [Silicon Flow](https://siliconflow.cn) 注册账户
-   - 获取免费API密钥
+1. **Prepare API Key**
+   - Visit [Silicon Flow](https://siliconflow.cn) to register
+   - Get free API key
 
-2. **创建创空间**
-   - 在ModelScope中创建新的创空间
-   - 选择"从Git仓库导入"
+2. **Create Space**
+   - Create new space in ModelScope
+   - Select "Import from Git repository"
 
-3. **配置项目设置**
+3. **Configure Project Settings**
    ```yaml
-   title: "VibeDoc AI Agent - Agent应用开发赛道"
+   title: "VibeDoc AI Agent"
    emoji: "🤖"
    sdk: gradio
    sdk_version: 5.34.1
    app_file: app.py
    ```
 
-4. **设置环境变量**
-   - 在创空间设置中添加环境变量
-   - 确保 `SILICONFLOW_API_KEY` 正确配置
+4. **Set Environment Variables**
+   - Add environment variables in space settings
+   - Ensure `SILICONFLOW_API_KEY` is correctly configured
 
-5. **构建和部署**
-   - 点击"构建"按钮
-   - 等待构建完成
-   - 测试应用功能
+5. **Build and Deploy**
+   - Click "Build" button
+   - Wait for build completion
+   - Test application functionality
 
-### 常见问题解决
+### Common Issues
 
-**问题1：构建失败**
-- 确保使用 `modelscope` 分支
-- 检查 `requirements.txt` 文件是否存在
-- 验证Python版本兼容性
+**Issue 1: Build Failure**
+- Ensure using `modelscope` branch
+- Check if `requirements.txt` file exists
+- Verify Python version compatibility
 
-**问题2：API调用失败**
-- 检查 `SILICONFLOW_API_KEY` 是否正确
-- 验证API密钥是否有效
-- 确认网络连接正常
+**Issue 2: API Call Failure**
+- Check if `SILICONFLOW_API_KEY` is correct
+- Verify API key validity
+- Confirm network connection
 
-**问题3：MCP服务不可用**
-- MCP服务是可选的，不影响核心功能
-- 如果不使用外部链接解析，可以忽略相关错误
+**Issue 3: MCP Service Unavailable**
+- MCP services are optional, don't affect core functionality
+- If not using external link parsing, can ignore related errors
 
-## 🐳 Docker部署
+## 🐳 Docker Deployment
 
-### 使用Docker Compose（推荐）
+### Using Docker Compose (Recommended)
 
 ```bash
-# 克隆项目
+# Clone project
 git clone https://github.com/JasonRobertDestiny/VibeDocs.git
 cd VibeDocs
 
-# 配置环境变量
+# Configure environment variables
 cp .env.example .env
-# 编辑 .env 文件
+# Edit .env file
 
-# 启动服务
+# Start services
 docker-compose up -d
 
-# 查看日志
+# View logs
 docker-compose logs -f vibedoc
 ```
 
-### 使用Docker直接构建
+### Direct Docker Build
 
 ```bash
-# 构建镜像
+# Build image
 docker build -t vibedoc .
 
-# 运行容器
+# Run container
 docker run -d \
   --name vibedoc \
   -p 3000:3000 \
@@ -156,172 +156,172 @@ docker run -d \
   vibedoc
 ```
 
-## 💻 本地开发
+## 💻 Local Development
 
-### 环境要求
+### Requirements
 - Python 3.11+
-- pip 或 pipenv
+- pip or pipenv
 - Git
 
-### 开发环境设置
+### Development Environment Setup
 
 ```bash
-# 1. 克隆项目
+# 1. Clone project
 git clone https://github.com/JasonRobertDestiny/VibeDocs.git
 cd VibeDocs
 
-# 2. 创建虚拟环境（可选）
+# 2. Create virtual environment (optional)
 python -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
 
-# 3. 安装依赖
+# 3. Install dependencies
 pip install -r requirements.txt
 
-# 4. 配置环境变量
+# 4. Configure environment variables
 cp .env.example .env
-# 编辑 .env 文件，添加必要的配置
+# Edit .env file with necessary configurations
 
-# 5. 启动开发服务器
+# 5. Start development server
 python app.py
 ```
 
-### 开发工具推荐
+### Recommended Development Tools
 
-- **IDE：** VS Code, PyCharm
-- **Python插件：** Python Extension Pack
-- **代码格式化：** Black, isort
-- **类型检查：** mypy
-- **测试框架：** pytest
+- **IDE:** VS Code, PyCharm
+- **Python Plugins:** Python Extension Pack
+- **Code Formatting:** Black, isort
+- **Type Checking:** mypy
+- **Testing Framework:** pytest
 
-## ⚙️ 环境配置
+## ⚙️ Environment Configuration
 
-### 必填配置
+### Required Configuration
 
 ```bash
-# Silicon Flow API密钥（必填）
+# Silicon Flow API Key (Required)
 SILICONFLOW_API_KEY=your_siliconflow_api_key
 
-# 应用配置
+# Application Configuration
 NODE_ENV=production
 PORT=3000
 ```
 
-### 可选配置
+### Optional Configuration
 
 ```bash
-# MCP服务配置（可选）
+# MCP Service Configuration (Optional)
 DEEPWIKI_SSE_URL=http://localhost:8080
 FETCH_SSE_URL=http://localhost:8081
 DOUBAO_SSE_URL=http://localhost:8082
 DOUBAO_API_KEY=your_doubao_api_key
 
-# 调试配置
+# Debug Configuration
 DEBUG=false
 LOG_LEVEL=INFO
 API_TIMEOUT=120
 MCP_TIMEOUT=30
 ```
 
-### 配置文件说明
+### Configuration Files
 
-- `.env.example`: 环境变量模板
-- `app_config.yaml`: 魔塔部署配置
-- `requirements.txt`: Python依赖
-- `Dockerfile`: Docker镜像配置
-- `docker-compose.yml`: 容器编排配置
+- `.env.example`: Environment variable template
+- `app_config.yaml`: ModelScope deployment config
+- `requirements.txt`: Python dependencies
+- `Dockerfile`: Docker image configuration
+- `docker-compose.yml`: Container orchestration config
 
-## 🛠️ 故障排除
+## 🛠️ Troubleshooting
 
-### 常见错误及解决方案
+### Common Errors and Solutions
 
-**错误1：`ModuleNotFoundError`**
+**Error 1: `ModuleNotFoundError`**
 ```bash
-# 解决方案：重新安装依赖
+# Solution: Reinstall dependencies
 pip install -r requirements.txt
 ```
 
-**错误2：API密钥错误**
+**Error 2: API Key Error**
 ```bash
-# 检查环境变量
+# Check environment variable
 echo $SILICONFLOW_API_KEY
 
-# 验证密钥格式
-# 应该以 "sk-" 开头
+# Verify key format
+# Should start with "sk-"
 ```
 
-**错误3：端口占用**
+**Error 3: Port Already in Use**
 ```bash
-# 查找占用端口的进程
+# Find process using port
 lsof -i :3000
 
-# 杀死进程
+# Kill process
 kill -9 <PID>
 
-# 或者更改端口
+# Or change port
 export PORT=3001
 ```
 
-**错误4：网络连接问题**
+**Error 4: Network Connection Issues**
 ```bash
-# 测试网络连接
+# Test network connection
 curl -I https://api.siliconflow.cn/v1/chat/completions
 
-# 检查防火墙设置
-# 确保端口3000可以访问
+# Check firewall settings
+# Ensure port 3000 is accessible
 ```
 
-### 日志调试
+### Log Debugging
 
 ```bash
-# 查看应用日志
+# View application logs
 tail -f /var/log/vibedoc.log
 
-# Docker日志
+# Docker logs
 docker logs vibedoc
 
-# 实时日志
+# Real-time logs
 docker logs -f vibedoc
 ```
 
-### 性能优化
+### Performance Optimization
 
-1. **内存优化**
-   - 增加容器内存限制
-   - 使用更高效的Python版本
+1. **Memory Optimization**
+   - Increase container memory limit
+   - Use more efficient Python version
 
-2. **网络优化**
-   - 配置CDN加速
-   - 使用负载均衡
+2. **Network Optimization**
+   - Configure CDN acceleration
+   - Use load balancing
 
-3. **缓存优化**
-   - 启用Redis缓存
-   - 配置HTTP缓存头
+3. **Cache Optimization**
+   - Enable Redis caching
+   - Configure HTTP cache headers
 
-## 📞 技术支持
+## 📞 Technical Support
 
-如果遇到问题，请：
+If you encounter problems:
 
-1. 检查本文档的故障排除部分
-2. 查看项目Issues页面
-3. 提交新的Issue并提供：
-   - 错误信息
-   - 系统环境
-   - 配置信息
-   - 复现步骤
+1. Check troubleshooting section in this document
+2. Review project Issues page
+3. Submit new Issue with:
+   - Error message
+   - System environment
+   - Configuration info
+   - Steps to reproduce
 
-## 🔄 更新升级
+## 🔄 Updates and Upgrades
 
 ```bash
-# 拉取最新代码
+# Pull latest code
 git pull origin modelscope
 
-# 更新依赖
+# Update dependencies
 pip install -r requirements.txt --upgrade
 
-# 重启应用
+# Restart application
 docker-compose restart vibedoc
 ```
 
 ---
 
-**🎯 提示：** 建议优先使用魔塔ModelScope部署，这是最简单且稳定的方式。本地开发时使用Docker可以确保环境一致性。
+**🎯 Tip:** ModelScope deployment is recommended as the simplest and most stable method. For local development, Docker ensures environment consistency.
