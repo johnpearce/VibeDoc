@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 from typing import Optional, Tuple, Dict, Any, List
 from urllib.parse import urlparse
 
-# 导入 module 化 component
+# guide入 module transform component
 from config import config
 # 已 remove mcp_direct_client，use enhanced_mcp_client
 from export_manager import export_manager
@@ -29,8 +29,8 @@ logger = logging.getLogger(__name__)
 API_KEY = config.ai_model.api_key
 API_URL = config.ai_model.api_url
 
-# application 启动 when 初始化
-logger.info("🚀 VibeDoc: Your PersonalAIProduct Manager与架构师")
+# application start when initial始transform
+logger.info("🚀 VibeDoc: Your PersonalAIProduct Managerandarchitect")
 logger.info("📦 Version: 2.0.0 | Open Source Edition")
 logger.info(f"📊 Configuration: {json.dumps(config.get_config_summary(), ensure_ascii=False, indent=2)}")
 
@@ -66,15 +66,15 @@ def optimize_user_idea(user_idea: str) -> Tuple[str, str]:
     optimize user input 创意 description
     
     Args:
-        user_idea: user 原始 input
+        user_idea: user original始 input
         
     Returns:
-        Tuple[str, str]: (optimize after description, optimize信息)
+        Tuple[str, str]: (optimize after description, optimizetrust息)
     """
     if not user_idea or not user_idea.strip():
-        return "", "❌ 请先 input 您产品创意！"
+        return "", "❌ pleasefirst input 您产品创意！"
     
-    # call prompt optimize 器
+    # call prompt optimize device
     success, optimized_idea, suggestions = prompt_optimizer.optimize_user_input(user_idea)
     
     if success:
@@ -84,10 +84,10 @@ def optimize_user_idea(user_idea: str) -> Tuple[str, str]:
 **🎯 optimize recommendation ：**
 {suggestions}
 
-**💡 Note:** optimize after description更加详细和专业，将帮助generate更高质量的Development Plan。您可以：
-- 直接 use optimize after description generate 计划
-- 根据需 want 手动调整 optimize 结果
-- click"重新optimize"获得不同的optimizerecommendation
+**💡 Note:** optimize after description更加详细和专业，will帮助generate更高质quantity的Development Plan。您canwith：
+- direct use optimize after description generate calculate划
+- 根data需 want 手动调complete optimize 结result
+- click"重新optimize"获得not同的optimizerecommendation
 """
         return optimized_idea, optimization_info
     else:
@@ -96,10 +96,10 @@ def optimize_user_idea(user_idea: str) -> Tuple[str, str]:
 def validate_input(user_idea: str) -> Tuple[bool, str]:
     """verify user input"""
     if not user_idea or not user_idea.strip():
-        return False, "❌ 请 input 您产品创意！"
+        return False, "❌ please input 您产品创意！"
     
     if len(user_idea.strip()) < 10:
-        return False, "❌ 产品创意 description 太短，请提供更 detailed information"
+        return False, "❌ 产品创意 description 太short，please提provide更 detailed information"
     
     return True, ""
 
@@ -119,28 +119,28 @@ def fetch_knowledge_from_url_via_mcp(url: str) -> tuple[bool, str]:
     if "deepwiki.org" in url.lower():
         # DeepWiki MCP specifically process deepwiki.org 域名
         try:
-            logger.info(f"🔍 检测 to deepwiki.org 链接，use asynchronous DeepWiki MCP: {url}")
+            logger.info(f"🔍 detect to deepwiki.org 链connect，use asynchronous DeepWiki MCP: {url}")
             result = call_deepwiki_mcp_async(url)
             
             if result.success and result.data and len(result.data.strip()) > 10:
                 logger.info(f"✅ DeepWiki MCPAsync call successful, content length: {len(result.data)}, consume when: {result.execution_time:.2f}s")
                 return True, result.data
             else:
-                logger.warning(f"⚠️ DeepWiki MCPfailure ，改用 Fetch MCP: {result.error_message}")
+                logger.warning(f"⚠️ DeepWiki MCPfailure ，改use Fetch MCP: {result.error_message}")
         except Exception as e:
-            logger.error(f"❌ DeepWiki MCPcall exception ，改用 Fetch MCP: {str(e)}")
+            logger.error(f"❌ DeepWiki MCPcall exception ，改use Fetch MCP: {str(e)}")
     
-    # use 通用 asynchronous Fetch MCP service
+    # use 通use asynchronous Fetch MCP service
     try:
         logger.info(f"🌐 use asynchronous Fetch MCP getcontent: {url}")
-        result = call_fetch_mcp_async(url, max_length=8000)  # 增加长度限制
+        result = call_fetch_mcp_async(url, max_length=8000)  # 增加长degreelimit
         
         if result.success and result.data and len(result.data.strip()) > 10:
             logger.info(f"✅ Fetch MCPAsync call successful, content length: {len(result.data)}, consume when: {result.execution_time:.2f}s")
             return True, result.data
         else:
             logger.warning(f"⚠️ Fetch MCPcall failed: {result.error_message}")
-            return False, f"MCPservice call failed: {result.error_message or '未知 error'}"
+            return False, f"MCPservice call failed: {result.error_message or 'not yet知 error'}"
     except Exception as e:
         logger.error(f"❌ Fetch MCPcall exception: {str(e)}")
         return False, f"MCPservice call exception: {str(e)}"
@@ -167,45 +167,45 @@ def get_mcp_status_display() -> str:
         deepwiki_ok = deepwiki_test_result.success
         deepwiki_time = deepwiki_test_result.execution_time
 
-        # 构建 status display
+        # construct建 status display
         fetch_icon = "✅" if fetch_ok else "❌"
         deepwiki_icon = "✅" if deepwiki_ok else "❌"
 
         status_lines = [
             "## 🚀 asynchronousMCPservice status",
-            f"- {fetch_icon} **Fetch MCP**: {'online' if fetch_ok else '离线'} (通用网页抓取)"
+            f"- {fetch_icon} **Fetch MCP**: {'online' if fetch_ok else '离线'} (通use网页抓取)"
         ]
         
         if fetch_ok:
-            status_lines.append(f"  ⏱️ response time: {fetch_time:.2f}秒")
+            status_lines.append(f"  ⏱️ response time: {fetch_time:.2f}seconds")
         
-        status_lines.append(f"- {deepwiki_icon} **DeepWiki MCP**: {'online' if deepwiki_ok else '离线'} (仅限 deepwiki.org)")
+        status_lines.append(f"- {deepwiki_icon} **DeepWiki MCP**: {'online' if deepwiki_ok else '离线'} (仅limit deepwiki.org)")
         
         if deepwiki_ok:
-            status_lines.append(f"  ⏱️ response time: {deepwiki_time:.2f}秒")
+            status_lines.append(f"  ⏱️ response time: {deepwiki_time:.2f}seconds")
         
         status_lines.extend([
             "",
             "🧠 **intelligent asynchronous route:**",
             "- `deepwiki.org` → DeepWiki MCP (asynchronous process)",
             "- 其他 website → Fetch MCP (asynchronous process)", 
-            "- HTTP 202 → SSElisten → 结果get",
+            "- HTTP 202 → SSElisten → 结resultget",
             "- 自动降级 + error恢复"
         ])
         
         return "\n".join(status_lines)
         
     except Exception as e:
-        return f"## MCPservice status\n- ❌ **check失败**: {str(e)}\n- 💡 请ensureenhanced_mcp_client.py文件存in"
+        return f"## MCPservice status\n- ❌ **checkfailure**: {str(e)}\n- 💡 pleaseensureenhanced_mcp_client.pytextitem存in"
 
 def call_mcp_service(url: str, payload: Dict[str, Any], service_name: str, timeout: int = 120) -> Tuple[bool, str]:
     """统一MCPservicecall函数
     
     Args:
         url: MCPserviceURL
-        payload: 请 requirement 载荷
-        service_name: service name 称（用于 log ）
-        timeout: 超 when when time
+        payload: please requirement 载荷
+        service_name: service name called（use于 log ）
+        timeout: exceed when when time
         
     Returns:
         (success, data): success flag and 返回 data
@@ -228,7 +228,7 @@ def call_mcp_service(url: str, payload: Dict[str, Any], service_name: str, timeo
             response_data = response.json()
             logger.info(f"🔥 DEBUG: Response JSON: {json.dumps(response_data, ensure_ascii=False, indent=2)}")
         except:
-            response_text = response.text[:1000]  # 只打印 before1000个字符
+            response_text = response.text[:1000]  # 只hit印 before1000个字symbol
             logger.info(f"🔥 DEBUG: Response text: {response_text}")
         
         if response.status_code == 200:
@@ -245,7 +245,7 @@ def call_mcp_service(url: str, payload: Dict[str, Any], service_name: str, timeo
             elif "message" in data and data["message"]:
                 content = data["message"]
             else:
-                # such as 果 with 上都没 have ， try 直接 use 整个 response should
+                # such as result with 上all没 have ， try direct use complete个 response should
                 content = str(data)
             
             if content and len(str(content).strip()) > 10:
@@ -261,40 +261,40 @@ def call_mcp_service(url: str, payload: Dict[str, Any], service_name: str, timeo
             
     except requests.exceptions.Timeout:
         logger.error(f"⏰ {service_name} MCP service timeout after {timeout}s")
-        return False, f"❌ {service_name} MCPcall 超 when"
+        return False, f"❌ {service_name} MCPcall exceed when"
     except requests.exceptions.ConnectionError as e:
         logger.error(f"🔌 {service_name} MCP service connection failed: {str(e)}")
-        return False, f"❌ {service_name} MCP连接 failure"
+        return False, f"❌ {service_name} MCP连connect failure"
     except Exception as e:
         logger.error(f"💥 {service_name} MCP service error: {str(e)}")
         return False, f"❌ {service_name} MCPcall error: {str(e)}"
 
 def fetch_external_knowledge(reference_url: str) -> str:
-    """Get external knowledge base content - use模块化MCP管理器，防止虚假链接generate"""
+    """Get external knowledge base content - use模块transformMCP管managedevice，防止虚假链connectgenerate"""
     if not reference_url or not reference_url.strip():
         return ""
     
-    # verifyURL是否可access
+    # verifyURL是nocanaccess
     url = reference_url.strip()
     logger.info(f"🔍 start process 外部 reference link: {url}")
     
     try:
-        # simpleHEAD请 requirementcheckURL是否存in
+        # simpleHEADplease requirementcheckURL是no存in
         logger.info(f"🌐 verify link can access 性: {url}")
         response = requests.head(url, timeout=10, allow_redirects=True)
-        logger.info(f"📡 link verify 结果: HTTP {response.status_code}")
+        logger.info(f"📡 link verify 结result: HTTP {response.status_code}")
         
         if response.status_code >= 400:
-            logger.warning(f"⚠️ 提供URL不可access: {url} (HTTP {response.status_code})")
+            logger.warning(f"⚠️ 提provideURLnotcanaccess: {url} (HTTP {response.status_code})")
             return f"""
 ## ⚠️ reference link status 提醒
 
-**🔗 提供 link**: {url}
+**🔗 提provide link**: {url}
 
 **❌ link status**: 无法access (HTTP {response.status_code})
 
 **💡 recommendation**: 
-- 请 check link is 否正确
+- please check link is nocorrect确
 - or 者 remove reference link ， use 纯AIgenerate模式
 - AIwill 基于创意 description generate 专业 development plan
 
@@ -304,17 +304,17 @@ def fetch_external_knowledge(reference_url: str) -> str:
             logger.info(f"✅ link can access ， status 码: {response.status_code}")
             
     except requests.exceptions.Timeout:
-        logger.warning(f"⏰ URLverify 超 when: {url}")
+        logger.warning(f"⏰ URLverify exceed when: {url}")
         return f"""
 ## 🔗 reference link process description
 
-**📍 提供 link**: {url}
+**📍 提provide link**: {url}
 
-**⏰ processing status**: 链接verify 超 when
+**⏰ processing status**: 链connectverify exceed when
 
-**🤖 AIprocess**: 将基于创意content进行intelligent 分析，不dependency外部链接
+**🤖 AIprocess**: will基于创意content进行intelligent analyze，notdependency外部链connect
 
-**💡 description**: 为ensuregenerate质量，AI会根据创意 descriptiongeneratecomplete plan，避免引用不确定的外部content
+**💡 description**: 为ensuregenerate质quantity，AI会根data创意 descriptiongeneratecomplete plan，avoid引usenot确定的外部content
 
 ---
 """
@@ -323,13 +323,13 @@ def fetch_external_knowledge(reference_url: str) -> str:
         return f"""
 ## 🔗 reference link process description
 
-**📍 提供 link**: {url}
+**📍 提provide link**: {url}
 
-**🔍 processing status**: 暂时无法verify链接可用性 ({str(e)[:100]})
+**🔍 processing status**: temporarily无法verify链connectcanuse性 ({str(e)[:100]})
 
-**🤖 AIprocess**: 将基于创意content进行intelligent 分析，不dependency外部链接
+**🤖 AIprocess**: will基于创意content进行intelligent analyze，notdependency外部链connect
 
-**💡 description**: 为ensuregenerate质量，AI会根据创意 descriptiongeneratecomplete plan，避免引用不确定的外部content
+**💡 description**: 为ensuregenerate质quantity，AI会根data创意 descriptiongeneratecomplete plan，avoid引usenot确定的外部content
 
 ---
 """
@@ -340,14 +340,14 @@ def fetch_external_knowledge(reference_url: str) -> str:
     success, knowledge = fetch_knowledge_from_url_via_mcp(url)
     mcp_duration = (datetime.now() - mcp_start_time).total_seconds()
     
-    logger.info(f"📊 MCPService call result: success={success}, content 长度={len(knowledge) if knowledge else 0}, consume when={mcp_duration:.2f}秒")
+    logger.info(f"📊 MCPService call result: success={success}, content 长degree={len(knowledge) if knowledge else 0}, consume when={mcp_duration:.2f}seconds")
     
     if success and knowledge and len(knowledge.strip()) > 50:
         # MCPservice success 返回 have 效 content
-        logger.info(f"✅ MCPservice success get knowledge ， content 长度: {len(knowledge)} 字符")
+        logger.info(f"✅ MCPservice success get knowledge ， content 长degree: {len(knowledge)} 字symbol")
         
-        # verify 返回 content is 否 include actual 际 knowledge 而 not is error information
-        if not any(keyword in knowledge.lower() for keyword in ['error', 'failed', 'error', '失败', '不可用']):
+        # verify 返回 content is no include actual 际 knowledge 而 not is error information
+        if not any(keyword in knowledge.lower() for keyword in ['error', 'failed', 'error', 'failure', 'notcanuse']):
             return f"""
 ## 📚 外部 knowledge library reference
 
@@ -355,7 +355,7 @@ def fetch_external_knowledge(reference_url: str) -> str:
 
 **✅ get status**: MCPservicesuccess get
 
-**📊 content 概览**: 已get {len(knowledge)} 字符的reference 资料
+**📊 content generalbrowse**: 已get {len(knowledge)} 字symbol的reference 资料
 
 ---
 
@@ -366,7 +366,7 @@ def fetch_external_knowledge(reference_url: str) -> str:
         else:
             logger.warning(f"⚠️ MCP返回 content include error information: {knowledge[:200]}")
     else:
-        # MCPservice failure or 返回无效 content ，提供明确 description
+        # MCPservice failure or 返回无效 content ，提provide明确 description
         logger.warning(f"⚠️ MCPservice call failed or 返回无效 content")
         
         # detailed 诊 breakMCPservice status
@@ -378,55 +378,55 @@ def fetch_external_knowledge(reference_url: str) -> str:
 
 **📍 reference link**: {url}
 
-**🎯 process method**: intelligent 分析模式
+**🎯 process method**: intelligent analyze模式
 
 **� MCPservice status**: 
 {mcp_status}
 
-**�💭 process 策略**: 当前外部知识service暂时不可用，AI将基于以下methodgenerate方案：
-- ✅ 基于创意 description 进行深度分析
+**�💭 process 策略**: 当before外部知识servicetemporarilynotcanuse，AIwill基于with下methodgenerateplan：
+- ✅ 基于创意 description 进行深degreeanalyze
 - ✅ 结合行业最佳 actual 践
-- ✅ 提供 complete Technical Solution
-- ✅ generate actual 用 programming prompts
+- ✅ 提provide complete Technical Solution
+- ✅ generate actual use programming prompts
 
-**🎉 优势**: ensuregenerate content准确性和可靠性，避免引用不确定的外部信息
+**🎉 excellenttrend**: ensuregenerate content准确性和can靠性，avoid引usenot确定的外部trust息
 
-**🔧 技术细节**: 
-- MCPcall duration: {mcp_duration:.2f}秒
-- 返回 content 长度: {len(knowledge) if knowledge else 0} 字符
-- service status: {'success' if success else '失败'}
+**🔧 技technique细section**: 
+- MCPcall duration: {mcp_duration:.2f}seconds
+- 返回 content 长degree: {len(knowledge) if knowledge else 0} 字symbol
+- service status: {'success' if success else 'failure'}
 
 ---
 """
 
 def generate_enhanced_reference_info(url: str, source_type: str, error_msg: str = None) -> str:
-    """generate enhanced reference information ，当MCPservice不可用时提供有用的上下文"""
+    """generate enhanced reference information ，当MCPservicenotcanusetime提provide有use的上下text"""
     from urllib.parse import urlparse
     
     parsed_url = urlparse(url)
     domain = parsed_url.netloc
     path = parsed_url.path
     
-    # 根据URL结构推断content类型
+    # 根dataURL结constructpush断content类型
     content_hints = []
     
-    # 检测常见技术站点
+    # detect常见技technique站点
     if "github.com" in domain:
-        content_hints.append("💻 开源 code 仓 library")
+        content_hints.append("💻 open源 code 仓 library")
     elif "stackoverflow.com" in domain:
-        content_hints.append("❓ 技术问答")
+        content_hints.append("❓ 技technique问答")
     elif "medium.com" in domain:
-        content_hints.append("📝 技术博客")
+        content_hints.append("📝 技technique博customer")
     elif "dev.to" in domain:
         content_hints.append("👨‍💻 development 者社区")
     elif "csdn.net" in domain:
-        content_hints.append("🇨🇳 CSDN技术博客")
+        content_hints.append("🇨🇳 CSDN技technique博customer")
     elif "juejin.cn" in domain:
-        content_hints.append("💎 掘金技术文章")
+        content_hints.append("💎 掘金技techniquetext章")
     elif "zhihu.com" in domain:
-        content_hints.append("🧠 知乎技术讨论")
+        content_hints.append("🧠 知乎技technique讨论")
     elif "blog" in domain:
-        content_hints.append("📖 技术博客")
+        content_hints.append("📖 技technique博customer")
     elif "docs" in domain:
         content_hints.append("📚 technical documentation")
     elif "wiki" in domain:
@@ -434,9 +434,9 @@ def generate_enhanced_reference_info(url: str, source_type: str, error_msg: str 
     else:
         content_hints.append("🔗 reference 资料")
     
-    # 根据 path 推 break content
+    # 根data path push break content
     if "/article/" in path or "/post/" in path:
-        content_hints.append("📄 文章 content")
+        content_hints.append("📄 text章 content")
     elif "/tutorial/" in path:
         content_hints.append("📚 教程 guide")
     elif "/docs/" in path:
@@ -453,13 +453,13 @@ def generate_enhanced_reference_info(url: str, source_type: str, error_msg: str 
 
 **🏷️ content type ：** {hint_text}
 
-**🤖 AIenhanced 分析：** 
-> althoughMCPservice暂时不可用，但AI将基于链接信息和上下文进行intelligent 分析，
+**🤖 AIenhanced analyze：** 
+> althoughMCPservicetemporarilynotcanuse，但AIwill基于链connecttrust息和上下text进行intelligent analyze，
 > 并 in generated development plan in 融入该 reference 资料相关性 recommendation 。
 
 **📋 reference 价 value ：**
-- ✅ 提供技术选型 reference
-- ✅ 补充 actual 施细节
+- ✅ 提provide技techniqueselect型 reference
+- ✅ 补full actual 施细section
 - ✅ enhanced plan can 行性
 - ✅ 丰富最佳 actual 践
 
@@ -472,7 +472,7 @@ def generate_enhanced_reference_info(url: str, source_type: str, error_msg: str 
     return reference_info
 
 def validate_and_fix_content(content: str) -> str:
-    """Validate and fix generated content, includingMermaid语法、链接verify等"""
+    """Validate and fix generated content, includingMermaid语法、链connectverify等"""
     if not content:
         return content
     
@@ -481,27 +481,27 @@ def validate_and_fix_content(content: str) -> str:
     # 记录 fix project
     fixes_applied = []
     
-    # 计算初始 quality 分数
+    # calculateinitial始 quality divide数
     initial_quality_score = calculate_quality_score(content)
-    logger.info(f"📊 初始 content quality 分数: {initial_quality_score}/100")
+    logger.info(f"📊 initial始 content quality divide数: {initial_quality_score}/100")
     
-    # 1. fixMermaiddiagram 表语法error
+    # 1. fixMermaiddiagram table语法error
     original_content = content
     content = fix_mermaid_syntax(content)
     if content != original_content:
-        fixes_applied.append("fixMermaiddiagram 表语法")
+        fixes_applied.append("fixMermaiddiagram table语法")
     
-    # 2. verify and 清理虚假 link
+    # 2. verify and 清manage虚假 link
     original_content = content
     content = validate_and_clean_links(content)
     if content != original_content:
-        fixes_applied.append("清理虚假 link")
+        fixes_applied.append("清manage虚假 link")
     
-    # 3. fix 日期一致性
+    # 3. fix date一致性
     original_content = content
     content = fix_date_consistency(content)
     if content != original_content:
-        fixes_applied.append("update 过期日期")
+        fixes_applied.append("update 过期date")
     
     # 4. fix format issue
     original_content = content
@@ -509,63 +509,63 @@ def validate_and_fix_content(content: str) -> str:
     if content != original_content:
         fixes_applied.append("fix format issue")
     
-    # 重新计算 quality 分数
+    # 重新calculate quality divide数
     final_quality_score = calculate_quality_score(content)
     
-    # remove quality 报告 display ，只记录 log
+    # remove quality 报notify display ，只记录 log
     if final_quality_score > initial_quality_score + 5:
         improvement = final_quality_score - initial_quality_score
-        logger.info(f"📈 content quality improve: {initial_quality_score}/100 → {final_quality_score}/100 (提升{improvement}分)")
+        logger.info(f"📈 content quality improve: {initial_quality_score}/100 → {final_quality_score}/100 (提升{improvement}divide)")
         if fixes_applied:
             logger.info(f"🔧 application fix: {', '.join(fixes_applied)}")
     
-    logger.info(f"✅ content verify and fix complete ，最终 quality 分数: {final_quality_score}/100")
+    logger.info(f"✅ content verify and fix complete ，最end quality divide数: {final_quality_score}/100")
     if fixes_applied:
         logger.info(f"🔧 application with 下 fix: {', '.join(fixes_applied)}")
     
     return content
 
 def calculate_quality_score(content: str) -> int:
-    """计算 content quality 分数（0-100）"""
+    """calculate content quality divide数（0-100）"""
     if not content:
         return 0
     
     score = 0
     max_score = 100
     
-    # 1. 基础 content complete 性 (30分)
+    # 1. 基础 content complete 性 (30divide)
     if len(content) > 500:
         score += 15
     if len(content) > 2000:
         score += 15
     
-    # 2. 结构 complete 性 (25分)
+    # 2. 结construct complete 性 (25divide)
     structure_checks = [
         '# 🚀 AIgenerated development plan',  # title
-        '## 🤖 AIAI Programming Assistant Prompts',   # AIprompt词部分
-        '```mermaid',              # Mermaiddiagram 表
-        'Project Development Gantt Chart',           # 甘特 diagram
+        '## 🤖 AIAI Programming Assistant Prompts',   # AIprompt词部divide
+        '```mermaid',              # Mermaiddiagram table
+        'Project Development Gantt Chart',           # gan特 diagram
     ]
     
     for check in structure_checks:
         if check in content:
             score += 6
     
-    # 3. 日期准确性 (20分)
+    # 3. date准确性 (20divide)
     import re
     current_year = datetime.now().year
     
-    # check is 否 have 当 before 年份 or with after 日期
+    # check is no have 当 before 年份 or with after date
     recent_dates = re.findall(r'202[5-9]-\d{2}-\d{2}', content)
     if recent_dates:
         score += 10
     
-    # check is 否没 have 过期日期
+    # check is no没 have 过期date
     old_dates = re.findall(r'202[0-3]-\d{2}-\d{2}', content)
     if not old_dates:
         score += 10
     
-    # 4. link quality (15分)
+    # 4. link quality (15divide)
     fake_link_patterns = [
         r'blog\.csdn\.net/username',
         r'github\.com/username', 
@@ -577,9 +577,9 @@ def calculate_quality_score(content: str) -> int:
     if not has_fake_links:
         score += 15
     
-    # 5. Mermaid语法 quality (10分)
+    # 5. Mermaid语法 quality (10divide)
     mermaid_issues = [
-        r'## 🎯 [A-Z]',  # error title in diagram 表 in
+        r'## 🎯 [A-Z]',  # error title in diagram table in
         r'```mermaid\n## 🎯',  # format error
     ]
     
@@ -590,33 +590,33 @@ def calculate_quality_score(content: str) -> int:
     return min(score, max_score)
 
 def fix_mermaid_syntax(content: str) -> str:
-    """fixMermaiddiagram 表中的语法error并optimize渲染"""
+    """fixMermaiddiagram table中的语法error并optimize渲染"""
     import re
     
     # fix 常见Mermaid语法error
     fixes = [
-        # remove diagram 表 code in 额外符号 and 标记
+        # remove diagram table code in 额外symbol and mark
         (r'## 🎯 ([A-Z]\s*-->)', r'\1'),
         (r'## 🎯 (section [^)]+)', r'\1'),
         (r'(\n|\r\n)## 🎯 ([A-Z]\s*-->)', r'\n    \2'),
         (r'(\n|\r\n)## 🎯 (section [^\n]+)', r'\n    \2'),
         
-        # fix 节点 definition in 多余符号
+        # fix node definition in 多余symbol
         (r'## 🎯 ([A-Z]\[[^\]]+\])', r'\1'),
         
-        # ensureMermaidcode 块format正确
+        # ensureMermaidcode 块formatcorrect确
         (r'```mermaid\n## 🎯', r'```mermaid'),
         
         # remove title 级别 error
         (r'\n##+ 🎯 ([A-Z])', r'\n    \1'),
         
-        # fix in 文节点 name 称 issue - 彻底清理引号format
-        (r'([A-Z]+)\["([^"]+)"\]', r'\1["\2"]'),  # 标准 format ：A["文本"]
-        (r'([A-Z]+)\[""([^"]+)""\]', r'\1["\2"]'),  # 双引号 error ：A[""文本""]
+        # fix in textnode name called issue - 彻底清manage引号format
+        (r'([A-Z]+)\["([^"]+)"\]', r'\1["\2"]'),  # mark准 format ：A["text本"]
+        (r'([A-Z]+)\[""([^"]+)""\]', r'\1["\2"]'),  # 双引号 error ：A[""text本""]
         (r'([A-Z]+)\["⚡"([^"]+)""\]', r'\1["\2"]'),  # 带emojierror
-        (r'([A-Z]+)\[([^\]]*[^\x00-\x7F][^\]]*)\]', r'\1["\2"]'),  # in 文无引号
+        (r'([A-Z]+)\[([^\]]*[^\x00-\x7F][^\]]*)\]', r'\1["\2"]'),  # in text无引号
         
-        # ensure process diagram 语法正确
+        # ensure process diagram 语法correct确
         (r'graph TB\n\s*graph', r'graph TB'),
         (r'flowchart TD\n\s*flowchart', r'flowchart TD'),
         
@@ -629,22 +629,22 @@ def fix_mermaid_syntax(content: str) -> str:
     for pattern, replacement in fixes:
         content = re.sub(pattern, replacement, content, flags=re.MULTILINE)
     
-    # addMermaid渲染enhanced标记
+    # addMermaid渲染enhancedmark
     content = enhance_mermaid_blocks(content)
     
     return content
 
 def enhance_mermaid_blocks(content: str) -> str:
-    """simplifyMermaidcode 块process，避免渲染冲突"""
+    """simplifyMermaidcode 块process，avoid渲染冲突"""
     import re
     
-    # find allMermaidcode 块并直接返回，不add额外包装器
-    # because 包装器 can can 导致渲染 issue
+    # find allMermaidcode 块并direct返回，notadd额外package装device
+    # because package装device can can lead to渲染 issue
     mermaid_pattern = r'```mermaid\n(.*?)\n```'
     
     def clean_mermaid_block(match):
         mermaid_content = match.group(1)
-        # 直接返回清理过Mermaid块
+        # direct返回清manage过Mermaid块
         return f'```mermaid\n{mermaid_content}\n```'
     
     content = re.sub(mermaid_pattern, clean_mermaid_block, content, flags=re.DOTALL)
@@ -652,10 +652,10 @@ def enhance_mermaid_blocks(content: str) -> str:
     return content
 
 def validate_and_clean_links(content: str) -> str:
-    """verify and 清理虚假 link ， enhanced link quality"""
+    """verify and 清manage虚假 link ， enhanced link quality"""
     import re
     
-    # 检测并 remove 虚假 link 模式
+    # detect并 remove 虚假 link 模式
     fake_link_patterns = [
         # Markdownlink format
         r'\[([^\]]+)\]\(https?://blog\.csdn\.net/username/article/details/\d+\)',
@@ -666,9 +666,9 @@ def validate_and_clean_links(content: str) -> str:
         r'\[([^\]]+)\]\(https?://localhost[^\)]*\)',
         
         # 新增：更多虚假 link 模式
-        r'\[([^\]]+)\]\(https?://medium\.com/@[^/]+/[^\)]*\d{9,}[^\)]*\)',  # Medium虚假文章
+        r'\[([^\]]+)\]\(https?://medium\.com/@[^/]+/[^\)]*\d{9,}[^\)]*\)',  # Medium虚假text章
         r'\[([^\]]+)\]\(https?://github\.com/[^/]+/[^/\)]*education[^\)]*\)',  # GitHub虚假教育 project
-        r'\[([^\]]+)\]\(https?://www\.kdnuggets\.com/\d{4}/\d{2}/[^\)]*\)',  # KDNuggets虚假文章
+        r'\[([^\]]+)\]\(https?://www\.kdnuggets\.com/\d{4}/\d{2}/[^\)]*\)',  # KDNuggets虚假text章
         r'\[([^\]]+)\]\(https0://[^\)]+\)',  # error 协议
         
         # 纯URLformat
@@ -685,10 +685,10 @@ def validate_and_clean_links(content: str) -> str:
     ]
     
     for pattern in fake_link_patterns:
-        # will 虚假 link replace for 普通文 this description
+        # will 虚假 link replace for 普通text this description
         def replace_fake_link(match):
             if match.groups():
-                return f"**{match.group(1)}** (基于行业标准)"
+                return f"**{match.group(1)}** (基于行业mark准)"
             else:
                 return "（基于行业最佳 actual 践）"
         
@@ -700,21 +700,21 @@ def validate_and_clean_links(content: str) -> str:
     return content
 
 def enhance_real_links(content: str) -> str:
-    """verify 并 enhanced 真 actual link can 用性"""
+    """verify 并 enhanced 真 actual link can use性"""
     import re
     
-    # find allmarkdown链接
+    # find allmarkdown链connect
     link_pattern = r'\[([^\]]+)\]\(([^)]+)\)'
     
     def validate_link(match):
         link_text = match.group(1)
         link_url = match.group(2)
         
-        # check is 否 is have 效URLformat
+        # check is no is have 效URLformat
         if not validate_url(link_url):
             return f"**{link_text}** (reference 资源)"
         
-        # check is 否 is 常见 technical documentation website
+        # check is no is 常见 technical documentation website
         trusted_domains = [
             'docs.python.org', 'nodejs.org', 'reactjs.org', 'vuejs.org',
             'angular.io', 'flask.palletsprojects.com', 'fastapi.tiangolo.com',
@@ -724,28 +724,28 @@ def enhance_real_links(content: str) -> str:
             'mysql.com', 'nginx.org', 'apache.org'
         ]
         
-        # such as 果 is 受信任域 name ，保留 link
+        # such as result is 受trust任域 name ，保留 link
         for domain in trusted_domains:
             if domain in link_url.lower():
                 return f"[{link_text}]({link_url})"
         
-        # to 于其他 link ， convert for security 文 this 引用
-        return f"**{link_text}** (技术 reference)"
+        # to 于其他 link ， convert for security text this 引use
+        return f"**{link_text}** (技technique reference)"
     
     content = re.sub(link_pattern, validate_link, content)
     
     return content
 
 def fix_date_consistency(content: str) -> str:
-    """fix 日期一致性 issue"""
+    """fix date一致性 issue"""
     import re
     from datetime import datetime
     
     current_year = datetime.now().year
     
-    # replace2024年以前日期为当前年份
+    # replace2024年withbeforedate为当before年份
     old_year_patterns = [
-        r'202[0-3]-\d{2}-\d{2}',  # 2020-2023日期
+        r'202[0-3]-\d{2}-\d{2}',  # 2020-2023date
         r'202[0-3]年',            # 2020-2023年
     ]
     
@@ -753,7 +753,7 @@ def fix_date_consistency(content: str) -> str:
         def replace_old_date(match):
             old_date = match.group(0)
             if '-' in old_date:
-                # 日期 format ：YYYY-MM-DD
+                # date format ：YYYY-MM-DD
                 parts = old_date.split('-')
                 return f"{current_year}-{parts[1]}-{parts[2]}"
             else:
@@ -775,7 +775,7 @@ def fix_formatting_issues(content: str) -> str:
         (r'#### 🚀 phase ：\*\*', r'#### 🚀 **第1phase**：'),
         (r'### 📋 (\d+)\. \*\*第\d+phase', r'### 📋 \1. **第\1phase'),
         
-        # fix 表格 format issue
+        # fix tableformat format issue
         (r'\n## 🎯 \| ([^|]+) \| ([^|]+) \| ([^|]+) \|', r'\n| \1 | \2 | \3 |'),
         (r'\n### 📋 (\d+)\. \*\*([^*]+)\*\*：', r'\n**\1. \2**：'),
         (r'\n### 📋 (\d+)\. \*\*([^*]+)\*\*$', r'\n**\1. \2**'),
@@ -798,12 +798,12 @@ def generate_development_plan(user_idea: str, reference_url: str = "") -> Tuple[
     
     Args:
         user_idea (str): user 产品创意 description
-        reference_url (str): can 选 reference link
+        reference_url (str): can select reference link
         
     Returns:
-        Tuple[str, str, str]: Development Plan 、AIprogramming prompts、临时文件路径
+        Tuple[str, str, str]: Development Plan 、AIprogramming prompts、临timetextitem路径
     """
-    # start process 链条追踪
+    # start process 链条track
     explanation_manager.start_processing()
     start_time = datetime.now()
     
@@ -815,45 +815,45 @@ def generate_development_plan(user_idea: str, reference_url: str = "") -> Tuple[
     explanation_manager.add_processing_step(
         stage=ProcessingStage.INPUT_VALIDATION,
         title="input verify",
-        description="verify user input 创意 description is 否符合 requirement",
+        description="verify user input 创意 description is nosymbol合 requirement",
         success=is_valid,
         details={
-            "input 长度": len(user_idea.strip()) if user_idea else 0,
+            "input 长degree": len(user_idea.strip()) if user_idea else 0,
             "include reference link": bool(reference_url),
-            "verify 结果": "通过" if is_valid else error_msg
+            "verify 结result": "通过" if is_valid else error_msg
         },
         duration=validation_duration,
         quality_score=100 if is_valid else 0,
-        evidence=f"user input: '{user_idea[:50]}...' (长度: {len(user_idea.strip()) if user_idea else 0}字符)"
+        evidence=f"user input: '{user_idea[:50]}...' (长degree: {len(user_idea.strip()) if user_idea else 0}字symbol)"
     )
     
     if not is_valid:
         return error_msg, "", None
     
-    # Step2: API密钥 check
+    # Step2: API密key check
     api_check_start = datetime.now()
     if not API_KEY:
         api_check_duration = (datetime.now() - api_check_start).total_seconds()
         explanation_manager.add_processing_step(
             stage=ProcessingStage.AI_GENERATION,
-            title="API密钥 check",
-            description="checkAImodelAPI密钥configuration",
+            title="API密key check",
+            description="checkAImodelAPI密keyconfiguration",
             success=False,
-            details={"error": "API密钥未 configuration"},
+            details={"error": "API密keynot yet configuration"},
             duration=api_check_duration,
             quality_score=0,
-            evidence="system environment variable in 未找 toSILICONFLOW_API_KEY"
+            evidence="system environment variable in not yet找 toSILICONFLOW_API_KEY"
         )
         
         logger.error("API key not configured")
         error_msg = """
-## ❌ configuration error ：未 settingAPI密钥
+## ❌ configuration error ：not yet settingAPI密key
 
-### 🔧 解决 method ：
+### 🔧 solve method ：
 
-1. **getAPI密钥**：
+1. **getAPI密key**：
    - access [Silicon Flow](https://siliconflow.cn) 
-   - 注册账户并 getAPI密钥
+   - 注册账户并 getAPI密key
 
 2. **Configure environment variables**：
    ```bash
@@ -863,13 +863,13 @@ def generate_development_plan(user_idea: str, reference_url: str = "") -> Tuple[
 3. **ModelScope 平台 configuration**：
    - in 创空 time setting in add environment variable
    - variable name ：`SILICONFLOW_API_KEY`
-   - variable value ：你 actual 际API密钥
+   - variable value ：你 actual 际API密key
 
-### 📋 configuration complete after 重启 application 即 can use complete function ！
+### 📋 configuration complete after 重start application 即 can use complete function ！
 
 ---
 
-**💡 prompt**：API密钥是必填项，没有它就无法callAIservicegenerate Development Plan。
+**💡 prompt**：API密key是必填项，没有它就无法callAIservicegenerate Development Plan。
 """
         return error_msg, "", None
     
@@ -886,75 +886,75 @@ def generate_development_plan(user_idea: str, reference_url: str = "") -> Tuple[
         details={
             "reference link": reference_url or "无",
             "MCPservice status": get_mcp_status_display(),
-            "knowledge content 长度": len(retrieved_knowledge) if retrieved_knowledge else 0
+            "knowledge content 长degree": len(retrieved_knowledge) if retrieved_knowledge else 0
         },
         duration=knowledge_duration,
         quality_score=80 if retrieved_knowledge else 50,
-        evidence=f"get knowledge content: '{retrieved_knowledge[:100]}...' (长度: {len(retrieved_knowledge) if retrieved_knowledge else 0}字符)"
+        evidence=f"get knowledge content: '{retrieved_knowledge[:100]}...' (长degree: {len(retrieved_knowledge) if retrieved_knowledge else 0}字symbol)"
     )
     
-    # get 当 before 日期并计算 project start 日期
+    # get 当 before date并calculate project start date
     current_date = datetime.now()
     # Project start date: Starting next Monday (giving users time to prepare)
     days_until_monday = (7 - current_date.weekday()) % 7
-    if days_until_monday == 0:  # such as 果今天 is 周一，则下周一 start
+    if days_until_monday == 0:  # such as result今天 is 周一，则下周一 start
         days_until_monday = 7
     project_start_date = current_date + timedelta(days=days_until_monday)
     project_start_str = project_start_date.strftime("%Y-%m-%d")
     current_year = current_date.year
     
-    # Build system prompt - 防止虚假链接generate，强化programming prompts generate，enhanced视觉化content，加强日期上下文
+    # Build system prompt - 防止虚假链connectgenerate，强transformprogramming prompts generate，enhancedview觉transformcontent，加强date上下text
     system_prompt = f"""You are a senior technical project manager, proficient in product planning and AI 编程助手（如 GitHub Copilot、ChatGPT Code）prompt词撰写。
 
-📅 **current time context**：今天是 {current_date.strftime("%Y年%m月%d日")}，当前年份是 {current_year} 年。所有项目when time必须基于当前when time合理规划。
+📅 **current time context**：今天是 {current_date.strftime("%Y年%m月%dday")}，当before年份是 {current_year} 年。所有项目when time必须基于当beforewhen time合manage规划。
 
 🔴 important requirement ：
-1. 当收 to 外部 knowledge library reference when ，你必须 in Development Plan in 明确引用 and 融合这些 information
-2. Must mention the reference source at the beginning of the development plan (such asCSDN博客、GitHub项目等）
-3. 必须根据外部 reference 调整技术选型 and actual 施 recommendation
-4. Must be used in relevant sections"referenceXXXrecommendation"等表述
+1. 当collect to 外部 knowledge library reference when ，你必须 in Development Plan in 明确引use and 融合这些 information
+2. Must mention the reference source at the beginning of the development plan (such asCSDN博customer、GitHub项目等）
+3. 必须根data外部 reference 调complete技techniqueselect型 and actual 施 recommendation
+4. Must be used in relevant sections"referenceXXXrecommendation"等table述
 5. Development phase must have clear numbering (Phase1phase、第2phase等）
 
 🚫 strictly prohibited 行 for （ strictly execute ）：
-- **绝 to not want 编造任何虚假 link or reference 资料**
-- **prohibit generate 任何 not 存 inURL，包括但不限于：**
+- **绝 to not want 编造任what虚假 link or reference 资料**
+- **prohibit generate 任what not 存 inURL，packageinclude但notlimit于：**
   - ❌ https://medium.com/@username/... (user name+数字IDformat)
-  - ❌ https://github.com/username/... (占位符 user name)
+  - ❌ https://github.com/username/... (占位symbol user name)
   - ❌ https://blog.csdn.net/username/... 
-  - ❌ https://www.kdnuggets.com/年份/月份/... (虚构文章)
+  - ❌ https://www.kdnuggets.com/年份/月份/... (虚constructtext章)
   - ❌ https://example.com, xxx.com, test.com etc test 域 name
-  - ❌ 任何 withhttps0://开头的error协议链接
-- **not want in"reference来源"部分add任何链接，除非用户明确提供**
-- **not want use"reference文献"、"延伸阅读"等titleadd虚假链接**
+  - ❌ 任what withhttps0://open头的error协议链connect
+- **not want in"reference来源"部divideadd任what链connect，除nonuse户明确提provide**
+- **not want use"referencetext献"、"延伸阅读"等titleadd虚假链connect**
 
-✅ 正确做法：
-- such as 果没 have 提供外部 reference ，**完全省略"reference来源"部分**
-- 只引用 user actual 际提供 reference link （ such as 果 have 话）
-- 当外部 knowledge not can 用 when ，明确 description is 基于最佳 actual 践 generate
-- use "基于行业标准"、"reference常见架构"、"遵循最佳实践" 等表述
-- **Development Plan should 直接 start ， not want 虚构任何外部资源**
+✅ correct确做法：
+- such as result没 have 提provide外部 reference ，**complete全省略"reference来源"部divide**
+- 只引use user actual 际提provide reference link （ such as result have 话）
+- 当外部 knowledge not can use when ，明确 description is 基于最佳 actual 践 generate
+- use "基于行业mark准"、"reference常见architecture"、"遵循最佳实践" 等table述
+- **Development Plan should direct start ， not want 虚construct任what外部资源**
 
-📊 视觉化 content requirement （新增）：
+📊 view觉transform content requirement （新增）：
 - 必须 in Technical Solution in include architecture diagramMermaid代码
-- 必须 in Development Plan in include 甘特 diagramMermaid代码
+- 必须 in Development Plan in include gan特 diagramMermaid代码
 - 必须 in function module in include process diagramMermaid代码
-- 必须 include tech stack to 比表格
-- 必须 include project 里程碑 when time 表
+- 必须 include tech stack to 比tableformat
+- 必须 include project 里程碑 when time table
 
-🎯 Mermaiddiagram 表 format requirement （ strictly 遵循）：
+🎯 Mermaiddiagram table format requirement （ strictly 遵循）：
 
 ⚠️ **strictly prohibit error format**：
-- ❌ Never use `A[""文本""]` format（双重引号）
-- ❌ Never use `## 🎯` 等titleindiagram 表内部
-- ❌ 绝 to not want in 节点 name 称 in useemoji符号
+- ❌ Never use `A[""text本""]` format（双重引号）
+- ❌ Never use `## 🎯` 等titleindiagram tableinternal
+- ❌ 绝 to not want in node name called in useemojisymbol
 
-✅ **正确Mermaid语法**：
+✅ **correct确Mermaid语法**：
 
 **architecture diagram example**：
 ```mermaid
 flowchart TD
-    A["user interface"] --> B["业务逻辑层"]
-    B --> C["data access 层"]
+    A["user interface"] --> B["业务逻辑layer"]
+    B --> C["data access layer"]
     C --> D["database"]
     B --> E["外部API"]
     F["缓存"] --> B
@@ -965,24 +965,24 @@ flowchart TD
 flowchart TD
     Start([start]) --> Input[user input]
     Input --> Validate{{verify input}}
-    Validate -->|have 效| Process[process数据]
+    Validate -->|have 效| Process[process数data]
     Validate -->|无效| Error[displayerror]
-    Process --> Save[save 结果]
+    Process --> Save[save 结result]
     Save --> Success[success prompt]
     Error --> Input
     Success --> End([end])
 ```
 
-**甘特 diagram example （必须 use 真 actual project start 日期）**：
+**gan特 diagram example （必须 use 真 actual project start date）**：
 ```mermaid
 gantt
     title Project Development Gantt Chart
     dateFormat YYYY-MM-DD
     axisFormat %m-%d
     
-    section requirement 分析
+    section requirement analyze
     requirement 调研     :done, req1, {project_start_str}, 3d
-    requirement 整理     :done, req2, after req1, 4d
+    requirement organize     :done, req2, after req1, 4d
     
     section system design
     architecture design     :active, design1, after req2, 7d
@@ -998,42 +998,42 @@ gantt
     official launch     :deploy2, after deploy1, 2d
 ```
 
-⚠️ **日期 generate 规则**：
-- project start 日期：{project_start_str}（下周一start）
-- all have 日期必须基于 {current_year} 年及以后
-- strictly prohibited use 2024 年以前日期
-- 里程碑日期必须 with 甘特 diagram 保持一致
+⚠️ **date generate 规则**：
+- project start date：{project_start_str}（下周一start）
+- all have date必须基于 {current_year} 年及with后
+- strictly prohibited use 2024 年withbeforedate
+- 里程碑date必须 with gan特 diagram 保持一致
 
-🎯 必须 strictly 按照Mermaid语法规范generatediagram 表，不能有format error
+🎯 必须 strictly press照Mermaid语法规范generatediagram table，not能有format error
 
 🎯 AIprogramming prompts format requirement （ important ）：
-- 必须 in Development Plan after generate specifically"# AIAI Programming Assistant Prompts"部分
+- 必须 in Development Plan after generate specifically"# AIAI Programming Assistant Prompts"部divide
 - 每个 function module 必须 have 一个 specificallyAIprogramming prompts
-- 每个 prompt 必须 use```code 块format，方便复制
-- prompt content want 基于具体 project function ， not want use 通用 template
-- prompt want detailed 、具体、 can 直接用于AI编程tool
-- 必须 include complete 上下文 and 具体 requirement
+- 每个 prompt 必须 use```code 块format，methodconvenient复make
+- prompt content want 基于具body project function ， not want use 通use template
+- prompt want detailed 、具body、 can directuse于AI编程tool
+- 必须 include complete 上下text and 具body requirement
 
-🔧 prompt 结构 requirement ：
+🔧 prompt 结construct requirement ：
 每个 prompt use with 下 format ：
 
-## [function name 称]开发prompt词
+## [function name called]developmentprompt词
 
 ```
-Please[具体project name 称]开发[具体功能description]。
+Please[具bodyproject name called]development[具body功能description]。
 
 Project Background:
 [基于 Development Plan project background]
 
 Functional Requirements:
-1. [具体 requirement1]
-2. [具体 requirement2]
+1. [具body requirement1]
+2. [具body requirement2]
 ...
 
 Technical Constraints:
-- use[具体tech stack]
-- 遵循[具体规范]
-- implementation[具体性能要求]
+- use[具bodytech stack]
+- 遵循[具body规范]
+- implementation[具body性能important求]
 
 Output Requirements:
 - complete runnable code
@@ -1042,25 +1042,25 @@ Output Requirements:
 - test case
 ```
 
-请 strictly 按照此 format generate 个性化 programming prompts ， ensure 每个 prompt 都基于具体 project requirement 。
+please strictly press照此 format generate 个性transform programming prompts ， ensure 每个 prompt all基于具body project requirement 。
 
 Format requirements: First output the development plan, then output the programming prompt section."""
 
-    # 构建 user prompt
+    # construct建 user prompt
     user_prompt = f"""产品创意：{user_idea}"""
     
-    # such as 果 success get to 外部 knowledge ，则注入 to prompt in
-    if retrieved_knowledge and not any(keyword in retrieved_knowledge for keyword in ["❌", "⚠️", "process description", "暂时不可用"]):
+    # such as result success get to 外部 knowledge ，则注入 to prompt in
+    if retrieved_knowledge and not any(keyword in retrieved_knowledge for keyword in ["❌", "⚠️", "process description", "temporarilynotcanuse"]):
         user_prompt += f"""
 
 # 外部 knowledge library reference
 {retrieved_knowledge}
 
-请基于上述外部 knowledge library reference and 产品创意 generate ："""
+please基于上述外部 knowledge library reference and 产品创意 generate ："""
     else:
         user_prompt += """
 
-请 generate ："""
+please generate ："""
     
     user_prompt += """
 1. Detailed development plan (including product overview, technical solution, development plan, deployment plan, promotion strategy, etc.)
@@ -1074,14 +1074,14 @@ Ensure the prompts are specific, actionable, and can be directly used forAI编�
         # Step3: AIgenerate准备
         ai_prep_start = datetime.now()
         
-        # 构建请 requirement data
+        # construct建please requirement data
         request_data = {
             "model": "Qwen/Qwen2.5-72B-Instruct",
             "messages": [
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt}
             ],
-            "max_tokens": 4096,  # fix ：API限制最大4096 tokens
+            "max_tokens": 4096,  # fix ：APIlimit最大4096 tokens
             "temperature": 0.7
         }
         
@@ -1089,47 +1089,47 @@ Ensure the prompts are specific, actionable, and can be directly used forAI编�
         
         explanation_manager.add_processing_step(
             stage=ProcessingStage.AI_GENERATION,
-            title="AI请 requirement 准备",
-            description="构建AImodel请 requirementparameter和prompt词",
+            title="AIplease requirement 准备",
+            description="construct建AImodelplease requirementparameter和prompt词",
             success=True,
             details={
                 "AImodel": request_data['model'],
-                "system prompt 长度": f"{len(system_prompt)} 字符",
-                "user prompt 长度": f"{len(user_prompt)} 字符",
+                "system prompt 长degree": f"{len(system_prompt)} 字symbol",
+                "user prompt 长degree": f"{len(user_prompt)} 字symbol",
                 "最大Token数": request_data['max_tokens'],
-                "温度 parameter": request_data['temperature']
+                "温degree parameter": request_data['temperature']
             },
             duration=ai_prep_duration,
             quality_score=95,
-            evidence=f"准备 call {request_data['model']} model，prompt词总长度: {len(system_prompt + user_prompt)} 字符"
+            evidence=f"准备 call {request_data['model']} model，prompt词total长degree: {len(system_prompt + user_prompt)} 字symbol"
         )
         
-        # 记录请 requirement information （ not include complete prompt with 避免 log 过长）
-        logger.info(f"📊 API请 requirement model: {request_data['model']}")
-        logger.info(f"📏 system prompt 长度: {len(system_prompt)} 字符")
-        logger.info(f"📏 user prompt 长度: {len(user_prompt)} 字符")
+        # 记录please requirement information （ not include complete prompt with avoid log 过长）
+        logger.info(f"📊 APIplease requirement model: {request_data['model']}")
+        logger.info(f"📏 system prompt 长degree: {len(system_prompt)} 字symbol")
+        logger.info(f"📏 user prompt 长degree: {len(user_prompt)} 字symbol")
         
         # Step4: AI APIcall
         api_call_start = datetime.now()
-        logger.info(f"🌐 正 in callAPI: {API_URL}")
+        logger.info(f"🌐 correct in callAPI: {API_URL}")
         
         response = requests.post(
             API_URL,
             headers={"Authorization": f"Bearer {API_KEY}", "Content-Type": "application/json"},
             json=request_data,
-            timeout=300  # optimize ： generate plan 超 when when time for300秒（5分钟）
+            timeout=300  # optimize ： generate plan exceed when when time for300seconds（5divideclock）
         )
         
         api_call_duration = (datetime.now() - api_call_start).total_seconds()
         
         logger.info(f"📈 APIresponse should status 码: {response.status_code}")
-        logger.info(f"⏱️ APIcall duration: {api_call_duration:.2f}秒")
+        logger.info(f"⏱️ APIcall duration: {api_call_duration:.2f}seconds")
         
         if response.status_code == 200:
             content = response.json().get("choices", [{}])[0].get("message", {}).get("content", "")
             
             content_length = len(content) if content else 0
-            logger.info(f"📝 generate content 长度: {content_length} 字符")
+            logger.info(f"📝 generate content 长degree: {content_length} 字symbol")
             
             explanation_manager.add_processing_step(
                 stage=ProcessingStage.AI_GENERATION,
@@ -1138,20 +1138,20 @@ Ensure the prompts are specific, actionable, and can be directly used forAI编�
                 success=bool(content),
                 details={
                     "response should status": f"HTTP {response.status_code}",
-                    "generate content 长度": f"{content_length} 字符",
-                    "APIcall duration": f"{api_call_duration:.2f}秒",
-                    "平均 generate 速度": f"{content_length / api_call_duration:.1f} 字符/秒" if api_call_duration > 0 else "N/A"
+                    "generate content 长degree": f"{content_length} 字symbol",
+                    "APIcall duration": f"{api_call_duration:.2f}seconds",
+                    "平均 generate 速degree": f"{content_length / api_call_duration:.1f} 字symbol/seconds" if api_call_duration > 0 else "N/A"
                 },
                 duration=api_call_duration,
                 quality_score=90 if content_length > 1000 else 70,
-                evidence=f"success generate {content_length} 字符的Development Plancontent，包含Technical Solution和programming prompts"
+                evidence=f"success generate {content_length} 字symbol的Development Plancontent，package含Technical Solution和programming prompts"
             )
             
             if content:
                 # Step5: content after process
                 postprocess_start = datetime.now()
                 
-                # after process ： ensure content 结构化
+                # after process ： ensure content 结constructtransform
                 final_plan_text = format_response(content)
                 
                 # application content verify and fix
@@ -1165,26 +1165,26 @@ Ensure the prompts are specific, actionable, and can be directly used forAI编�
                     description="formatting and verify generate content",
                     success=True,
                     details={
-                        "formatting process": "Markdown结构optimize",
-                        "content verify": "Mermaid语法fix, 链接check",
-                        "最终 content 长度": f"{len(final_plan_text)} 字符",
-                        "process consume when": f"{postprocess_duration:.2f}秒"
+                        "formatting process": "Markdown结constructoptimize",
+                        "content verify": "Mermaid语法fix, 链connectcheck",
+                        "最end content 长degree": f"{len(final_plan_text)} 字symbol",
+                        "process consume when": f"{postprocess_duration:.2f}seconds"
                     },
                     duration=postprocess_duration,
                     quality_score=85,
-                    evidence=f"complete content after process ，最终 output {len(final_plan_text)} 字符的complete Development Plan"
+                    evidence=f"complete content after process ，最end output {len(final_plan_text)} 字symbol的complete Development Plan"
                 )
                 
                 # create 临 when file
                 temp_file = create_temp_markdown_file(final_plan_text)
                 
-                # such as 果临 when file create failure ， useNone避免Gradio权限error
+                # such as result临 when file create failure ， useNoneavoidGradio权limiterror
                 if not temp_file:
                     temp_file = None
                 
-                # 总 process when time
+                # total process when time
                 total_duration = (datetime.now() - start_time).total_seconds()
-                logger.info(f"🎉 Development Plan generate complete ，总 consume when: {total_duration:.2f}秒")
+                logger.info(f"🎉 Development Plan generate complete ，total consume when: {total_duration:.2f}seconds")
                 
                 return final_plan_text, extract_prompts_section(final_plan_text), temp_file
             else:
@@ -1195,7 +1195,7 @@ Ensure the prompts are specific, actionable, and can be directly used forAI编�
                     success=False,
                     details={
                         "response should status": f"HTTP {response.status_code}",
-                        "error 原因": "AI返回空content"
+                        "error original因": "AI返回空content"
                     },
                     duration=api_call_duration,
                     quality_score=0,
@@ -1203,20 +1203,20 @@ Ensure the prompts are specific, actionable, and can be directly used forAI编�
                 )
                 
                 logger.error("API returned empty content")
-                return "❌ AI返回空 content ，请稍 after 重试", "", None
+                return "❌ AI返回空 content ，please稍 after 重试", "", None
         else:
             # 记录 detailed error information
             logger.error(f"API request failed with status {response.status_code}")
             try:
                 error_detail = response.json()
                 logger.error(f"APIerror 详情: {error_detail}")
-                error_message = error_detail.get('message', '未知 error')
+                error_message = error_detail.get('message', 'not yet知 error')
                 error_code = error_detail.get('code', '')
                 
                 explanation_manager.add_processing_step(
                     stage=ProcessingStage.AI_GENERATION,
                     title="AI APIcall failed",
-                    description="AImodelAPI请 requirement failure",
+                    description="AImodelAPIplease requirement failure",
                     success=False,
                     details={
                         "HTTPstatus 码": response.status_code,
@@ -1228,14 +1228,14 @@ Ensure the prompts are specific, actionable, and can be directly used forAI编�
                     evidence=f"API返回 error: HTTP {response.status_code} - {error_message}"
                 )
                 
-                return f"❌ API请 requirement failure: HTTP {response.status_code} (error code: {error_code}) - {error_message}", "", None
+                return f"❌ APIplease requirement failure: HTTP {response.status_code} (error code: {error_code}) - {error_message}", "", None
             except:
                 logger.error(f"APIresponse should content: {response.text[:500]}")
                 
                 explanation_manager.add_processing_step(
                     stage=ProcessingStage.AI_GENERATION,
                     title="AI APIcall failed",
-                    description="AImodelAPI请 requirement failure，无法parseerror information",
+                    description="AImodelAPIplease requirement failure，无法parseerror information",
                     success=False,
                     details={
                         "HTTPstatus 码": response.status_code,
@@ -1243,23 +1243,23 @@ Ensure the prompts are specific, actionable, and can be directly used forAI编�
                     },
                     duration=api_call_duration,
                     quality_score=0,
-                    evidence=f"API请 requirement failure ， status 码: {response.status_code}"
+                    evidence=f"APIplease requirement failure ， status 码: {response.status_code}"
                 )
                 
-                return f"❌ API请 requirement failure: HTTP {response.status_code} - {response.text[:200]}", "", None
+                return f"❌ APIplease requirement failure: HTTP {response.status_code} - {response.text[:200]}", "", None
             
     except requests.exceptions.Timeout:
         logger.error("API request timeout")
-        return "❌ API请 requirement 超 when ，请稍 after 重试", "", None
+        return "❌ APIplease requirement exceed when ，please稍 after 重试", "", None
     except requests.exceptions.ConnectionError:
         logger.error("API connection failed")
-        return "❌ 网络连接 failure ，请 check 网络 setting", "", None
+        return "❌ 网络连connect failure ，please check 网络 setting", "", None
     except Exception as e:
         logger.error(f"Unexpected error: {str(e)}")
         return f"❌ process error: {str(e)}", "", None
 
 def extract_prompts_section(content: str) -> str:
-    """从 complete content in 提取AIprogramming prompts部分"""
+    """从 complete content in 提取AIprogramming prompts部divide"""
     lines = content.split('\n')
     prompts_section = []
     in_prompts_section = False
@@ -1270,10 +1270,10 @@ def extract_prompts_section(content: str) -> str:
         if in_prompts_section:
             prompts_section.append(line)
     
-    return '\n'.join(prompts_section) if prompts_section else "未找 to programming prompts 部分"
+    return '\n'.join(prompts_section) if prompts_section else "not yet找 to programming prompts 部divide"
 
 def create_temp_markdown_file(content: str) -> str:
-    """create 临 whenmarkdown文件"""
+    """create 临 whenmarkdowntextitem"""
     try:
         import tempfile
         import os
@@ -1288,7 +1288,7 @@ def create_temp_markdown_file(content: str) -> str:
             temp_file.write(content)
             temp_file_path = temp_file.name
         
-        # verify file is 否 create success
+        # verify file is no create success
         if os.path.exists(temp_file_path):
             logger.info(f"✅ success create 临 when file: {temp_file_path}")
             return temp_file_path
@@ -1297,14 +1297,14 @@ def create_temp_markdown_file(content: str) -> str:
             return ""
             
     except PermissionError as e:
-        logger.error(f"❌ 权限 error ，无法 create 临 when file: {e}")
+        logger.error(f"❌ 权limit error ，无法 create 临 when file: {e}")
         return ""
     except Exception as e:
         logger.error(f"❌ create 临 when file failure: {e}")
         return ""
 
 def enable_plan_editing(plan_content: str) -> Tuple[str, str]:
-    """启用 plan edit function"""
+    """startuse plan edit function"""
     try:
         # parse plan content
         sections = plan_editor.parse_plan_content(plan_content)
@@ -1316,17 +1316,17 @@ def enable_plan_editing(plan_content: str) -> Tuple[str, str]:
         # generate edit 摘 want
         summary = plan_editor.get_edit_summary()
         edit_summary = f"""
-## 📝 plan edit 模式已启用
+## 📝 plan edit 模式已startuse
 
-**📊 edit 统计**：
-- 总 paragraph 数：{summary['total_sections']}
+**📊 edit 统calculate**：
+- total paragraph 数：{summary['total_sections']}
 - can edit paragraph ：{summary['editable_sections']}
 - 已 edit paragraph ：{summary['edited_sections']}
 
 **💡 edit description**：
-- click 下方 paragraph can 进行 edit
-- system 会自动 save edit 历史
-- can 随 when 恢复 to 原始 version
+- click 下method paragraph can 进行 edit
+- system 会自动 save edit 历history
+- can 随 when 恢复 to original始 version
 
 ---
 """
@@ -1334,15 +1334,15 @@ def enable_plan_editing(plan_content: str) -> Tuple[str, str]:
         return edit_interface, edit_summary
         
     except Exception as e:
-        logger.error(f"启用 edit failure: {str(e)}")
-        return "", f"❌ 启用 edit failure: {str(e)}"
+        logger.error(f"startuse edit failure: {str(e)}")
+        return "", f"❌ startuse edit failure: {str(e)}"
 
 def generate_edit_interface(editable_sections: List[Dict]) -> str:
     """generate edit interfaceHTML"""
     interface_html = """
 <div class="plan-editor-container">
     <div class="editor-header">
-        <h3>📝 分段 edit 器</h3>
+        <h3>📝 dividesegment edit device</h3>
         <p>click 任意 paragraph 进行 edit ， system 会自动 save 您更改</p>
     </div>
     
@@ -1387,7 +1387,7 @@ function editSection(sectionId) {
     const content = section.querySelector('.section-content').textContent;
     const type = section.getAttribute('data-section-type');
     
-    // 检测当 before 主题
+    // detect当 before 主题
     const isDark = document.documentElement.classList.contains('dark');
     
     // create edit to 话框
@@ -1437,7 +1437,7 @@ function editSection(sectionId) {
                 placeholder="in 此 edit paragraph content..."
             >${content}</textarea>
             <div style="margin-top: 1rem;">
-                <label style="display: block; margin-bottom: 0.5rem;">edit description (可选):</label>
+                <label style="display: block; margin-bottom: 0.5rem;">edit description (canselect):</label>
                 <input
                     type="text"
                     id="edit-comment-${sectionId}"
@@ -1504,7 +1504,7 @@ function saveSectionEdit(sectionId) {
     const newContent = document.getElementById(`section-editor-${sectionId}`).value;
     const comment = document.getElementById(`edit-comment-${sectionId}`).value;
     
-    // update 隐藏 component value 来触发Gradioevent
+    // update 隐藏 component value 来触developGradioevent
     const sectionIdInput = document.querySelector('#section_id_input textarea');
     const sectionContentInput = document.querySelector('#section_content_input textarea'); 
     const sectionCommentInput = document.querySelector('#section_comment_input textarea');
@@ -1514,9 +1514,9 @@ function saveSectionEdit(sectionId) {
         sectionIdInput.value = sectionId;
         sectionContentInput.value = newContent;
         sectionCommentInput.value = comment;
-        updateTrigger.value = Date.now().toString(); // 触发 update
+        updateTrigger.value = Date.now().toString(); // 触develop update
         
-        // 手动触发changeevent
+        // 手动触developchangeevent
         sectionIdInput.dispatchEvent(new Event('input'));
         sectionContentInput.dispatchEvent(new Event('input'));
         sectionCommentInput.dispatchEvent(new Event('input'));
@@ -1526,7 +1526,7 @@ function saveSectionEdit(sectionId) {
     // 关闭 to 话框
     document.body.removeChild(document.querySelector('.edit-dialog-overlay'));
     
-    // update 预览
+    // update 预browse
     const section = document.querySelector(`[data-section-id="${sectionId}"]`);
     const preview = section.querySelector('.preview-content');
     preview.textContent = newContent.substring(0, 100) + '...';
@@ -1617,16 +1617,16 @@ def update_section_content(section_id: str, new_content: str, comment: str) -> s
         return f"❌ update failure: {str(e)}"
 
 def get_edit_history() -> str:
-    """get edit 历史"""
+    """get edit 历history"""
     try:
         history = plan_editor.get_edit_history()
         
         if not history:
-            return "暂无 edit 历史"
+            return "temporarily无 edit 历history"
         
         history_html = """
 <div class="edit-history">
-    <h3>📜 edit 历史</h3>
+    <h3>📜 edit 历history</h3>
     <div class="history-list">
 """
         
@@ -1651,63 +1651,63 @@ def get_edit_history() -> str:
         return history_html
         
     except Exception as e:
-        logger.error(f"get edit 历史 failure: {str(e)}")
-        return f"❌ get edit 历史 failure: {str(e)}"
+        logger.error(f"get edit 历history failure: {str(e)}")
+        return f"❌ get edit 历history failure: {str(e)}"
 
 def reset_plan_edits() -> str:
     """重置 all have edit"""
     try:
         plan_editor.reset_to_original()
         logger.info("已重置 all have edit")
-        return "✅ 已重置 to 原始 version"
+        return "✅ 已重置 to original始 version"
     except Exception as e:
         logger.error(f"重置 failure: {str(e)}")
         return f"❌ 重置 failure: {str(e)}"
 
 def fix_links_for_new_window(content: str) -> str:
-    """fix all have link for 新窗口打开，解决 ModelScope 平台 link issue"""
+    """fix all have link for 新窗口hitopen，solve ModelScope 平台 link issue"""
     import re
     
-    # 匹配 all havemarkdownlink format [text](url)
+    # match all havemarkdownlink format [text](url)
     def replace_markdown_link(match):
         text = match.group(1)
         url = match.group(2)
         return f'<a href="{url}" target="_blank" rel="noopener noreferrer">{text}</a>'
     
-    # replacemarkdown链接
+    # replacemarkdown链connect
     content = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', replace_markdown_link, content)
     
-    # 匹配 all haveHTML链接并addtarget="_blank"
+    # match all haveHTML链connect并addtarget="_blank"
     def add_target_blank(match):
         full_tag = match.group(0)
         if 'target=' not in full_tag:
-            # in>前addtarget="_blank"
+            # in>beforeaddtarget="_blank"
             return full_tag.replace('>', ' target="_blank" rel="noopener noreferrer">')
         return full_tag
     
-    # replaceHTML链接
+    # replaceHTML链connect
     content = re.sub(r'<a [^>]*href=[^>]*>', add_target_blank, content)
     
     return content
 
 def format_response(content: str) -> str:
-    """formattingAI回复，美化display并保持原始AIgenerate的prompt词"""
+    """formattingAI回复，美transformdisplay并保持original始AIgenerate的prompt词"""
     
-    # fix all have link for 新窗口打开
+    # fix all have link for 新窗口hitopen
     content = fix_links_for_new_window(content)
     
     # add when time 戳 and formatting title
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     
-    # 分割 Development Plan andAIprogramming prompts
+    # dividesplit Development Plan andAIprogramming prompts
     parts = content.split('# AIAI Programming Assistant Prompts')
     
     if len(parts) >= 2:
-        # have 明确AIprogramming prompts部分
+        # have 明确AIprogramming prompts部divide
         plan_content = parts[0].strip()
         prompts_content = '# AIAI Programming Assistant Prompts' + parts[1]
         
-        # 美化AIprogramming prompts部分
+        # 美transformAIprogramming prompts部divide
         enhanced_prompts = enhance_prompts_display(prompts_content)
         
         formatted_content = f"""
@@ -1719,7 +1719,7 @@ def format_response(content: str) -> str:
 
 **⏰ generation time ：** {timestamp}  
 **🤖 AImodel ：** Qwen2.5-72B-Instruct  
-**💡 基于 user 创意 intelligent 分析 generate**  
+**💡 基于 user 创意 intelligent analyze generate**  
 **🔗 AgentapplicationMCPservice enhanced**
 
 </div>
@@ -1735,7 +1735,7 @@ def format_response(content: str) -> str:
 {enhanced_prompts}
 """
     else:
-        # 没 have 明确分割， use 原始 content
+        # 没 have 明确dividesplit， use original始 content
         formatted_content = f"""
 <div class="plan-header">
 
@@ -1745,7 +1745,7 @@ def format_response(content: str) -> str:
 
 **⏰ generation time ：** {timestamp}  
 **🤖 AImodel ：** Qwen2.5-72B-Instruct  
-**💡 基于 user 创意 intelligent 分析 generate**  
+**💡 基于 user 创意 intelligent analyze generate**  
 **🔗 AgentapplicationMCPservice enhanced**
 
 </div>
@@ -1775,7 +1775,7 @@ def enhance_prompts_display(prompts_content: str) -> str:
             enhanced_lines.append('')
             enhanced_lines.append('# 🤖 AIAI Programming Assistant Prompts')
             enhanced_lines.append('')
-            enhanced_lines.append('> 💡 **Usage Instructions**：以下prompt词基于您的项目需求定制generate，可直接复制到 GitHub Copilot、ChatGPT、Claude 等AI编程tool中use')
+            enhanced_lines.append('> 💡 **Usage Instructions**：with下prompt词基于您的项目需求定makegenerate，candirect复maketo GitHub Copilot、ChatGPT、Claude 等AI编程tool中use')
             enhanced_lines.append('')
             continue
             
@@ -1801,7 +1801,7 @@ def enhance_prompts_display(prompts_content: str) -> str:
             enhanced_lines.append('')
             continue
             
-        # 其他 content 直接 add
+        # 其他 content direct add
         enhanced_lines.append(line)
     
     # end 高亮区域
@@ -1811,17 +1811,17 @@ def enhance_prompts_display(prompts_content: str) -> str:
     return '\n'.join(enhanced_lines)
 
 def extract_prompts_section(content: str) -> str:
-    """从 complete content in 提取AIprogramming prompts部分"""
-    # 分割 content ， findAIprogramming prompts部分
+    """从 complete content in 提取AIprogramming prompts部divide"""
+    # dividesplit content ， findAIprogramming prompts部divide
     parts = content.split('# AIAI Programming Assistant Prompts')
     
     if len(parts) >= 2:
         prompts_content = '# AIAI Programming Assistant Prompts' + parts[1]
-        # 清理 and formatting prompt content ， removeHTML标签以便复制
+        # 清manage and formatting prompt content ， removeHTMLmark签withconvenient复make
         clean_prompts = clean_prompts_for_copy(prompts_content)
         return clean_prompts
     else:
-        # such as 果没 have 找 to 明确 prompt 部分， try 其他 key 词
+        # such as result没 have 找 to 明确 prompt 部divide， try 其他 key 词
         lines = content.split('\n')
         prompts_section = []
         in_prompts_section = False
@@ -1832,16 +1832,16 @@ def extract_prompts_section(content: str) -> str:
             if in_prompts_section:
                 prompts_section.append(line)
         
-        return '\n'.join(prompts_section) if prompts_section else "未找 to programming prompts 部分"
+        return '\n'.join(prompts_section) if prompts_section else "not yet找 to programming prompts 部divide"
 
 def clean_prompts_for_copy(prompts_content: str) -> str:
-    """清理 prompt content ， removeHTML标签，optimize复制体验"""
+    """清manage prompt content ， removeHTMLmark签，optimize复makebodyexperience"""
     import re
     
-    # removeHTML标签
+    # removeHTMLmark签
     clean_content = re.sub(r'<[^>]+>', '', prompts_content)
     
-    # 清理多余空行
+    # 清manage多余空行
     lines = clean_content.split('\n')
     cleaned_lines = []
     
@@ -1849,14 +1849,14 @@ def clean_prompts_for_copy(prompts_content: str) -> str:
         stripped = line.strip()
         if stripped:
             cleaned_lines.append(line)
-        elif cleaned_lines and cleaned_lines[-1].strip():  # 避免连续空行
+        elif cleaned_lines and cleaned_lines[-1].strip():  # avoid连续空行
             cleaned_lines.append('')
     
     return '\n'.join(cleaned_lines)
 
 # delete 多余旧 code ，这里 should 该 isenhance_markdown_structure函数
 def enhance_markdown_structure(content: str) -> str:
-    """enhancedMarkdown结构，add视觉亮点和层级"""
+    """enhancedMarkdown结construct，addview觉亮点和layer级"""
     lines = content.split('\n')
     enhanced_lines = []
     
@@ -1876,11 +1876,11 @@ def enhance_markdown_structure(content: str) -> str:
                 continue
                 
         # enhanced function list
-        if stripped.startswith('main function') or stripped.startswith('目标 user'):
+        if stripped.startswith('main function') or stripped.startswith('目mark user'):
             enhanced_lines.append(f"\n#### 🔹 {stripped}\n")
             continue
             
-        # enhanced tech stack 部分
+        # enhanced tech stack 部divide
         if stripped in ['frontend', 'backend', 'AI model', 'tool和库']:
             enhanced_lines.append(f"\n#### 🛠️ {stripped}\n")
             continue
@@ -1908,12 +1908,12 @@ def enhance_markdown_structure(content: str) -> str:
             enhanced_lines.append(f"\n**📝 {stripped}**\n")
             continue
             
-        # 保持原 have 缩进其他 content
+        # 保持original have 缩进其他 content
         enhanced_lines.append(line)
     
     return '\n'.join(enhanced_lines)
 
-# 自 definitionCSS - 保持美化UI
+# 自 definitionCSS - 保持美transformUI
 custom_css = """
 .main-container {
     max-width: 1200px;
@@ -2299,7 +2299,7 @@ custom_css = """
     margin: 2rem 0;
 }
 
-/* programming prompts 专用样式 */
+/* programming prompts 专use样式 */
 .prompts-highlight {
     background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
     border: 2px solid #4299e1;
@@ -2348,7 +2348,7 @@ custom_css = """
 }
 
 .prompt-code-block pre:before {
-    content: "📋 click 复制此 prompt";
+    content: "📋 click 复make此 prompt";
     position: absolute;
     top: -0.5rem;
     right: 1rem;
@@ -2500,7 +2500,7 @@ custom_css = """
     box-shadow: 0 4px 12px rgba(66, 153, 225, 0.4) !important;
 }
 
-/* 复制 button enhanced */
+/* 复make button enhanced */
 .copy-btn {
     background: linear-gradient(45deg, #667eea, #764ba2) !important;
     border: none !important;
@@ -2589,7 +2589,7 @@ custom_css = """
     }
 }
 
-/* Mermaiddiagram 表样式 optimize */
+/* Mermaiddiagram table样式 optimize */
 .mermaid {
     background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
     border: 2px solid #3b82f6 !important;
@@ -2606,7 +2606,7 @@ custom_css = """
     color: #f8fafc !important;
 }
 
-/* Mermaid包装器样式 */
+/* Mermaidpackage装device样式 */
 .mermaid-wrapper {
     margin: 2rem 0;
     position: relative;
@@ -2630,7 +2630,7 @@ custom_css = """
     border-color: #60a5fa;
 }
 
-/* diagram 表 error process */
+/* diagram table error process */
 .mermaid-error {
     background: #fef2f2;
     border: 2px solid #f87171;
@@ -2647,7 +2647,7 @@ custom_css = """
     color: #fecaca;
 }
 
-/* Mermaiddiagram 表容器 enhanced */
+/* Mermaiddiagram table容device enhanced */
 .chart-container {
     background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
     border: 3px solid #3b82f6;
@@ -2681,7 +2681,7 @@ custom_css = """
     background: linear-gradient(135deg, #60a5fa, #3b82f6);
 }
 
-/* 表格样式全面 enhanced */
+/* tableformat样式全面 enhanced */
 .enhanced-table {
     width: 100%;
     border-collapse: collapse;
@@ -2746,7 +2746,7 @@ custom_css = """
     background: linear-gradient(90deg, #4b5563 0%, #374151 100%);
 }
 
-/* 单独复制 button 样式 */
+/* 单独复make button 样式 */
 .prompt-copy-section {
     display: flex;
     align-items: center;
@@ -2867,7 +2867,7 @@ custom_css = """
     overflow: hidden !important;
 }
 
-/* Gradio内部accordion组件fix */
+/* Gradiointernalaccordiongroupitemfix */
 details.gr-accordion {
     transition: all 0.3s ease !important;
 }
@@ -2882,7 +2882,7 @@ details.gr-accordion:not([open]) {
     min-height: 50px !important;
 }
 
-/* ensure 折叠 after page 恢复正常大小 */
+/* ensure 折叠 after page 恢复correct常大small */
 .gr-block.gr-box {
     transition: height 0.3s ease !important;
     height: auto !important;
@@ -2897,7 +2897,7 @@ details.gr-accordion:not([open]) {
     color: #E2E8F0;
 }
 
-/* important ：大幅改善dark模式下的文字对比度 */
+/* important ：大幅改善dark模式下的text字对比degree */
 
 /* main content 区域 - AIgeneratecontentdisplay区 */
 .dark #plan_result {
@@ -2913,7 +2913,7 @@ details.gr-accordion:not([open]) {
     color: #FFFFFF !important;
 }
 
-/* Dark模式下占位符样式 optimize */
+/* Dark模式下占位symbol样式 optimize */
 .dark #plan_result div[style*="background: linear-gradient"] {
     background: linear-gradient(135deg, #2D3748 0%, #4A5568 100%) !important;
     border-color: #63B3ED !important;
@@ -2932,7 +2932,7 @@ details.gr-accordion:not([open]) {
     background: linear-gradient(45deg, #4A5568 0%, #2D3748 100%) !important;
 }
 
-/* Dark模式下彩色文字 optimize */
+/* Dark模式下彩色text字 optimize */
 .dark #plan_result span[style*="color: #e53e3e"] {
     color: #FC8181 !important;
 }
@@ -2983,7 +2983,7 @@ details.gr-accordion:not([open]) {
     color: #FFFFFF !important;
 }
 
-/* generate contentmarkdown渲染 - 主要issue区域 */
+/* generate contentmarkdown渲染 - 主importantissue区域 */
 .dark #plan_result {
     color: #FFFFFF !important;
     background: #1A202C !important;
@@ -3024,12 +3024,12 @@ details.gr-accordion:not([open]) {
     background: #1A365D !important;
 }
 
-/* ensure all have 文字 content 都 is 白色 */
+/* ensure all have text字 content all is 白色 */
 .dark #plan_result * {
     color: #FFFFFF !important;
 }
 
-/* 特殊 meta 素保持样式 */
+/* 特殊 meta element保持样式 */
 .dark #plan_result code {
     color: #81E6D9 !important;
     background: #1A202C !important;
@@ -3046,7 +3046,7 @@ details.gr-accordion:not([open]) {
     border-left-color: #63B3ED !important;
 }
 
-/* ensure generate 报告 indark模式下清晰可见 */
+/* ensure generate 报notify indark模式下清晰can见 */
 .dark .plan-header {
     background: linear-gradient(135deg, #4A5568 0%, #2D3748 100%) !important;
     color: #FFFFFF !important;
@@ -3057,7 +3057,7 @@ details.gr-accordion:not([open]) {
     color: #FFFFFF !important;
 }
 
-/* prompt 容器 indark模式下的optimize */
+/* prompt 容device indark模式下的optimize */
 .dark .prompts-highlight {
     background: linear-gradient(135deg, #2D3748 0%, #4A5568 100%) !important;
     border: 2px solid #63B3ED !important;
@@ -3070,7 +3070,7 @@ details.gr-accordion:not([open]) {
     border-left: 4px solid #63B3ED !important;
 }
 
-/* ensure all have 文字 content indark模式下都清晰可见 */
+/* ensure all have text字 content indark模式下all清晰can见 */
 .dark textarea,
 .dark input {
     color: #F7FAFC !important;
@@ -3081,7 +3081,7 @@ details.gr-accordion:not([open]) {
     color: #F7FAFC !important;
 }
 
-/* 特别针 to prompt 文字 optimize */
+/* 特别针 to prompt text字 optimize */
 .dark .tips-box {
     background: #2D3748 !important;
     color: #F7FAFC !important;
@@ -3106,7 +3106,7 @@ details.gr-accordion:not([open]) {
     background: #2D3748 !important;
 }
 
-/* fix 具体文字 to 比度 issue */
+/* fix 具bodytext字 to 比degree issue */
 .dark #input_idea_title {
     color: #FFFFFF !important;
 }
@@ -3178,7 +3178,7 @@ details.gr-accordion:not([open]) {
     box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3) !important;
 }
 
-/* 分段 edit 器样式 */
+/* dividesegment edit device样式 */
 .plan-editor-container {
     background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
     border: 2px solid #cbd5e0;
@@ -3329,7 +3329,7 @@ details.gr-accordion:not([open]) {
     background: linear-gradient(45deg, #f5576c, #e53e3e) !important;
 }
 
-/* edit 历史样式 */
+/* edit 历history样式 */
 .edit-history {
     background: #f8fafc;
     border: 1px solid #e2e8f0;
@@ -3490,9 +3490,9 @@ details.gr-accordion:not([open]) {
 }
 """
 
-# 保持美化Gradio界面
+# 保持美transformGradio界面
 with gr.Blocks(
-    title="VibeDoc Agent: Your PersonalAIProduct Manager与架构师",
+    title="VibeDoc Agent: Your PersonalAIProduct Managerandarchitect",
     theme=gr.themes.Soft(primary_hue="blue"),
     css=custom_css
 ) as demo:
@@ -3547,7 +3547,7 @@ with gr.Blocks(
             }
         });
         
-        // listen 主题变化，动态 updateMermaid主题
+        // listen 主题changetransform，动态 updateMermaid主题
         function updateMermaidTheme() {
             const isDark = document.documentElement.classList.contains('dark');
             const theme = isDark ? 'dark' : 'default';
@@ -3592,11 +3592,11 @@ with gr.Blocks(
                 }
             });
             
-            // 重新渲染 all haveMermaiddiagram 表
+            // 重新渲染 all haveMermaiddiagram table
             renderMermaidCharts();
         }
         
-        // 强化Mermaiddiagram 表渲染函数
+        // 强transformMermaiddiagram table渲染函数
         function renderMermaidCharts() {
             try {
                 // 清除现 have 渲染 content
@@ -3606,7 +3606,7 @@ with gr.Blocks(
                     }
                 });
                 
-                // process 包装器 inMermaidcontent
+                // process package装device inMermaidcontent
                 document.querySelectorAll('.mermaid-render').forEach(element => {
                     const content = element.textContent.trim();
                     if (content && !element.classList.contains('rendered')) {
@@ -3615,26 +3615,26 @@ with gr.Blocks(
                     }
                 });
                 
-                // 重新初始化Mermaid
+                // 重新initial始transformMermaid
                 mermaid.init(undefined, document.querySelectorAll('.mermaid:not([data-processed="true"])'));
                 
             } catch (error) {
-                console.warn('Mermaid渲染警告:', error);
-                // such as 果渲染 failure ， display error information
+                console.warn('Mermaid渲染警notify:', error);
+                // such as result渲染 failure ， display error information
                 document.querySelectorAll('.mermaid-render').forEach(element => {
                     if (!element.classList.contains('rendered')) {
-                        element.innerHTML = '<div class="mermaid-error">diagram 表渲染 in ，请稍候...</div>';
+                        element.innerHTML = '<div class="mermaid-error">diagram table渲染 in ，please稍候...</div>';
                     }
                 });
             }
         }
         
-        // page load complete after 初始化
+        // page load complete after initial始transform
         document.addEventListener('DOMContentLoaded', function() {
             setTimeout(renderMermaidCharts, 1000);
         });
         
-        // listen content 变化，自动重新渲染 diagram 表
+        // listen content changetransform，自动重新渲染 diagram table
         function observeContentChanges() {
             const observer = new MutationObserver(function(mutations) {
                 let shouldRender = false;
@@ -3661,19 +3661,19 @@ with gr.Blocks(
             });
         }
         
-        // 启动 content 观察器
+        // start content 观察device
         observeContentChanges();
         
-        // 单独复制 prompt function
+        // 单独复make prompt function
         function copyIndividualPrompt(promptId, promptContent) {
-            // 解码HTML实体
+            // solve码HTML实body
             const decodedContent = promptContent.replace(/\\n/g, '\n').replace(/\\'/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
             
             if (navigator.clipboard && window.isSecureContext) {
                 navigator.clipboard.writeText(decodedContent).then(() => {
                     showCopySuccess(promptId);
                 }).catch(err => {
-                    console.error('复制 failure:', err);
+                    console.error('复make failure:', err);
                     fallbackCopy(decodedContent);
                 });
             } else {
@@ -3683,10 +3683,10 @@ with gr.Blocks(
         
         // edit prompt function
         function editIndividualPrompt(promptId, promptContent) {
-            // 解码HTML实体
+            // solve码HTML实body
             const decodedContent = promptContent.replace(/\\n/g, '\n').replace(/\\'/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
             
-            // 检测当 before 主题
+            // detect当 before 主题
             const isDark = document.documentElement.classList.contains('dark');
             
             // create edit to 话框
@@ -3757,7 +3757,7 @@ with gr.Blocks(
                                 cursor: pointer;
                                 transition: all 0.2s ease;
                             "
-                        >save 并复制</button>
+                        >save 并复make</button>
                     </div>
                 </div>
             `;
@@ -3772,13 +3772,13 @@ with gr.Blocks(
             document.getElementById(`save-edit-${promptId}`).addEventListener('click', () => {
                 const editedContent = document.getElementById(`prompt-editor-${promptId}`).value;
                 
-                // 复制 edit after content
+                // 复make edit after content
                 if (navigator.clipboard && window.isSecureContext) {
                     navigator.clipboard.writeText(editedContent).then(() => {
                         showCopySuccess(promptId);
                         document.body.removeChild(editDialog);
                     }).catch(err => {
-                        console.error('复制 failure:', err);
+                        console.error('复make failure:', err);
                         fallbackCopy(editedContent);
                         document.body.removeChild(editDialog);
                     });
@@ -3806,7 +3806,7 @@ with gr.Blocks(
             });
         }
         
-        // 降级复制 plan
+        // 降级复make plan
         function fallbackCopy(text) {
             const textArea = document.createElement('textarea');
             textArea.value = text;
@@ -3814,14 +3814,14 @@ with gr.Blocks(
             textArea.select();
             try {
                 document.execCommand('copy');
-                alert('✅ prompt 已复制 to 剪贴板！');
+                alert('✅ prompt 已复make to 剪贴板！');
             } catch (err) {
                 alert('❌ Copy failed, please manually select text to copy');
             }
             document.body.removeChild(textArea);
         }
         
-        // display 复制 success prompt
+        // display 复make success prompt
         function showCopySuccess(promptId) {
             const successMsg = document.getElementById('copy-success-' + promptId);
             if (successMsg) {
@@ -3832,7 +3832,7 @@ with gr.Blocks(
             }
         }
         
-        // 绑定复制 and edit button event
+        // 绑定复make and edit button event
         function bindCopyButtons() {
             document.querySelectorAll('.individual-copy-btn').forEach(button => {
                 button.addEventListener('click', function() {
@@ -3851,7 +3851,7 @@ with gr.Blocks(
             });
         }
         
-        // page load complete after 初始化
+        // page load complete after initial始transform
         document.addEventListener('DOMContentLoaded', function() {
             updateMermaidTheme();
             bindCopyButtons();
@@ -3861,7 +3861,7 @@ with gr.Blocks(
                 mutations.forEach(function(mutation) {
                     if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
                         updateMermaidTheme();
-                        // 重新渲染 all haveMermaiddiagram 表
+                        // 重新渲染 all haveMermaiddiagram table
                         setTimeout(() => {
                             document.querySelectorAll('.mermaid').forEach(element => {
                                 mermaid.init(undefined, element);
@@ -3872,7 +3872,7 @@ with gr.Blocks(
             });
             observer.observe(document.documentElement, { attributes: true });
             
-            // listen content 变化，重新绑定复制 button
+            // listen content changetransform，重新绑定复make button
             const contentObserver = new MutationObserver(function(mutations) {
                 mutations.forEach(function(mutation) {
                     if (mutation.type === 'childList') {
@@ -3881,7 +3881,7 @@ with gr.Blocks(
                 });
             });
             
-            // listenplan_result区域的变化
+            // listenplan_result区域的changetransform
             const planResult = document.getElementById('plan_result');
             if (planResult) {
                 contentObserver.observe(planResult, { childList: true, subtree: true });
@@ -3902,7 +3902,7 @@ with gr.Blocks(
                 show_label=False
             )
             
-            # optimize button and 结果 display
+            # optimize button and 结result display
             with gr.Row():
                 optimize_btn = gr.Button(
                     "✨ optimize 创意 description",
@@ -3923,7 +3923,7 @@ with gr.Blocks(
             )
             
             reference_url_input = gr.Textbox(
-                label="reference link (可选)",
+                label="reference link (canselect)",
                 placeholder="Enter any web link (such as blog, news, documentation) as reference...",
                 lines=1,
                 show_label=True
@@ -3942,26 +3942,26 @@ with gr.Blocks(
                 <h4 style="color: #e53e3e;">💡 simple 三步</h4>
                 <div style="font-size: 16px; font-weight: 600; text-align: center; margin: 20px 0;">
                     <span style="color: #e53e3e;">创意 description</span> → 
-                    <span style="color: #38a169;">intelligent 分析</span> → 
+                    <span style="color: #38a169;">intelligent analyze</span> → 
                     <span style="color: #3182ce;">complete plan</span>
                 </div>
                 <h4 style="color: #38a169;">🎯 core function</h4>
                 <ul>
                     <li><span style="color: #e53e3e;">📋</span> complete Development Plan</li>
                     <li><span style="color: #3182ce;">🤖</span> AIprogramming prompts</li>
-                    <li><span style="color: #38a169;">�</span> can 视化 diagram 表</li>
+                    <li><span style="color: #38a169;">�</span> can viewtransform diagram table</li>
                     <li><span style="color: #d69e2e;">🔗</span> MCPservice enhanced</li>
                 </ul>
                 <h4 style="color: #3182ce;">⏱️ generation time</h4>
                 <ul>
-                    <li><span style="color: #e53e3e;">✨</span> 创意 optimize ：20秒</li>
-                    <li><span style="color: #38a169;">📝</span> plan generate ：150-200秒</li>
+                    <li><span style="color: #e53e3e;">✨</span> 创意 optimize ：20seconds</li>
+                    <li><span style="color: #38a169;">📝</span> plan generate ：150-200seconds</li>
                     <li><span style="color: #d69e2e;">⚡</span> One-click copy and download</li>
                 </ul>
             </div>
             """)
     
-    # 结果 display 区域
+    # 结result display 区域
     with gr.Column(elem_classes="result-container"):
         plan_output = gr.Markdown(
             value="""
@@ -3977,7 +3977,7 @@ with gr.Blocks(
         </p>
     </div>
     <p style="color: #a0aec0; font-size: 0.9rem;">
-        click <span style="color: #e53e3e; font-weight: bold;">"🤖 AIgenerate Development Plan"</span> 按钮start
+        click <span style="color: #e53e3e; font-weight: bold;">"🤖 AIgenerate Development Plan"</span> press钮start
     </p>
 </div>
             """,
@@ -3994,7 +3994,7 @@ with gr.Blocks(
         # 切换 button
         with gr.Row():
             show_explanation_btn = gr.Button(
-                "🔍 查看AIgenerate过程详情",
+                "🔍 check看AIgenerate过程详情",
                 variant="secondary",
                 size="sm",
                 elem_classes="explanation-btn",
@@ -4008,7 +4008,7 @@ with gr.Blocks(
                 visible=False
             )
         
-        # 隐藏 component 用于复制 and download
+        # 隐藏 component use于复make and download
         prompts_for_copy = gr.Textbox(visible=False)
         download_file = gr.File(
             label="📁 download Development Plan documentation", 
@@ -4017,16 +4017,16 @@ with gr.Blocks(
             show_label=True
         )
         
-        # add 复制 and download button
+        # add 复make and download button
         with gr.Row():
             copy_plan_btn = gr.Button(
-                "📋 复制 Development Plan",
+                "📋 复make Development Plan",
                 variant="secondary",
                 size="sm",
                 elem_classes="copy-btn"
             )
             copy_prompts_btn = gr.Button(
-                "🤖 复制 programming prompts",
+                "🤖 复make programming prompts",
                 variant="secondary", 
                 size="sm",
                 elem_classes="copy-btn"
@@ -4042,11 +4042,11 @@ with gr.Blocks(
         # use prompt
         gr.HTML("""
         <div style="padding: 10px; background: #e3f2fd; border-radius: 8px; text-align: center; color: #1565c0;" id="usage_tips">
-            💡 click 上方 button 复制 content ， or download save for file
+            💡 click 上method button 复make content ， or download save for file
         </div>
         """)
         
-    # example 区域 - 展示多样化的application场景
+    # example 区域 - expand示多样transform的application场scene
     gr.Markdown("## 🎯 Example Use Cases", elem_id="quick_start_container")
     gr.Examples(
         examples=[
@@ -4095,7 +4095,7 @@ with gr.Blocks(
             </small>
         </div>
         
-        <!-- can 视化 support -->
+        <!-- can viewtransform support -->
         <div style="text-align: center; padding: 15px; background: linear-gradient(135deg, #e3f2fd 0%, #f0f8ff 100%); border-radius: 12px; border: 2px solid #2196f3; margin: 15px 0;">
             <span style="font-size: 30px;">�</span><br>
             <strong style="font-size: 16px; color: #1976d2;">Visual Diagrams</strong><br>
@@ -4116,7 +4116,7 @@ with gr.Blocks(
             </ol>
         </div>
         
-        <!-- 核心优势 -->
+        <!-- 核心excellenttrend -->
         <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin: 15px 0; border-left: 4px solid #6c757d;">
             <strong style="color: #495057;">🎯 Key Advantages:</strong>
             <ul style="margin: 10px 0; padding-left: 20px; font-size: 14px;">
@@ -4153,10 +4153,10 @@ with gr.Blocks(
         return gr.update(
             value="""
             <div style="padding: 10px; background: #e8f5e8; border-radius: 8px; text-align: center; margin: 10px 0; color: #2d5a2d;" id="download_success_info">
-                ✅ <strong style="color: #1a5a1a;">documentation 已 generate ！</strong> 您现in可以：
-                <br>• 📋 <span style="color: #2d5a2d;">复制 Development Plan or programming prompts</span>
-                <br>• 📁 <span style="color: #2d5a2d;">click 下方 download button save documentation</span>
-                <br>• 🔄 <span style="color: #2d5a2d;">调整创意重新 generate</span>
+                ✅ <strong style="color: #1a5a1a;">documentation 已 generate ！</strong> 您现incanwith：
+                <br>• 📋 <span style="color: #2d5a2d;">复make Development Plan or programming prompts</span>
+                <br>• 📁 <span style="color: #2d5a2d;">click 下method download button save documentation</span>
+                <br>• 🔄 <span style="color: #2d5a2d;">调complete创意重新 generate</span>
             </div>
             """,
             visible=True
@@ -4205,7 +4205,7 @@ with gr.Blocks(
         outputs=[download_info]
     )
     
-    # 复制 button event （ useJavaScriptimplementation）
+    # 复make button event （ useJavaScriptimplementation）
     copy_plan_btn.click(
         fn=None,
         inputs=[plan_output],
@@ -4213,9 +4213,9 @@ with gr.Blocks(
         js="""(plan_content) => {
             if (navigator.clipboard && window.isSecureContext) {
                 navigator.clipboard.writeText(plan_content).then(() => {
-                    alert('✅ Development Plan 已复制 to 剪贴板！');
+                    alert('✅ Development Plan 已复make to 剪贴板！');
                 }).catch(err => {
-                    console.error('复制 failure:', err);
+                    console.error('复make failure:', err);
                     alert('❌ Copy failed, please manually select text to copy');
                 });
             } else {
@@ -4226,7 +4226,7 @@ with gr.Blocks(
                 textArea.select();
                 try {
                     document.execCommand('copy');
-                    alert('✅ Development Plan 已复制 to 剪贴板！');
+                    alert('✅ Development Plan 已复make to 剪贴板！');
                 } catch (err) {
                     alert('❌ Copy failed, please manually select text to copy');
                 }
@@ -4242,9 +4242,9 @@ with gr.Blocks(
         js="""(prompts_content) => {
             if (navigator.clipboard && window.isSecureContext) {
                 navigator.clipboard.writeText(prompts_content).then(() => {
-                    alert('✅ programming prompts 已复制 to 剪贴板！');
+                    alert('✅ programming prompts 已复make to 剪贴板！');
                 }).catch(err => {
-                    console.error('复制 failure:', err);
+                    console.error('复make failure:', err);
                     alert('❌ Copy failed, please manually select text to copy');
                 });
             } else {
@@ -4255,7 +4255,7 @@ with gr.Blocks(
                 textArea.select();
                 try {
                     document.execCommand('copy');
-                    alert('✅ programming prompts 已复制 to 剪贴板！');
+                    alert('✅ programming prompts 已复make to 剪贴板！');
                 } catch (err) {
                     alert('❌ Copy failed, please manually select text to copy');
                 }
@@ -4264,14 +4264,14 @@ with gr.Blocks(
         }"""
     )
 
-# 启动 application - 开源版本
+# start application - open源版本
 if __name__ == "__main__":
     logger.info("🚀 Starting VibeDoc Application")
     logger.info(f"🌍 Environment: {config.environment}")
     logger.info(f"� Version: 2.0.0 - Open Source Edition")
     logger.info(f"�🔧 External Services: {[s.name for s in config.get_enabled_mcp_services()]}")
     
-    # try 多个端口 with 避免冲突
+    # try 多个端口 with avoid冲突
     ports_to_try = [7860, 7861, 7862, 7863, 7864]
     launched = False
     
@@ -4281,7 +4281,7 @@ if __name__ == "__main__":
             demo.launch(
                 server_name="0.0.0.0",
                 server_port=port,
-                share=False,  # 开源 version 默认 not 分享
+                share=False,  # open源 version 默认 not divide享
                 show_error=config.debug,
                 prevent_thread_lock=False
             )

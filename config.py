@@ -30,10 +30,10 @@ class AIModelConfig:
     api_url: str = "https://api.siliconflow.cn/v1/chat/completions"
     max_tokens: int = 8000
     temperature: float = 0.7
-    timeout: int = 300  # add to300秒（5分钟）解决超时issue
+    timeout: int = 300  # add to300seconds（5divideclock）solvetimeoutissue
 
 class AppConfig:
-    """application 总 configuration class"""
+    """application total configuration class"""
     
     def __init__(self):
         self.environment = os.getenv("ENVIRONMENT", "development")
@@ -46,7 +46,7 @@ class AppConfig:
             timeout=int(os.getenv("API_TIMEOUT", "300"))
         )
         
-        # simplifyMCPservice configuration - 直接use内置URL，避免环境变量复杂性
+        # simplifyMCPservice configuration - directuseinternal置URL，avoidenvironmentchangequantity复杂性
         self.mcp_services = {
             "deepwiki": MCPServiceConfig(
                 name="DeepWiki MCP",
@@ -73,15 +73,15 @@ class AppConfig:
         self.log_format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
     
     def get_enabled_mcp_services(self) -> List[MCPServiceConfig]:
-        """get 已启用MCPservicelist"""
+        """get 已startuseMCPservicelist"""
         return [service for service in self.mcp_services.values() if service.enabled]
     
     def get_mcp_service(self, service_key: str) -> Optional[MCPServiceConfig]:
-        """get 指定MCPservice configuration"""
+        """get specifyMCPservice configuration"""
         return self.mcp_services.get(service_key)
     
     def is_production(self) -> bool:
-        """is 否 for 生产 environment"""
+        """is no for 生产 environment"""
         return self.environment == "production"
     
     def validate_config(self) -> Dict[str, str]:
@@ -90,12 +90,12 @@ class AppConfig:
         
         # verifyAImodel configuration
         if not self.ai_model.api_key:
-            errors["ai_model"] = "SILICONFLOW_API_KEY 未 configuration"
+            errors["ai_model"] = "SILICONFLOW_API_KEY not yet configuration"
         
         # verifyMCPservice configuration
         enabled_services = self.get_enabled_mcp_services()
         if not enabled_services:
-            errors["mcp_services"] = "未 configuration 任何MCPservice，某些功能将受限"
+            errors["mcp_services"] = "not yet configuration 任whatMCPservice，certain些功能will受limit"
         
         return errors
     
@@ -123,7 +123,7 @@ class AppConfig:
 # 全局 configuration example
 config = AppConfig()
 
-# 常用 configuration 常量
+# 常use configuration 常quantity
 EXAMPLE_CONFIGURATIONS = {
     "web_applications": {
         "description": "Web Application Development Examples",

@@ -36,7 +36,7 @@ services:
     networks:
       - vibedoc-network
 
-  # Optional:Nginx反向代理
+  # Optional:Nginx反向代manage
   nginx:
     image: nginx:alpine
     container_name: vibedoc-nginx

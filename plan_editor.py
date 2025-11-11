@@ -1,6 +1,6 @@
 """
 User Plan Editor
-Allow users toAIgenerated development plan进行分段edit和修改
+Allow users toAIgenerated development plan进行dividesegmentedit和修改
 """
 
 import re
@@ -104,12 +104,12 @@ class PlanEditor:
                 current_section = None
                 continue
             
-            # 检测表格
+            # detecttableformat
             if '|' in line and line.count('|') >= 2:
                 if current_section and current_section.content.strip():
                     self.sections.append(current_section)
                 
-                # 收集整个表格
+                # collectcollectcomplete个tableformat
                 table_content = [line]
                 start_line = i
                 i += 1
@@ -121,7 +121,7 @@ class PlanEditor:
                 section_counter += 1
                 table_section = EditableSection(
                     section_id=f"table_{section_counter}",
-                    title="表格",
+                    title="tableformat",
                     content='\n'.join(table_content),
                     section_type='table',
                     level=0,
@@ -133,7 +133,7 @@ class PlanEditor:
                 current_section = None
                 continue
             
-            # 检测 list
+            # detect list
             if line.startswith(('-', '*', '+')) or re.match(r'^\d+\.', line):
                 if current_section and current_section.section_type != 'list':
                     if current_section.content.strip():
@@ -210,11 +210,11 @@ class PlanEditor:
         if current_section and current_section.content.strip():
             self.sections.append(current_section)
         
-        logger.info(f"parse complete ，共找 to {len(self.sections)} 个可edit paragraph")
+        logger.info(f"parse complete ，共找 to {len(self.sections)} 个canedit paragraph")
         return self.sections
     
     def _is_section_editable(self, title: str) -> bool:
-        """判 break paragraph is 否 can edit"""
+        """判 break paragraph is no can edit"""
         non_editable_patterns = [
             r'generation time',
             r'AImodel',
@@ -244,8 +244,8 @@ class PlanEditor:
         return editable_sections
     
     def _get_section_preview(self, content: str, max_length: int = 100) -> str:
-        """get paragraph 预览"""
-        # removeMarkdownformat符号
+        """get paragraph 预browse"""
+        # removeMarkdownformatsymbol
         preview = re.sub(r'[#*`|]', '', content)
         preview = re.sub(r'\n+', ' ', preview).strip()
         
@@ -255,9 +255,9 @@ class PlanEditor:
         return preview
     
     def update_section(self, section_id: str, new_content: str, user_comment: str = "") -> bool:
-        """update 指定 paragraph content"""
+        """update specify paragraph content"""
         try:
-            # find 目标 paragraph
+            # find 目mark paragraph
             target_section = None
             for section in self.sections:
                 if section.section_id == section_id:
@@ -265,14 +265,14 @@ class PlanEditor:
                     break
             
             if not target_section:
-                logger.error(f"未找 to paragraph {section_id}")
+                logger.error(f"not yet找 to paragraph {section_id}")
                 return False
             
             if not target_section.is_editable:
-                logger.error(f"paragraph {section_id} 不可edit")
+                logger.error(f"paragraph {section_id} notcanedit")
                 return False
             
-            # 记录 edit 历史
+            # 记录 edit 历history
             self.edit_history.append({
                 'timestamp': datetime.now().isoformat(),
                 'section_id': section_id,
@@ -284,7 +284,7 @@ class PlanEditor:
             # update content
             target_section.content = new_content
             
-            # 重新构建 complete content
+            # 重新construct建 complete content
             self._rebuild_content()
             
             logger.info(f"success update paragraph {section_id}")
@@ -295,14 +295,14 @@ class PlanEditor:
             return False
     
     def _rebuild_content(self):
-        """重新构建 complete content"""
+        """重新construct建 complete content"""
         try:
             lines = self.original_content.split('\n')
             
-            # 按行号 sort paragraph
+            # press行号 sort paragraph
             sorted_sections = sorted(self.sections, key=lambda x: x.start_line)
             
-            # 重新构建 content
+            # 重新construct建 content
             new_lines = []
             current_line = 0
             
@@ -315,7 +315,7 @@ class PlanEditor:
                 # add update after paragraph content
                 new_lines.extend(section.content.split('\n'))
                 
-                # 跳过原始 paragraph 行
+                # jump过original始 paragraph 行
                 current_line = section.end_line + 1
             
             # add 剩余行
@@ -334,7 +334,7 @@ class PlanEditor:
         return self.modified_content if self.modified_content else self.original_content
     
     def get_edit_history(self) -> List[Dict]:
-        """get edit 历史"""
+        """get edit 历history"""
         return self.edit_history
     
     def get_edit_summary(self) -> Dict:
@@ -347,25 +347,25 @@ class PlanEditor:
         }
     
     def reset_to_original(self):
-        """重置 to 原始 content"""
+        """重置 to original始 content"""
         self.modified_content = self.original_content
         self.edit_history = []
         # 重新 parse paragraph
         self.parse_plan_content(self.original_content)
-        logger.info("已重置 to 原始 content")
+        logger.info("已重置 to original始 content")
     
     def export_edited_content(self, format_type: str = 'markdown') -> str:
-        """导出 edit after content"""
+        """guideout edit after content"""
         content = self.get_modified_content()
         
         if format_type == 'markdown':
             return content
         elif format_type == 'html':
-            # simpleMarkdown到HTMLconvert
+            # simpleMarkdowntoHTMLconvert
             import markdown
             return markdown.markdown(content)
         else:
             return content
 
-# 全局 edit 器 example
+# 全局 edit device example
 plan_editor = PlanEditor()

@@ -1,6 +1,6 @@
 """
-AIcan 解释性管理器
-提供 process 链条透明度 and 结合SOP的可解释性功能
+AIcan solveexplain性管managedevice
+提provide process 链条transparentdegree and 结合SOP的cansolveexplain性功能
 """
 
 import logging
@@ -23,7 +23,7 @@ class ProcessingStage(Enum):
 
 @dataclass
 class ProcessingStep:
-    """process Step data 结构"""
+    """process Step data 结construct"""
     stage: ProcessingStage
     title: str
     description: str
@@ -35,7 +35,7 @@ class ProcessingStep:
     evidence: Optional[str] = None
 
 class ExplanationManager:
-    """AIcan 解释性管理器"""
+    """AIcan solveexplain性管managedevice"""
     
     def __init__(self):
         self.processing_steps: List[ProcessingStep] = []
@@ -46,7 +46,7 @@ class ExplanationManager:
         """start process procedure"""
         self.processing_steps.clear()
         self.quality_metrics.clear()
-        logger.info("🔄 start process 链条追踪")
+        logger.info("🔄 start process 链条track")
     
     def add_processing_step(self, 
                           stage: ProcessingStage,
@@ -76,7 +76,7 @@ class ExplanationManager:
     def get_processing_explanation(self) -> str:
         """get process procedure detailed description"""
         if not self.processing_steps:
-            return "暂无 process 记录"
+            return "temporarily无 process 记录"
         
         explanation = self._generate_explanation_header()
         explanation += self._generate_sop_compliance_report()
@@ -95,8 +95,8 @@ class ExplanationManager:
         return f"""
 # 🔍 AIgenerate procedure detailed description
 
-## 📊 process 概览
-- **总 process Step**: {total_steps}
+## 📊 process generalbrowse
+- **total process Step**: {total_steps}
 - **success Step**: {successful_steps}
 - **success 率**: {success_rate:.1f}%
 - **process when time**: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
@@ -106,38 +106,38 @@ class ExplanationManager:
 """
     
     def _generate_sop_compliance_report(self) -> str:
-        """generateSOP合规报告"""
+        """generateSOP合规报notify"""
         return f"""
-## 📋 SOP (标准操作程序) 合规报告
+## 📋 SOP (mark准operate程序) 合规报notify
 
-### 🎯 quality 保证标准
+### 🎯 quality 保证mark准
 {self._format_sop_guidelines()}
 
 ### ✅ 合规性 check
-- **input verify**: {'✅ 通过' if self._check_sop_compliance('input_validation') else '❌ 未通过'}
-- **knowledge acquisition**: {'✅ 通过' if self._check_sop_compliance('knowledge_retrieval') else '❌ 未通过'}
-- **AIgenerate**: {'✅ 通过' if self._check_sop_compliance('ai_generation') else '❌ 未通过'}
-- **quality assessment**: {'✅ 通过' if self._check_sop_compliance('quality_assessment') else '❌ 未通过'}
-- **content formatting**: {'✅ 通过' if self._check_sop_compliance('content_formatting') else '❌ 未通过'}
+- **input verify**: {'✅ 通过' if self._check_sop_compliance('input_validation') else '❌ not yet通过'}
+- **knowledge acquisition**: {'✅ 通过' if self._check_sop_compliance('knowledge_retrieval') else '❌ not yet通过'}
+- **AIgenerate**: {'✅ 通过' if self._check_sop_compliance('ai_generation') else '❌ not yet通过'}
+- **quality assessment**: {'✅ 通过' if self._check_sop_compliance('quality_assessment') else '❌ not yet通过'}
+- **content formatting**: {'✅ 通过' if self._check_sop_compliance('content_formatting') else '❌ not yet通过'}
 
 ---
 
 """
     
     def _generate_processing_steps_report(self) -> str:
-        """generate process Step 报告"""
+        """generate process Step 报notify"""
         report = "## 🔄 detailed process Step\n\n"
         
         for i, step in enumerate(self.processing_steps, 1):
             status_icon = "✅" if step.success else "❌"
-            quality_info = f" (quality 分: {step.quality_score:.1f})" if step.quality_score else ""
+            quality_info = f" (quality divide: {step.quality_score:.1f})" if step.quality_score else ""
             
             report += f"""
 ### Step {i}: {step.title} {status_icon}
 
 - **phase**: {self._get_stage_name(step.stage)}
 - **when time**: {step.timestamp}
-- **consume when**: {step.duration:.2f}秒{quality_info}
+- **consume when**: {step.duration:.2f}seconds{quality_info}
 - **description**: {step.description}
 
 **detailed information**:
@@ -146,16 +146,16 @@ class ExplanationManager:
 """
             
             if step.evidence:
-                report += f"**证据**: {step.evidence}\n\n"
+                report += f"**证data**: {step.evidence}\n\n"
         
         return report + "---\n\n"
     
     def _generate_quality_metrics_report(self) -> str:
-        """generate quality 指标报告"""
+        """generate quality pointmark报notify"""
         if not self.quality_metrics:
             return ""
         
-        report = "## 📈 quality 指标详情\n\n"
+        report = "## 📈 quality pointmark详情\n\n"
         
         for metric_name, metric_value in self.quality_metrics.items():
             report += f"- **{metric_name}**: {metric_value}\n"
@@ -163,13 +163,13 @@ class ExplanationManager:
         return report + "\n---\n\n"
     
     def _generate_evidence_summary(self) -> str:
-        """generate 证据 summary"""
+        """generate 证data summary"""
         evidence_steps = [step for step in self.processing_steps if step.evidence]
         
         if not evidence_steps:
             return ""
         
-        report = "## 🧾 证据 summary\n\n"
+        report = "## 🧾 证data summary\n\n"
         
         for i, step in enumerate(evidence_steps, 1):
             report += f"**{i}. {step.title}**\n{step.evidence}\n\n"
@@ -177,12 +177,12 @@ class ExplanationManager:
         return report
     
     def _load_sop_guidelines(self) -> Dict[str, Any]:
-        """loadSOP指导原则"""
+        """loadSOPpointguideoriginal则"""
         return {
             "input_validation": {
-                "title": "input verify 标准",
+                "title": "input verify mark准",
                 "requirements": [
-                    "user input 长度 >= 10字符",
+                    "user input 长degree >= 10字symbol",
                     "input content include 产品 description",
                     "无恶意 content and 敏感 information"
                 ]
@@ -190,7 +190,7 @@ class ExplanationManager:
             "knowledge_retrieval": {
                 "title": "外部 knowledge acquisition",
                 "requirements": [
-                    "MCPservice 连接 status check",
+                    "MCPservice 连connect status check",
                     "reference link have 效性 verify",
                     "knowledge content 相关性 assessment"
                 ]
@@ -199,17 +199,17 @@ class ExplanationManager:
                 "title": "AIcontent generate",
                 "requirements": [
                     "use 专业 system prompt",
-                    "generate content 结构 complete",
-                    "include 必 want 技术细节"
+                    "generate content 结construct complete",
+                    "include 必 want 技technique细section"
                 ]
             },
             "quality_assessment": {
-                "title": "quality assessment 标准",
+                "title": "quality assessment mark准",
                 "requirements": [
                     "content complete 性 check",
-                    "Mermaiddiagram 表语法 verify",
+                    "Mermaiddiagram table语法 verify",
                     "link have 效性 check",
-                    "日期准确性 verify"
+                    "date准确性 verify"
                 ]
             },
             "content_formatting": {
@@ -217,13 +217,13 @@ class ExplanationManager:
                 "requirements": [
                     "Markdownformat 规范",
                     "add when time 戳 and meta information",
-                    "enhanced prompt display 效果"
+                    "enhanced prompt display 效result"
                 ]
             }
         }
     
     def _format_sop_guidelines(self) -> str:
-        """formattingSOP指导原则"""
+        """formattingSOPpointguideoriginal则"""
         formatted = ""
         for key, guideline in self.sop_guidelines.items():
             formatted += f"**{guideline['title']}**:\n"
@@ -239,7 +239,7 @@ class ExplanationManager:
         return len(relevant_steps) > 0 and all(step.success for step in relevant_steps)
     
     def _get_stage_name(self, stage: ProcessingStage) -> str:
-        """get phase name 称"""
+        """get phase name called"""
         stage_names = {
             ProcessingStage.INPUT_VALIDATION: "input verify",
             ProcessingStage.PROMPT_OPTIMIZATION: "prompt optimize",
@@ -247,7 +247,7 @@ class ExplanationManager:
             ProcessingStage.AI_GENERATION: "AIgenerate",
             ProcessingStage.QUALITY_ASSESSMENT: "quality assessment",
             ProcessingStage.CONTENT_FORMATTING: "content formatting",
-            ProcessingStage.RESULT_VALIDATION: "结果 verify"
+            ProcessingStage.RESULT_VALIDATION: "结result verify"
         }
         return stage_names.get(stage, stage.value)
     
@@ -271,24 +271,24 @@ class ExplanationManager:
         return f"{{{', '.join(items)}}}"
     
     def update_quality_metrics(self, metrics: Dict[str, Any]):
-        """update quality 指标"""
+        """update quality pointmark"""
         self.quality_metrics.update(metrics)
         
     def get_trust_score(self) -> float:
-        """计算信任分数"""
+        """calculatetrust任divide数"""
         if not self.processing_steps:
             return 0.0
         
-        # 基于 success 率 and quality 分数计算信任分数
+        # 基于 success 率 and quality divide数calculatetrust任divide数
         success_rate = sum(1 for step in self.processing_steps if step.success) / len(self.processing_steps)
         
         quality_scores = [step.quality_score for step in self.processing_steps if step.quality_score]
         avg_quality = sum(quality_scores) / len(quality_scores) if quality_scores else 0.5
         
-        # 信任分数 = success 率 * 0.6 + 平均quality 分数 * 0.4
+        # trust任divide数 = success 率 * 0.6 + 平均quality divide数 * 0.4
         trust_score = success_rate * 0.6 + (avg_quality / 100) * 0.4
         
         return round(trust_score * 100, 1)
 
-# 全局 can 解释性管理器 example
+# 全局 can solveexplain性管managedevice example
 explanation_manager = ExplanationManager()

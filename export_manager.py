@@ -1,6 +1,6 @@
 """
-VibeDoc 多 format 导出管理器
-support Ma# PDF 导出
+VibeDoc 多 format guideout管managedevice
+support Ma# PDF guideout
 try:
     from reportlab.lib.pagesizes import letter, A4
     from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
@@ -13,8 +13,8 @@ try:
 except ImportError:
     PDF_AVAILABLE = False
 
-# advancedPDF导出 - removeweasyprintdependency，usereportlab
-WEASYPRINT_AVAILABLE = FalseF format documentation 导出
+# advancedPDFguideout - removeweasyprintdependency，usereportlab
+WEASYPRINT_AVAILABLE = FalseF format documentation guideout
 """
 
 import os
@@ -30,7 +30,7 @@ import logging
 import markdown
 import html2text
 
-# Word 导出
+# Word guideout
 try:
     from docx import Document
     from docx.shared import Inches
@@ -40,7 +40,7 @@ try:
 except ImportError:
     DOCX_AVAILABLE = False
 
-# PDF 导出
+# PDF guideout
 try:
     from reportlab.lib.pagesizes import letter, A4
     from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
@@ -53,35 +53,35 @@ try:
 except ImportError:
     PDF_AVAILABLE = False
 
-# advancedPDF导出（备用方案） - removeweasyprintdependency
+# advancedPDFguideout（备useplan） - removeweasyprintdependency
 WEASYPRINT_AVAILABLE = False
 
 logger = logging.getLogger(__name__)
 
 class ExportManager:
-    """多 format 导出管理器"""
+    """多 format guideout管managedevice"""
     
     def __init__(self):
         self.supported_formats = ['markdown', 'html']
         
-        # check can 选 dependency
+        # check can select dependency
         if DOCX_AVAILABLE:
             self.supported_formats.append('docx')
         if PDF_AVAILABLE:
             self.supported_formats.append('pdf')
             
-        logger.info(f"📄 ExportManager 初始化 complete ， support format: {', '.join(self.supported_formats)}")
+        logger.info(f"📄 ExportManager initial始transform complete ， support format: {', '.join(self.supported_formats)}")
     
     def get_supported_formats(self) -> list:
-        """get support 导出 format"""
+        """get support guideout format"""
         return self.supported_formats.copy()
     
     def export_to_markdown(self, content: str, metadata: Optional[Dict] = None) -> str:
         """
-        export as Markdown format（清理 and optimize）
+        export as Markdown format（清manage and optimize）
         
         Args:
-            content: 原始 content
+            content: original始 content
             metadata: metadata information
             
         Returns:
@@ -100,15 +100,15 @@ generator: VibeDoc AI Agent v1.0
 """
                 content = header + content
             
-            # 清理 and optimize content
+            # 清manage and optimize content
             content = self._clean_markdown_content(content)
             
-            logger.info("✅ Markdown 导出 success")
+            logger.info("✅ Markdown guideout success")
             return content
             
         except Exception as e:
-            logger.error(f"❌ Markdown 导出 failure: {e}")
-            return content  # 返回原始 content
+            logger.error(f"❌ Markdown guideout failure: {e}")
+            return content  # 返回original始 content
     
     def export_to_html(self, content: str, metadata: Optional[Dict] = None) -> str:
         """
@@ -122,7 +122,7 @@ generator: VibeDoc AI Agent v1.0
             str: complete HTML content
         """
         try:
-            # configuration Markdown 扩展
+            # configuration Markdown 扩expand
             md = markdown.Markdown(
                 extensions=[
                     'markdown.extensions.extra',
@@ -141,10 +141,10 @@ generator: VibeDoc AI Agent v1.0
                 }
             )
             
-            # convert Markdown 到 HTML
+            # convert Markdown to HTML
             html_content = md.convert(content)
             
-            # generate complete HTML 文档
+            # generate complete HTML text档
             title = metadata.get('title', 'VibeDoc Development Plan') if metadata else 'VibeDoc Development Plan'
             author = metadata.get('author', 'VibeDoc AI Agent') if metadata else 'VibeDoc AI Agent'
             date = metadata.get('date', datetime.now().strftime('%Y-%m-%d')) if metadata else datetime.now().strftime('%Y-%m-%d')
@@ -195,12 +195,12 @@ generator: VibeDoc AI Agent v1.0
 </body>
 </html>"""
             
-            logger.info("✅ HTML 导出 success")
+            logger.info("✅ HTML guideout success")
             return full_html
             
         except Exception as e:
-            logger.error(f"❌ HTML 导出 failure: {e}")
-            # simple HTML 备用方案
+            logger.error(f"❌ HTML guideout failure: {e}")
+            # simple HTML 备useplan
             return f"""<!DOCTYPE html>
 <html><head><title>VibeDoc Development Plan</title></head>
 <body><pre>{content}</pre></body></html>"""
@@ -214,10 +214,10 @@ generator: VibeDoc AI Agent v1.0
             metadata: metadata information
             
         Returns:
-            bytes: Word documentation 二进制 data
+            bytes: Word documentation 二进make data
         """
         if not DOCX_AVAILABLE:
-            raise ImportError("python-docx 未安装，无法导出 Word format")
+            raise ImportError("python-docx not yet安装，无法guideout Word format")
         
         try:
             # create 新 documentation
@@ -237,7 +237,7 @@ generator: VibeDoc AI Agent v1.0
             # add meta information
             doc.add_paragraph()
             meta_para = doc.add_paragraph()
-            meta_para.add_run(f"📝 作者: {properties.author}").bold = True
+            meta_para.add_run(f"📝 work者: {properties.author}").bold = True
             meta_para.add_run("\n")
             meta_para.add_run(f"📅 generation time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}").bold = True
             meta_para.add_run("\n")
@@ -257,16 +257,16 @@ generator: VibeDoc AI Agent v1.0
             footer_para.add_run("This document is generated by VibeDoc AI Agent 自动generate").italic = True
             footer_para.alignment = WD_ALIGN_PARAGRAPH.CENTER
             
-            # save to 内存
+            # save to internal存
             doc_stream = io.BytesIO()
             doc.save(doc_stream)
             doc_stream.seek(0)
             
-            logger.info("✅ Word documentation 导出 success")
+            logger.info("✅ Word documentation guideout success")
             return doc_stream.getvalue()
             
         except Exception as e:
-            logger.error(f"❌ Word 导出 failure: {e}")
+            logger.error(f"❌ Word guideout failure: {e}")
             raise
     
     def export_to_pdf(self, content: str, metadata: Optional[Dict] = None) -> bytes:
@@ -278,24 +278,24 @@ generator: VibeDoc AI Agent v1.0
             metadata: metadata information
             
         Returns:
-            bytes: PDF documentation 二进制 data
+            bytes: PDF documentation 二进make data
         """
         if PDF_AVAILABLE:
             return self._export_pdf_reportlab(content, metadata)
         else:
-            raise ImportError("PDF 导出 dependency 未安装")
+            raise ImportError("PDF guideout dependency not yet安装")
     
     def create_multi_format_export(self, content: str, formats: list = None, metadata: Optional[Dict] = None) -> bytes:
         """
-        create 多 format 导出 ZIP 包
+        create 多 format guideout ZIP package
         
         Args:
-            content: 原始 content
-            formats: want 导出 format list ，默认 for all have support format
+            content: original始 content
+            formats: want guideout format list ，默认 for all have support format
             metadata: metadata information
             
         Returns:
-            bytes: ZIP file 二进制 data
+            bytes: ZIP file 二进make data
         """
         if formats is None:
             formats = self.supported_formats
@@ -306,15 +306,15 @@ generator: VibeDoc AI Agent v1.0
             raise ValueError(f"not supported format: {', '.join(invalid_formats)}")
         
         try:
-            # create 内存 in ZIP 文件
+            # create internal存 in ZIP textitem
             zip_buffer = io.BytesIO()
             
             with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
                 # generate 基础 file name
                 base_name = metadata.get('title', 'vibedoc_plan') if metadata else 'vibedoc_plan'
-                base_name = re.sub(r'[^\w\-_\.]', '_', base_name)  # 清理 file name
+                base_name = re.sub(r'[^\w\-_\.]', '_', base_name)  # 清manage file name
                 
-                # 导出各种 format
+                # guideout各种 format
                 for fmt in formats:
                     try:
                         if fmt == 'markdown':
@@ -334,22 +334,22 @@ generator: VibeDoc AI Agent v1.0
                             zip_file.writestr(f"{base_name}.pdf", file_content)
                             
                     except Exception as e:
-                        logger.warning(f"⚠️ format {fmt} 导出 failure: {e}")
-                        # in ZIP 中adderror information文件
-                        error_msg = f"format {fmt} 导出 failure:\n{str(e)}\n\n请check相关dependency是否正确安装。"
+                        logger.warning(f"⚠️ format {fmt} guideout failure: {e}")
+                        # in ZIP 中adderror informationtextitem
+                        error_msg = f"format {fmt} guideout failure:\n{str(e)}\n\npleasecheck相关dependency是nocorrect确安装。"
                         zip_file.writestr(f"ERROR_{fmt}.txt", error_msg.encode('utf-8'))
                 
                 # add description file
-                readme_content = f"""# VibeDoc 导出 file 包
+                readme_content = f"""# VibeDoc guideout file package
 
 ## 📋 file description
-this 压缩包 include 您 Development Plan 多种 format 导出：
+this 压缩package include 您 Development Plan 多种 format guideout：
 
 ### 📄 support format ：
-- **Markdown (.md)**: 原始 format ， support all have Markdown 语法
-- **HTML (.html)**: 网页 format ， include 样式 and Mermaid diagram 表support
+- **Markdown (.md)**: original始 format ， support all have Markdown 语法
+- **HTML (.html)**: 网页 format ， include 样式 and Mermaid diagram tablesupport
 - **Word (.docx)**: Microsoft Word documentation format
-- **PDF (.pdf)**: 便携式 documentation format
+- **PDF (.pdf)**: convenient携式 documentation format
 
 ### 🤖 generate information ：
 - generation time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
@@ -357,10 +357,10 @@ this 压缩包 include 您 Development Plan 多种 format 导出：
 - project address: https://github.com/JasonRobertDestiny/VibeDocs
 
 ### 💡 use recommendation ：
-1. 优先 use HTML format查看，support最佳的视觉效果
+1. excellentfirst use HTML formatcheck看，support最佳的view觉效result
 2. use Markdown format进行进一步edit
-3. use Word format进行正式文档process
-4. use PDF format进行分享和打印
+3. use Word format进行correct式text档process
+4. use PDF format进行divide享和hit印
 
 ---
 感谢 use VibeDoc AI Agent！
@@ -368,18 +368,18 @@ this 压缩包 include 您 Development Plan 多种 format 导出：
                 zip_file.writestr("README.md", readme_content.encode('utf-8'))
             
             zip_buffer.seek(0)
-            logger.info(f"✅ 多 format 导出 success ， include {len(formats)} 种format")
+            logger.info(f"✅ 多 format guideout success ， include {len(formats)} 种format")
             return zip_buffer.getvalue()
             
         except Exception as e:
-            logger.error(f"❌ 多 format 导出 failure: {e}")
+            logger.error(f"❌ 多 format guideout failure: {e}")
             raise
     
     def _clean_markdown_content(self, content: str) -> str:
-        """清理 and optimize Markdown content"""
+        """清manage and optimize Markdown content"""
         # fix 常见 format issue
         content = re.sub(r'\n{3,}', '\n\n', content)  # remove 多余空行
-        content = re.sub(r'(?m)^[ \t]+$', '', content)  # remove 只 have 空格行
+        content = re.sub(r'(?m)^[ \t]+$', '', content)  # remove 只 have 空format行
         content = content.strip()
         
         return content
@@ -525,7 +525,7 @@ this 压缩包 include 您 Development Plan 多种 format 导出：
         """
     
     def _parse_markdown_to_docx(self, doc: "Document", content: str):
-        """parse Markdown content并add到 Word 文档"""
+        """parse Markdown content并addto Word text档"""
         lines = content.split('\n')
         
         for line in lines:
@@ -559,17 +559,17 @@ this 压缩包 include 您 Development Plan 多种 format 导出：
             
             # 普通 paragraph
             if line:
-                # simple 粗体 and 斜体 process
-                line = re.sub(r'\*\*(.*?)\*\*', r'\1', line)  # remove 粗体标记，Word 中后续可以手动设置
-                line = re.sub(r'\*(.*?)\*', r'\1', line)      # remove 斜体标记
+                # simple 粗body and 斜body process
+                line = re.sub(r'\*\*(.*?)\*\*', r'\1', line)  # remove 粗bodymark，Word 中后续canwith手动set置
+                line = re.sub(r'\*(.*?)\*', r'\1', line)      # remove 斜bodymark
                 doc.add_paragraph(line)
     
     def _export_pdf_reportlab(self, content: str, metadata: Optional[Dict] = None) -> bytes:
-        """use ReportLab 导出 PDF"""
+        """use ReportLab guideout PDF"""
         try:
             buffer = io.BytesIO()
             
-            # create PDF 文档
+            # create PDF text档
             doc = SimpleDocTemplate(
                 buffer,
                 pagesize=A4,
@@ -589,7 +589,7 @@ this 压缩包 include 您 Development Plan 多种 format 导出：
                 alignment=1  # 居 in
             )
             
-            # 构建 content
+            # construct建 content
             story = []
             
             # add title
@@ -599,7 +599,7 @@ this 压缩包 include 您 Development Plan 多种 format 导出：
             
             # add meta information
             meta_text = f"""
-            作者: {metadata.get('author', 'VibeDoc AI Agent') if metadata else 'VibeDoc AI Agent'}<br/>
+            work者: {metadata.get('author', 'VibeDoc AI Agent') if metadata else 'VibeDoc AI Agent'}<br/>
             generation time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}<br/>
             generate tool: VibeDoc AI Agent
             """
@@ -634,12 +634,12 @@ this 压缩包 include 您 Development Plan 多种 format 导出：
             doc.build(story)
             buffer.seek(0)
             
-            logger.info("✅ PDF 导出 success （ReportLab）")
+            logger.info("✅ PDF guideout success （ReportLab）")
             return buffer.getvalue()
             
         except Exception as e:
-            logger.error(f"❌ ReportLab PDF 导出 failure: {e}")
+            logger.error(f"❌ ReportLab PDF guideout failure: {e}")
             raise
 
-# 全局导出管理器 example
+# 全局guideout管managedevice example
 export_manager = ExportManager()

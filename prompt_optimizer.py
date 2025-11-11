@@ -1,6 +1,6 @@
 """
-prompt optimize 器 module
-useAIoptimize user input 创意 description，提升generate报告的质量
+prompt optimize device module
+useAIoptimize user input 创意 description，提升generate报notify的质quantity
 """
 
 import requests
@@ -12,7 +12,7 @@ from config import config
 logger = logging.getLogger(__name__)
 
 class PromptOptimizer:
-    """user input prompt optimize 器"""
+    """user input prompt optimize device"""
     
     def __init__(self):
         self.api_key = config.ai_model.api_key
@@ -24,19 +24,19 @@ class PromptOptimizer:
         optimize user input 创意 description
         
         Args:
-            user_idea: user 原始 input
+            user_idea: user original始 input
             
         Returns:
             Tuple[bool, str, str]: (success status, optimize after description, optimizerecommendation)
         """
         if not self.api_key:
-            return False, user_idea, "API密钥未 configuration ，无法 optimize description"
+            return False, user_idea, "API密keynot yet configuration ，无法 optimize description"
         
         if not user_idea or len(user_idea.strip()) < 5:
-            return False, user_idea, "input content 过短，无法 optimize"
+            return False, user_idea, "input content 过short，无法 optimize"
         
         try:
-            # 构建 optimize prompt
+            # construct建 optimize prompt
             optimization_prompt = self._build_optimization_prompt(user_idea)
             
             # callAIoptimize
@@ -51,24 +51,24 @@ class PromptOptimizer:
                 
         except Exception as e:
             logger.error(f"prompt optimize exception: {e}")
-            return False, user_idea, f"optimize procedure 出错: {str(e)}"
+            return False, user_idea, f"optimize procedure out错: {str(e)}"
     
     def _build_optimization_prompt(self, user_idea: str) -> str:
-        """构建 optimize prompt"""
-        return f"""你 is 一个专业 Product Manager and 技术顾问，擅长 will user simple 想法 extension for detailed 产品 description 。
+        """construct建 optimize prompt"""
+        return f"""你 is 一个专业 Product Manager and 技techniqueconsider问，擅长 will user simple 想法 extension for detailed 产品 description 。
 
-user 原始 input ：
+user original始 input ：
 {user_idea}
 
 Please help optimize this creative description to make it more detailed, specific and professional. The optimized description should contain the following elements:
 
 1. **core function**：明确产品的main function和价值
-2. **目标 user**：定义产品的目标 user群体
-3. **use 场景**：description产品的典型use 场景
-4. **技术特点**：提及可能需要的key 技术特性
-5. **商业价 value**：阐述产品的市场价值和竞争优势
+2. **目mark user**：定义产品的目mark user群body
+3. **use 场scene**：description产品的典型use 场scene
+4. **技technique特点**：提及can能需important的key 技technique特性
+5. **商业价 value**：阐述产品的市场价值和竞争excellenttrend
 
-请按 with 下JSONformat输出：
+pleasepress with 下JSONformat输out：
 {{
     "optimized_idea": "optimize after detailed 产品 description",
     "key_improvements": [
@@ -80,10 +80,10 @@ Please help optimize this creative description to make it more detailed, specifi
 }}
 
 requirement ：
-- 保持原始创意核心思想
+- 保持original始创意核心think想
 - use 专业但易懂语言
-- 长度控制 in200-400字之间
-- 突出产品创新性 and actual 用性"""
+- 长degree控make in200-400字of间
+- 突out产品创新性 and actual use性"""
 
     def _call_ai_service(self, prompt: str) -> Dict[str, Any]:
         """callAIservice"""
@@ -106,7 +106,7 @@ requirement ：
                 self.api_url,
                 headers=headers,
                 json=payload,
-                timeout=300  # Optimization: Creative description optimization timeout is300秒（5分钟）
+                timeout=300  # Optimization: Creative description optimization timeout is300seconds（5divideclock）
             )
             
             if response.status_code == 200:
@@ -120,7 +120,7 @@ requirement ：
             return {"success": False, "error": str(e)}
     
     def _parse_optimization_result(self, ai_response: str) -> Dict[str, Any]:
-        """parseAIoptimize结果"""
+        """parseAIoptimize结result"""
         try:
             # try parseJSON
             start_idx = ai_response.find('{')
@@ -136,7 +136,7 @@ requirement ：
                     "key_improvements": result.get("key_improvements", [])
                 }
             else:
-                # such as 果无法 parseJSON，直接返回原始响应
+                # such as result无法 parseJSON，direct返回original始响should
                 return {
                     "optimized_idea": ai_response,
                     "suggestions": "AIReturned optimization suggestions, but format needs adjustment",
@@ -144,7 +144,7 @@ requirement ：
                 }
                 
         except json.JSONDecodeError:
-            # JSONparse failure ，返回原始 response should
+            # JSONparse failure ，返回original始 response should
             return {
                 "optimized_idea": ai_response,
                 "suggestions": "AIReturned optimization suggestions, but format needs adjustment",
@@ -156,15 +156,15 @@ requirement ：
         return [
             {
                 "original": "我想做一个购物 website",
-                "optimized": "Develop an intelligent shopping platform for young consumers, integratingAI推荐系统、社交分享功能和个性化user experience。平台将提供多品类商品展示、智能搜索、用户评价系统和便捷的移动支付功能，旨in为用户提供个性化的购物体验和高质量的商品推荐service。",
-                "improvements": ["明确目标 user", "定义core function", "突出技术特色"]
+                "optimized": "Develop an intelligent shopping platform for young consumers, integratingAIpush荐系统、社exchangedivide享功能和个性transformuser experience。平台will提provide多品类商品expand示、智能搜索、use户评价系统和convenient捷的移动支付功能，旨in为use户提provide个性transform的购物bodyexperience和高质quantity的商品push荐service。",
+                "improvements": ["明确目mark user", "定义core function", "突out技technique特色"]
             },
             {
-                "original": "想搞个学习 system",
-                "optimized": "Build aAI的个性化online学习管理系统，support多媒体content展示、学习进度跟踪、智能题库管理和师生互动功能。系统将为教育机构和个人学习者提供complete数字化学习solution，包括课程管理、作业批改、学习分析和成绩评估等功能。",
-                "improvements": ["extension function description", "明确application场景", "增加技术亮点"]
+                "original": "想搞个learn习 system",
+                "optimized": "Build aAI的个性transformonlinelearn习管manage系统，support多媒bodycontentexpand示、learn习进degree跟踪、智能题库管manage和expert生互动功能。系统will为教育机construct和个人learn习者提providecomplete数字transformlearn习solution，packageinclude课程管manage、work业批改、learn习analyze和成performance评估等功能。",
+                "improvements": ["extension function description", "明确application场scene", "增加技technique亮点"]
             }
         ]
 
-# 全局 optimize 器 example
+# 全局 optimize device example
 prompt_optimizer = PromptOptimizer()
