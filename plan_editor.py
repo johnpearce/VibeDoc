@@ -1,6 +1,6 @@
 """
-用户方案编辑器
-允许用户对AI生成的开发计划进行分段编辑和修改
+User Plan Editor
+Allow users toAIgenerated development plan进行分段edit和修改
 """
 
 import re
@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class EditableSection:
-    """可编辑的方案段落"""
+    """editable plan paragraphs"""
     section_id: str
     title: str
     content: str
@@ -25,7 +25,7 @@ class EditableSection:
     is_editable: bool = True
 
 class PlanEditor:
-    """开发计划编辑器"""
+    """Development Plan Editor"""
     
     def __init__(self):
         self.sections: List[EditableSection] = []
@@ -34,7 +34,7 @@ class PlanEditor:
         self.edit_history: List[Dict] = []
     
     def parse_plan_content(self, content: str) -> List[EditableSection]:
-        """解析开发计划内容为可编辑段落"""
+        """Parse development plan content into editable paragraphs"""
         self.original_content = content
         self.sections = []
         
@@ -46,17 +46,17 @@ class PlanEditor:
         while i < len(lines):
             line = lines[i].strip()
             
-            # 检测标题（# ## ### 等）
+            # Detect heading (# ## ### 等）
             if line.startswith('#') and not line.startswith('```'):
                 level = len(line) - len(line.lstrip('#'))
-                if level <= 6:  # 有效的标题级别
+                if level <= 6:  # valid heading level
                     title = line.lstrip('#').strip()
                     
-                    # 保存上一个段落
+                    # save previous paragraph
                     if current_section and current_section.content.strip():
                         self.sections.append(current_section)
                     
-                    # 创建新的标题段落
+                    # create new heading paragraph
                     section_counter += 1
                     current_section = EditableSection(
                         section_id=f"section_{section_counter}",
@@ -71,12 +71,12 @@ class PlanEditor:
                     i += 1
                     continue
             
-            # 检测代码块
+            # detect code block
             if line.startswith('```'):
                 if current_section and current_section.content.strip():
                     self.sections.append(current_section)
                 
-                # 收集整个代码块
+                # collect entire code block
                 code_content = [line]
                 i += 1
                 start_line = i - 1
@@ -85,14 +85,14 @@ class PlanEditor:
                     code_content.append(lines[i])
                     i += 1
                 
-                if i < len(lines):  # 添加结束的```
+                if i < len(lines):  # add end```
                     code_content.append(lines[i])
                     i += 1
                 
                 section_counter += 1
                 code_section = EditableSection(
                     section_id=f"code_{section_counter}",
-                    title="代码块",
+                    title="code 块",
                     content='\n'.join(code_content),
                     section_type='code',
                     level=0,
@@ -133,7 +133,7 @@ class PlanEditor:
                 current_section = None
                 continue
             
-            # 检测列表
+            # 检测 list
             if line.startswith(('-', '*', '+')) or re.match(r'^\d+\.', line):
                 if current_section and current_section.section_type != 'list':
                     if current_section.content.strip():
@@ -142,7 +142,7 @@ class PlanEditor:
                     section_counter += 1
                     current_section = EditableSection(
                         section_id=f"list_{section_counter}",
-                        title="列表",
+                        title="list",
                         content=line,
                         section_type='list',
                         level=0,
@@ -157,7 +157,7 @@ class PlanEditor:
                     section_counter += 1
                     current_section = EditableSection(
                         section_id=f"list_{section_counter}",
-                        title="列表",
+                        title="list",
                         content=line,
                         section_type='list',
                         level=0,
@@ -168,17 +168,17 @@ class PlanEditor:
                 i += 1
                 continue
             
-            # 普通段落
+            # 普通 paragraph
             if line:
                 if current_section and current_section.section_type == 'paragraph':
                     current_section.content += '\n' + line
                     current_section.end_line = i
                 elif current_section and current_section.section_type == 'heading':
-                    # 标题后的第一个段落
+                    # title after 一个 paragraph
                     section_counter += 1
                     new_section = EditableSection(
                         section_id=f"paragraph_{section_counter}",
-                        title="段落",
+                        title="paragraph",
                         content=line,
                         section_type='paragraph',
                         level=0,
@@ -195,7 +195,7 @@ class PlanEditor:
                     section_counter += 1
                     current_section = EditableSection(
                         section_id=f"paragraph_{section_counter}",
-                        title="段落",
+                        title="paragraph",
                         content=line,
                         section_type='paragraph',
                         level=0,
@@ -206,20 +206,20 @@ class PlanEditor:
             
             i += 1
         
-        # 保存最后一个段落
+        # save finally 一个 paragraph
         if current_section and current_section.content.strip():
             self.sections.append(current_section)
         
-        logger.info(f"解析完成，共找到 {len(self.sections)} 个可编辑段落")
+        logger.info(f"parse complete ，共找 to {len(self.sections)} 个可edit paragraph")
         return self.sections
     
     def _is_section_editable(self, title: str) -> bool:
-        """判断段落是否可编辑"""
+        """判 break paragraph is 否 can edit"""
         non_editable_patterns = [
-            r'生成时间',
-            r'AI模型',
-            r'基于用户创意',
-            r'Agent应用',
+            r'generation time',
+            r'AImodel',
+            r'基于 user 创意',
+            r'Agentapplication',
             r'meta-info'
         ]
         
@@ -227,7 +227,7 @@ class PlanEditor:
         return not any(re.search(pattern, title_lower) for pattern in non_editable_patterns)
     
     def get_editable_sections(self) -> List[Dict]:
-        """获取可编辑段落列表（用于前端显示）"""
+        """Get editable paragraph list (for frontend display)"""
         editable_sections = []
         
         for section in self.sections:
@@ -244,8 +244,8 @@ class PlanEditor:
         return editable_sections
     
     def _get_section_preview(self, content: str, max_length: int = 100) -> str:
-        """获取段落预览"""
-        # 移除Markdown格式符号
+        """get paragraph 预览"""
+        # removeMarkdownformat符号
         preview = re.sub(r'[#*`|]', '', content)
         preview = re.sub(r'\n+', ' ', preview).strip()
         
@@ -255,9 +255,9 @@ class PlanEditor:
         return preview
     
     def update_section(self, section_id: str, new_content: str, user_comment: str = "") -> bool:
-        """更新指定段落的内容"""
+        """update 指定 paragraph content"""
         try:
-            # 查找目标段落
+            # find 目标 paragraph
             target_section = None
             for section in self.sections:
                 if section.section_id == section_id:
@@ -265,14 +265,14 @@ class PlanEditor:
                     break
             
             if not target_section:
-                logger.error(f"未找到段落 {section_id}")
+                logger.error(f"未找 to paragraph {section_id}")
                 return False
             
             if not target_section.is_editable:
-                logger.error(f"段落 {section_id} 不可编辑")
+                logger.error(f"paragraph {section_id} 不可edit")
                 return False
             
-            # 记录编辑历史
+            # 记录 edit 历史
             self.edit_history.append({
                 'timestamp': datetime.now().isoformat(),
                 'section_id': section_id,
@@ -281,44 +281,44 @@ class PlanEditor:
                 'user_comment': user_comment
             })
             
-            # 更新内容
+            # update content
             target_section.content = new_content
             
-            # 重新构建完整内容
+            # 重新构建 complete content
             self._rebuild_content()
             
-            logger.info(f"成功更新段落 {section_id}")
+            logger.info(f"success update paragraph {section_id}")
             return True
             
         except Exception as e:
-            logger.error(f"更新段落失败: {str(e)}")
+            logger.error(f"update paragraph failure: {str(e)}")
             return False
     
     def _rebuild_content(self):
-        """重新构建完整内容"""
+        """重新构建 complete content"""
         try:
             lines = self.original_content.split('\n')
             
-            # 按行号排序段落
+            # 按行号 sort paragraph
             sorted_sections = sorted(self.sections, key=lambda x: x.start_line)
             
-            # 重新构建内容
+            # 重新构建 content
             new_lines = []
             current_line = 0
             
             for section in sorted_sections:
-                # 添加段落前的空行
+                # add paragraph before 空行
                 while current_line < section.start_line:
                     new_lines.append(lines[current_line])
                     current_line += 1
                 
-                # 添加更新后的段落内容
+                # add update after paragraph content
                 new_lines.extend(section.content.split('\n'))
                 
-                # 跳过原始段落行
+                # 跳过原始 paragraph 行
                 current_line = section.end_line + 1
             
-            # 添加剩余的行
+            # add 剩余行
             while current_line < len(lines):
                 new_lines.append(lines[current_line])
                 current_line += 1
@@ -326,19 +326,19 @@ class PlanEditor:
             self.modified_content = '\n'.join(new_lines)
             
         except Exception as e:
-            logger.error(f"重建内容失败: {str(e)}")
+            logger.error(f"重建 content failure: {str(e)}")
             self.modified_content = self.original_content
     
     def get_modified_content(self) -> str:
-        """获取修改后的完整内容"""
+        """get modify after complete content"""
         return self.modified_content if self.modified_content else self.original_content
     
     def get_edit_history(self) -> List[Dict]:
-        """获取编辑历史"""
+        """get edit 历史"""
         return self.edit_history
     
     def get_edit_summary(self) -> Dict:
-        """获取编辑摘要"""
+        """get edit 摘 want"""
         return {
             'total_sections': len(self.sections),
             'editable_sections': len([s for s in self.sections if s.is_editable]),
@@ -347,25 +347,25 @@ class PlanEditor:
         }
     
     def reset_to_original(self):
-        """重置到原始内容"""
+        """重置 to 原始 content"""
         self.modified_content = self.original_content
         self.edit_history = []
-        # 重新解析段落
+        # 重新 parse paragraph
         self.parse_plan_content(self.original_content)
-        logger.info("已重置到原始内容")
+        logger.info("已重置 to 原始 content")
     
     def export_edited_content(self, format_type: str = 'markdown') -> str:
-        """导出编辑后的内容"""
+        """导出 edit after content"""
         content = self.get_modified_content()
         
         if format_type == 'markdown':
             return content
         elif format_type == 'html':
-            # 简单的Markdown到HTML转换
+            # simpleMarkdown到HTMLconvert
             import markdown
             return markdown.markdown(content)
         else:
             return content
 
-# 全局编辑器实例
+# 全局 edit 器 example
 plan_editor = PlanEditor()

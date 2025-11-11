@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-增强版MCP直接客户端 - 支持魔塔平台异步MCP服务
-处理HTTP 202异步响应，通过SSE获取结果
+enhanced versionMCP直接客户端 - supportModelScope平台asynchronousMCPservice
+processHTTP 202asynchronous响应，通过SSEget结果
 """
 
 import requests
@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class AsyncMCPResult:
-    """异步MCP调用结果"""
+    """asynchronousMCPcall结果"""
     success: bool
     data: str
     service_name: str
@@ -27,13 +27,13 @@ class AsyncMCPResult:
     error_message: Optional[str] = None
 
 class AsyncMCPClient:
-    """异步MCP客户端 - 专为魔塔平台优化"""
+    """asynchronousMCP客户端 - 专为ModelScope平台optimize"""
     
     def __init__(self):
         self.timeout = 60
-        self.result_timeout = 30  # 等待异步结果的超时时间
+        self.result_timeout = 30  # waiting asynchronous 结果超 when when time
         
-        # 魔塔MCP服务配置
+        # ModelScopeMCPservice configuration
         self.mcp_services = {
             "fetch": {
                 "url": "https://mcp.api-inference.modelscope.net/6ec508e067dc41/sse",
@@ -63,7 +63,7 @@ class AsyncMCPClient:
         }
     
     def _get_sse_endpoint(self, service_url: str) -> Tuple[bool, Optional[str], Optional[str]]:
-        """获取SSE endpoint和session_id"""
+        """getSSE endpoint和session_id"""
         try:
             headers = {
                 "Accept": "text/event-stream",
@@ -74,78 +74,78 @@ class AsyncMCPClient:
             response = requests.get(service_url, headers=headers, timeout=15, stream=True)
             
             if response.status_code != 200:
-                logger.error(f"❌ SSE连接失败: HTTP {response.status_code}")
+                logger.error(f"❌ SSE连接 failure: HTTP {response.status_code}")
                 return False, None, None
             
-            # 解析SSE事件
+            # parseSSEevent
             for line in response.iter_lines(decode_unicode=True):
                 if line.startswith('data: '):
                     data = line[6:]  # 去掉 'data: ' 前缀
                     if '/messages/' in data and 'session_id=' in data:
                         session_id = data.split('session_id=')[1]
-                        logger.info(f"✅ 获取session_id: {session_id}")
+                        logger.info(f"✅ getsession_id: {session_id}")
                         response.close()
                         return True, data, session_id
                 elif line == "":
                     break
             
             response.close()
-            logger.error("❌ 未获取到有效的endpoint")
+            logger.error("❌ 未 get to have 效endpoint")
             return False, None, None
             
         except Exception as e:
-            logger.error(f"💥 SSE连接异常: {str(e)}")
+            logger.error(f"💥 SSE连接 exception: {str(e)}")
             return False, None, None
     
     def _listen_for_result(self, service_url: str, session_id: str, result_queue: queue.Queue):
-        """监听SSE流获取异步结果"""
+        """listenSSE流getasynchronous结果"""
         try:
             headers = {
                 "Accept": "text/event-stream",
                 "Cache-Control": "no-cache"
             }
             
-            logger.info(f"👂 开始监听结果...")
+            logger.info(f"👂 start listen 结果...")
             response = requests.get(service_url, headers=headers, timeout=self.result_timeout, stream=True)
             
             if response.status_code != 200:
-                result_queue.put(("error", f"监听连接失败: HTTP {response.status_code}"))
+                result_queue.put(("error", f"listen 连接 failure: HTTP {response.status_code}"))
                 return
             
-            # 监听SSE事件
+            # listenSSEevent
             for line in response.iter_lines(decode_unicode=True):
                 if line.startswith('data: '):
                     data_str = line[6:]
                     try:
-                        # 尝试解析JSON数据
+                        # try parseJSON数据
                         data = json.loads(data_str)
                         if isinstance(data, dict):
-                            # 检查是否是MCP响应
+                            # check is 否 isMCP响应
                             if "result" in data or "error" in data:
-                                logger.info("✅ 收到MCP响应")
+                                logger.info("✅ 收 toMCP响应")
                                 result_queue.put(("success", data))
                                 break
-                            elif "id" in data:  # 可能是MCP响应
+                            elif "id" in data:  # can can isMCP响应
                                 result_queue.put(("success", data))
                                 break
                     except json.JSONDecodeError:
-                        # 非JSON数据，可能是纯文本结果
+                        # 非JSON数据，can can is纯文本结果
                         if len(data_str.strip()) > 10:
-                            logger.info("✅ 收到文本响应")
+                            logger.info("✅ 收 to 文 this response should")
                             result_queue.put(("success", {"result": {"text": data_str}}))
                             break
                 elif line.startswith('event: '):
                     event_type = line[7:]
-                    logger.debug(f"📨 SSE事件: {event_type}")
+                    logger.debug(f"📨 SSEevent: {event_type}")
             
             response.close()
             
         except requests.exceptions.Timeout:
-            logger.warning("⏰ 结果监听超时")
-            result_queue.put(("timeout", "等待结果超时"))
+            logger.warning("⏰ 结果 listen 超 when")
+            result_queue.put(("timeout", "waiting 结果超 when"))
         except Exception as e:
-            logger.error(f"💥 监听异常: {str(e)}")
-            result_queue.put(("error", f"监听异常: {str(e)}"))
+            logger.error(f"💥 listen exception: {str(e)}")
+            result_queue.put(("error", f"listen exception: {str(e)}"))
     
     def call_mcp_service_async(
         self,
@@ -153,7 +153,7 @@ class AsyncMCPClient:
         tool_name: str,
         tool_args: Dict[str, Any]
     ) -> AsyncMCPResult:
-        """异步调用MCP服务"""
+        """async callMCPservice"""
         
         if service_key not in self.mcp_services:
             return AsyncMCPResult(
@@ -161,7 +161,7 @@ class AsyncMCPClient:
                 data="",
                 service_name=service_key,
                 execution_time=0.0,
-                error_message=f"未知服务: {service_key}"
+                error_message=f"未知 service: {service_key}"
             )
         
         service_config = self.mcp_services[service_key]
@@ -170,11 +170,11 @@ class AsyncMCPClient:
         
         start_time = time.time()
         
-        logger.info(f"🚀 开始调用 {service_name}")
-        logger.info(f"📊 工具: {tool_name}")
-        logger.info(f"📋 参数: {json.dumps(tool_args, ensure_ascii=False)}")
+        logger.info(f"🚀 start call {service_name}")
+        logger.info(f"📊 tool: {tool_name}")
+        logger.info(f"📋 parameter: {json.dumps(tool_args, ensure_ascii=False)}")
         
-        # 步骤1: 获取SSE endpoint
+        # Step1: getSSE endpoint
         success, endpoint_path, session_id = self._get_sse_endpoint(service_url)
         if not success:
             return AsyncMCPResult(
@@ -182,10 +182,10 @@ class AsyncMCPClient:
                 data="",
                 service_name=service_name,
                 execution_time=time.time() - start_time,
-                error_message="获取endpoint失败"
+                error_message="getendpoint失败"
             )
         
-        # 步骤2: 启动结果监听器
+        # Step2: 启动结果listen器
         result_queue = queue.Queue()
         listener_thread = threading.Thread(
             target=self._listen_for_result,
@@ -194,10 +194,10 @@ class AsyncMCPClient:
         listener_thread.daemon = True
         listener_thread.start()
         
-        # 等待一小段时间确保监听器就绪
+        # waiting 一小段 when time ensure listener 就绪
         time.sleep(0.5)
         
-        # 步骤3: 发送MCP请求
+        # Step3: 发送MCP请 requirement
         try:
             base_url = service_url.replace('/sse', '')
             full_endpoint = urljoin(base_url, endpoint_path)
@@ -217,25 +217,25 @@ class AsyncMCPClient:
                 "Accept": "application/json"
             }
             
-            logger.info(f"📤 发送请求到: {full_endpoint}")
+            logger.info(f"📤 发送请 requirement to: {full_endpoint}")
             response = requests.post(full_endpoint, json=mcp_request, headers=headers, timeout=10)
             
-            logger.info(f"📊 请求响应: HTTP {response.status_code}")
+            logger.info(f"📊 请 requirement response should: HTTP {response.status_code}")
             
-            if response.status_code == 202:  # Accepted - 异步处理
-                logger.info("✅ 请求已接受，等待异步结果...")
+            if response.status_code == 202:  # Accepted - asynchronous process
+                logger.info("✅ 请 requirement 已接受， waiting asynchronous 结果...")
                 
-                # 步骤4: 等待异步结果
+                # Step4: 等待asynchronous结果
                 try:
                     result_type, result_data = result_queue.get(timeout=self.result_timeout)
                     
                     execution_time = time.time() - start_time
                     
                     if result_type == "success":
-                        # 解析结果数据
+                        # parse 结果 data
                         content = self._extract_content_from_response(result_data)
                         if content and len(content.strip()) > 10:
-                            logger.info(f"✅ {service_name} 异步调用成功!")
+                            logger.info(f"✅ {service_name} async call success!")
                             return AsyncMCPResult(
                                 success=True,
                                 data=content,
@@ -250,7 +250,7 @@ class AsyncMCPClient:
                                 service_name=service_name,
                                 execution_time=execution_time,
                                 session_id=session_id,
-                                error_message="响应内容为空"
+                                error_message="response should content for 空"
                             )
                     else:
                         return AsyncMCPResult(
@@ -269,11 +269,11 @@ class AsyncMCPClient:
                         service_name=service_name,
                         execution_time=time.time() - start_time,
                         session_id=session_id,
-                        error_message="等待异步结果超时"
+                        error_message="waiting asynchronous 结果超 when"
                     )
             
             elif response.status_code == 200:
-                # 同步响应
+                # synchronous response should
                 try:
                     data = response.json()
                     content = self._extract_content_from_response(data)
@@ -285,7 +285,7 @@ class AsyncMCPClient:
                         service_name=service_name,
                         execution_time=execution_time,
                         session_id=session_id,
-                        error_message=None if content else "响应内容为空"
+                        error_message=None if content else "response should content for 空"
                     )
                 except json.JSONDecodeError:
                     content = response.text
@@ -313,21 +313,21 @@ class AsyncMCPClient:
                 service_name=service_name,
                 execution_time=time.time() - start_time,
                 session_id=session_id,
-                error_message=f"请求异常: {str(e)}"
+                error_message=f"请 requirement exception: {str(e)}"
             )
     
     def _extract_content_from_response(self, response_data: Any) -> Optional[str]:
-        """从响应中提取内容"""
+        """从 response should in 提取 content"""
         try:
             if isinstance(response_data, str):
                 return response_data
             
             if isinstance(response_data, dict):
-                # 检查标准MCP响应格式
+                # check 标准MCP响应format
                 if "result" in response_data:
                     result = response_data["result"]
                     
-                    # 检查content数组
+                    # checkcontent数组
                     if "content" in result and isinstance(result["content"], list):
                         contents = []
                         for item in result["content"]:
@@ -338,24 +338,24 @@ class AsyncMCPClient:
                         if contents:
                             return "\n".join(contents)
                     
-                    # 检查其他字段
+                    # check 其他 field
                     for field in ["text", "data", "message"]:
                         if field in result and result[field]:
                             return str(result[field])
                     
-                    # 如果result本身是字符串
+                    # such as 果result本身是字符串
                     if isinstance(result, str):
                         return result
                 
-                # 检查错误
+                # check error
                 if "error" in response_data:
                     error = response_data["error"]
                     if isinstance(error, dict) and "message" in error:
-                        return f"错误: {error['message']}"
+                        return f"error: {error['message']}"
                     else:
-                        return f"错误: {str(error)}"
+                        return f"error: {str(error)}"
                 
-                # 检查直接的字段
+                # check 直接 field
                 for field in ["content", "data", "text", "message", "response"]:
                     if field in response_data and response_data[field]:
                         content = response_data[field]
@@ -364,19 +364,19 @@ class AsyncMCPClient:
                         else:
                             return str(content)
             
-            # 如果都没有匹配，返回JSON字符串
+            # such as 果都没 have 匹配，返回JSON字符串
             return json.dumps(response_data, ensure_ascii=False, indent=2)
             
         except Exception as e:
-            logger.warning(f"⚠️ 内容提取失败: {e}")
+            logger.warning(f"⚠️ content 提取 failure: {e}")
             return str(response_data) if response_data else None
 
-# 全局实例
+# 全局 example
 async_mcp_client = AsyncMCPClient()
 
-# 便捷函数
+# 便捷 function
 def call_fetch_mcp_async(url: str, max_length: int = 5000) -> AsyncMCPResult:
-    """异步调用Fetch MCP服务"""
+    """async callFetch MCPservice"""
     return async_mcp_client.call_mcp_service_async(
         "fetch",
         "fetch",
@@ -384,7 +384,7 @@ def call_fetch_mcp_async(url: str, max_length: int = 5000) -> AsyncMCPResult:
     )
 
 def call_deepwiki_mcp_async(url: str, mode: str = "aggregate") -> AsyncMCPResult:
-    """异步调用DeepWiki MCP服务"""
+    """async callDeepWiki MCPservice"""
     return async_mcp_client.call_mcp_service_async(
         "deepwiki",
         "deepwiki_fetch", 
@@ -392,28 +392,28 @@ def call_deepwiki_mcp_async(url: str, mode: str = "aggregate") -> AsyncMCPResult
     )
 
 if __name__ == "__main__":
-    # 测试异步MCP客户端
-    print("🧪 测试异步MCP客户端")
+    # test asynchronousMCP客户端
+    print("🧪 test asynchronousMCP客户端")
     print("=" * 50)
     
-    # 测试Fetch MCP
-    print("测试Fetch MCP...")
+    # testFetch MCP
+    print("testFetch MCP...")
     result = call_fetch_mcp_async("https://example.com")
-    print(f"成功: {result.success}")
-    print(f"内容长度: {len(result.data) if result.data else 0}")
-    print(f"执行时间: {result.execution_time:.2f}s")
+    print(f"success: {result.success}")
+    print(f"content 长度: {len(result.data) if result.data else 0}")
+    print(f"execute when time: {result.execution_time:.2f}s")
     if result.error_message:
-        print(f"错误: {result.error_message}")
+        print(f"error: {result.error_message}")
     
     print("\n" + "-" * 30)
     
-    # 测试DeepWiki MCP
-    print("测试DeepWiki MCP...")
+    # testDeepWiki MCP
+    print("testDeepWiki MCP...")
     result = call_deepwiki_mcp_async("https://deepwiki.org/openai/openai-python")
-    print(f"成功: {result.success}")
-    print(f"内容长度: {len(result.data) if result.data else 0}")
-    print(f"执行时间: {result.execution_time:.2f}s")
+    print(f"success: {result.success}")
+    print(f"content 长度: {len(result.data) if result.data else 0}")
+    print(f"execute when time: {result.execution_time:.2f}s")
     if result.error_message:
-        print(f"错误: {result.error_message}")
+        print(f"error: {result.error_message}")
     
-    print("\n✅ 异步MCP客户端测试完成")
+    print("\n✅ asynchronousMCP客户端test完成")
